@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Connexion — Lysandre &amp; Louisa{% endblock %}
+{% block content %}
+  <main class="page">
+    <div class="content auth-card">
+      <p class="eyebrow">Mariage</p>
+      <h1 class="names">Lysandre <span class="amp">&amp;</span> Louisa</h1>
+
+      <div class="divider" aria-hidden="true">
+        <span class="line"></span>
+        <svg class="motif" viewBox="0 0 48 32" aria-hidden="true">
+          <path d="M4 28 V14 M10 28 V10 M16 28 V6 M24 28 V2 M32 28 V6 M38 28 V10 M44 28 V14
+                   M4 14 Q4 8 10 10 M10 10 Q10 4 16 6 M16 6 Q16 1 24 2 M24 2 Q32 1 32 6 M32 6 Q38 4 38 10 M38 10 Q44 8 44 14" />
+        </svg>
+        <span class="line"></span>
+      </div>
+
+      <a class="google-btn" href="{{ url_for('login') }}">Se connecter avec Google</a>
+    </div>
+  </main>
+{% endblock %}

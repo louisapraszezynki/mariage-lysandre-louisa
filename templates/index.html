@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lysandre &amp; Louisa</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
+  <a class="logout-link" href="{{ url_for('logout') }}">Se déconnecter</a>
+
   <main class="page">
     <svg class="sprig sprig-left" viewBox="0 0 120 200" aria-hidden="true">
       <path d="M60 195 C 58 150, 62 110, 60 10" />
@@ -52,5 +44,4 @@
       <path d="M60 65 C 72 58, 80 48, 84 36" />
     </svg>
   </main>
-</body>
-</html>
+{% endblock %}

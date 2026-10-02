@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Accès refusé — Lysandre &amp; Louisa{% endblock %}
+{% block content %}
+  <main class="page">
+    <div class="content auth-card">
+      <p class="eyebrow">Mariage</p>
+      <h1 class="names">Accès refusé</h1>
+      <p class="auth-message">Cette adresse Google n'est pas autorisée à accéder à ce site.</p>
+      <a class="google-btn" href="{{ url_for('home') }}">Réessayer</a>
+    </div>
+  </main>
+{% endblock %}

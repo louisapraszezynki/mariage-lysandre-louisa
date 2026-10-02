@@ -3,14 +3,24 @@ title: Mariage Lysandre Louisa
 emoji: 🌿
 colorFrom: green
 colorTo: gray
-sdk: static
+sdk: docker
+app_port: 7860
 pinned: false
 ---
 
 # Mariage de Lysandre & Louisa
 
-Site privé pour centraliser l'organisation du mariage (château de Chambord).
+Site pour centraliser l'organisation du mariage (château de Chambord).
 
-Page d'accueil statique pour l'instant — l'authentification (Google, réservée
-à Lysandre et Louisa) et les sections de contenu (notes, prestataires,
-documents...) seront ajoutées ensuite.
+Accès protégé par connexion Google, restreint aux adresses listées dans le
+secret `ALLOWED_EMAILS` du Space. Le Space lui-même est public (sinon
+Hugging Face bloquerait l'accès avant même d'atteindre l'écran de
+connexion) — la protection réelle du contenu est assurée par ce filtre
+Google + liste d'emails.
+
+## Secrets du Space requis
+
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+- `FLASK_SECRET_KEY`
+- `ALLOWED_EMAILS` (emails séparés par des virgules)
