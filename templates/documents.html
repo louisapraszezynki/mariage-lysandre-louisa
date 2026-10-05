@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Documents — Lysandre &amp; Louisa{% endblock %}
+{% block content %}
+<main class="app-page">
+  <h1>Documents</h1>
+
+  <div class="card">
+    <form class="form-row" method="post" action="{{ url_for('documents.ajouter') }}" enctype="multipart/form-data">
+      <div class="field">
+        <label for="fichier">Fichier</label>
+        <input type="file" id="fichier" name="fichier" required>
+      </div>
+      <div class="field">
+        <label for="prestataire_id">Prestataire</label>
+        <select id="prestataire_id" name="prestataire_id">
+          <option value="">—</option>
+          {% for p in prestataires %}
+          <option value="{{ p.id }}">{{ p.nom }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="field">
+        <label><input type="checkbox" name="signe"> Déjà signé</label>
+      </div>
+      <button class="btn" type="submit">Ajouter</button>
+    </form>
+  </div>
+
+  {% if documents %}
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Document</th>
+        <th>Prestataire</th>
+        <th>Ajouté le</th>
+        <th>Signé</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for d in documents %}
+      <tr>
+        <td><a href="{{ url_for('documents.telecharger', document_id=d.id) }}">{{ d.nom_original }}</a></td>
+        <td>{{ d.prestataire.nom if d.prestataire else '—' }}</td>
+        <td>{{ d.date_ajout.strftime('%d/%m/%Y') }}</td>
+        <td>
+          <form class="inline-form" method="post" action="{{ url_for('documents.signer', document_id=d.id) }}">
+            {% if d.signe %}
+            <button class="tag tag-ok" type="submit">Signé</button>
+            {% else %}
+            <button class="tag tag-pending" type="submit">Non signé</button>
+            {% endif %}
+          </form>
+        </td>
+        <td>
+          <form class="inline-form" method="post" action="{{ url_for('documents.supprimer', document_id=d.id) }}" onsubmit="return confirm('Supprimer ce document ?');">
+            <button class="btn-link btn-danger" type="submit">Supprimer</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="empty-state">Aucun document pour l'instant.</p>
+  {% endif %}
+</main>
+{% endblock %}

@@ -10,6 +10,16 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+{% if logged_in %}
+<nav class="topnav">
+  <a href="{{ url_for('home') }}">Accueil</a>
+  <a href="{{ url_for('documents.liste') }}">Documents</a>
+  <a href="{{ url_for('budget.liste') }}">Budget</a>
+  <a href="{{ url_for('prestataires.liste') }}">Prestataires</a>
+  <a href="{{ url_for('invites.liste') }}">Invités</a>
+  <a href="{{ url_for('logout') }}">Se déconnecter</a>
+</nav>
+{% endif %}
 {% block content %}{% endblock %}
 </body>
 </html>

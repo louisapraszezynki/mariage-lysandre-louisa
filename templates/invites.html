@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Invités — Lysandre &amp; Louisa{% endblock %}
+{% block content %}
+<main class="app-page">
+  <h1>Invités</h1>
+
+  <div class="compteurs">
+    <span>{{ compteurs.total }} invités</span>
+    <span>{{ compteurs.lysandre }} côté Lysandre</span>
+    <span>{{ compteurs.louisa }} côté Louisa</span>
+    <span>{{ compteurs.confirmes }} confirmés</span>
+    <span>{{ compteurs.en_attente }} en attente</span>
+  </div>
+
+  <div class="card">
+    <form class="form-row" method="post" action="{{ url_for('invites.ajouter') }}">
+      <div class="field">
+        <label for="nom">Nom</label>
+        <input type="text" id="nom" name="nom" required>
+      </div>
+      <div class="field">
+        <label for="cote">Côté</label>
+        <select id="cote" name="cote">
+          <option value="Lysandre">Lysandre</option>
+          <option value="Louisa">Louisa</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="presence">Présence</label>
+        <select id="presence" name="presence">
+          <option value="en attente">En attente</option>
+          <option value="oui">Oui</option>
+          <option value="non">Non</option>
+        </select>
+      </div>
+      <div class="field">
+        <label><input type="checkbox" name="a_repondu"> A répondu</label>
+      </div>
+      <div class="field">
+        <label for="notes">Notes</label>
+        <input type="text" id="notes" name="notes">
+      </div>
+      <button class="btn" type="submit">Ajouter</button>
+    </form>
+  </div>
+
+  {% if invites %}
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Nom</th><th>Côté</th><th>A répondu</th><th>Présence</th><th>Notes</th><th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in invites %}
+      <tr>
+        <td>{{ i.nom }}</td>
+        <td>{{ i.cote }}</td>
+        <td>
+          <form class="inline-form" method="post" action="{{ url_for('invites.modifier', invite_id=i.id) }}">
+            <input type="hidden" name="presence" value="{{ i.presence }}">
+            <button class="tag {{ 'tag-ok' if i.a_repondu else 'tag-pending' }}" type="submit" name="a_repondu" value="{{ '' if i.a_repondu else '1' }}">
+              {{ 'Oui' if i.a_repondu else 'Non' }}
+            </button>
+          </form>
+        </td>
+        <td>
+          <form class="inline-form" method="post" action="{{ url_for('invites.modifier', invite_id=i.id) }}">
+            <input type="hidden" name="a_repondu" value="{{ '1' if i.a_repondu else '' }}">
+            <select name="presence" onchange="this.form.submit()">
+              <option value="en attente" {{ 'selected' if i.presence == 'en attente' }}>En attente</option>
+              <option value="oui" {{ 'selected' if i.presence == 'oui' }}>Oui</option>
+              <option value="non" {{ 'selected' if i.presence == 'non' }}>Non</option>
+            </select>
+          </form>
+        </td>
+        <td>{{ i.notes or '—' }}</td>
+        <td>
+          <form class="inline-form" method="post" action="{{ url_for('invites.supprimer', invite_id=i.id) }}" onsubmit="return confirm('Supprimer cet invité ?');">
+            <button class="btn-link btn-danger" type="submit">Supprimer</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="empty-state">Aucun invité pour l'instant.</p>
+  {% endif %}
+</main>
+{% endblock %}
