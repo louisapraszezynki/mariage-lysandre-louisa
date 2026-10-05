@@ -29,14 +29,12 @@ def _decimal_ou_none(valeur):
 def liste():
     categories = CategorieBudget.query.order_by(CategorieBudget.nom).all()
 
-    total_basse = total_haute = total_reference = total_paye = Decimal("0")
-    total_restant = Decimal("0")
+    total_prevu = total_reference = total_paye = total_restant = Decimal("0")
     reste_inconnu = False
 
     for categorie in categories:
         for ligne in categorie.lignes:
-            total_basse += ligne.fourchette_basse or 0
-            total_haute += ligne.fourchette_haute or 0
+            total_prevu += ligne.montant_prevu or 0
             total_paye += ligne.total_paye
             if ligne.montant_reference is not None:
                 total_reference += ligne.montant_reference
@@ -45,14 +43,15 @@ def liste():
                 reste_inconnu = True
 
     totaux = {
-        "fourchette_basse": total_basse,
-        "fourchette_haute": total_haute,
+        "prevu": total_prevu,
         "reference": total_reference,
         "paye": total_paye,
         "restant": total_restant,
         "reste_inconnu": reste_inconnu,
     }
-    return render_template("budget.html", categories=categories, totaux=totaux, today=date.today().isoformat())
+    return render_template(
+        "budget.html", categories=categories, totaux=totaux, today=date.today().isoformat()
+    )
 
 
 @bp.route("/categories/ajouter", methods=["POST"])
@@ -77,13 +76,22 @@ def ajouter_ligne():
     ligne = LigneBudget(
         categorie_id=request.form.get("categorie_id"),
         libelle=(request.form.get("libelle") or "").strip() or "Sans nom",
-        fourchette_basse=_decimal_ou_none(request.form.get("fourchette_basse")),
-        fourchette_haute=_decimal_ou_none(request.form.get("fourchette_haute")),
-        montant_vise=_decimal_ou_none(request.form.get("montant_vise")),
+        montant_prevu=_decimal_ou_none(request.form.get("montant_prevu")),
         montant_final=_decimal_ou_none(request.form.get("montant_final")),
         notes=(request.form.get("notes") or "").strip() or None,
     )
     db.session.add(ligne)
+    db.session.commit()
+    return redirect(url_for("budget.liste"))
+
+
+@bp.route("/lignes/<int:ligne_id>/modifier", methods=["POST"])
+def modifier_ligne(ligne_id):
+    ligne = db.get_or_404(LigneBudget, ligne_id)
+    ligne.libelle = (request.form.get("libelle") or ligne.libelle).strip()
+    ligne.montant_prevu = _decimal_ou_none(request.form.get("montant_prevu"))
+    ligne.montant_final = _decimal_ou_none(request.form.get("montant_final"))
+    ligne.notes = (request.form.get("notes") or "").strip() or None
     db.session.commit()
     return redirect(url_for("budget.liste"))
 

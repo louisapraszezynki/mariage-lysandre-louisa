@@ -36,6 +36,25 @@ def ajouter():
     return redirect(url_for("prestataires.liste"))
 
 
+@bp.route("/<int:prestataire_id>")
+def fiche(prestataire_id):
+    prestataire = db.get_or_404(Prestataire, prestataire_id)
+    return render_template("prestataire_fiche.html", prestataire=prestataire)
+
+
+@bp.route("/<int:prestataire_id>/modifier", methods=["POST"])
+def modifier(prestataire_id):
+    prestataire = db.get_or_404(Prestataire, prestataire_id)
+    prestataire.nom = (request.form.get("nom") or prestataire.nom).strip()
+    prestataire.type = (request.form.get("type") or "").strip() or None
+    prestataire.contact_nom = (request.form.get("contact_nom") or "").strip() or None
+    prestataire.telephone = (request.form.get("telephone") or "").strip() or None
+    prestataire.email = (request.form.get("email") or "").strip() or None
+    prestataire.notes = (request.form.get("notes") or "").strip() or None
+    db.session.commit()
+    return redirect(url_for("prestataires.fiche", prestataire_id=prestataire.id))
+
+
 @bp.route("/<int:prestataire_id>/supprimer", methods=["POST"])
 def supprimer(prestataire_id):
     prestataire = db.get_or_404(Prestataire, prestataire_id)

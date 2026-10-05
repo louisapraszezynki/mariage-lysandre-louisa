@@ -41,9 +41,7 @@ class LigneBudget(db.Model):
         db.Integer, db.ForeignKey("categorie_budget.id"), nullable=False
     )
     libelle = db.Column(db.String(200), nullable=False)
-    fourchette_basse = db.Column(db.Numeric(10, 2))
-    fourchette_haute = db.Column(db.Numeric(10, 2))
-    montant_vise = db.Column(db.Numeric(10, 2))
+    montant_prevu = db.Column(db.Numeric(10, 2))
     montant_final = db.Column(db.Numeric(10, 2))
     notes = db.Column(db.Text)
 
@@ -55,8 +53,8 @@ class LigneBudget(db.Model):
     def montant_reference(self):
         if self.montant_final is not None:
             return self.montant_final
-        if self.montant_vise is not None:
-            return self.montant_vise
+        if self.montant_prevu is not None:
+            return self.montant_prevu
         return None
 
     @property

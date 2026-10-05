@@ -38,18 +38,17 @@
   <table class="data-table">
     <thead>
       <tr>
-        <th>Nom</th><th>Type</th><th>Contact</th><th>Téléphone</th><th>Email</th><th>Notes</th><th></th>
+        <th>Nom</th><th>Type</th><th>Contact</th><th>Téléphone</th><th>Email</th><th></th>
       </tr>
     </thead>
     <tbody>
       {% for p in prestataires %}
       <tr>
-        <td>{{ p.nom }}</td>
+        <td><a href="{{ url_for('prestataires.fiche', prestataire_id=p.id) }}">{{ p.nom }}</a></td>
         <td>{{ p.type or '—' }}</td>
         <td>{{ p.contact_nom or '—' }}</td>
         <td>{{ p.telephone or '—' }}</td>
         <td>{{ p.email or '—' }}</td>
-        <td>{{ p.notes or '—' }}</td>
         <td>
           <form class="inline-form" method="post" action="{{ url_for('prestataires.supprimer', prestataire_id=p.id) }}" onsubmit="return confirm('Supprimer ce prestataire ?');">
             <button class="btn-link btn-danger" type="submit">Supprimer</button>

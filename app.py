@@ -27,6 +27,17 @@ app.config.update(
 
 db.init_app(app)
 with app.app_context():
+    from sqlalchemy import inspect
+
+    inspecteur = inspect(db.engine)
+    if "ligne_budget" in inspecteur.get_table_names():
+        colonnes = {c["name"] for c in inspecteur.get_columns("ligne_budget")}
+        if "fourchette_basse" in colonnes:
+            # Ancien schéma budget (fourchette basse/haute/souhait) : on repart
+            # sur le nouveau modèle simplifié, les autres données ne sont pas touchées.
+            db.metadata.tables["paiement"].drop(db.engine, checkfirst=True)
+            db.metadata.tables["ligne_budget"].drop(db.engine, checkfirst=True)
+            db.metadata.tables["categorie_budget"].drop(db.engine, checkfirst=True)
     db.create_all()
 
 oauth = OAuth(app)

@@ -16,11 +16,7 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: 'Cormorant Garamond', serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   min-height: 100vh;
-  padding: 2rem;
 }
 
 .page {
@@ -30,6 +26,9 @@ body {
   gap: clamp(0.5rem, 4vw, 3rem);
   max-width: 960px;
   width: 100%;
+  min-height: 80vh;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 .content {
@@ -376,4 +375,32 @@ body {
   font-style: italic;
   text-align: center;
   padding: 1rem 0;
+}
+
+/* --- Détails repliables (budget, fiches) --- */
+
+details > summary {
+  cursor: pointer;
+  color: var(--sage-dark);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+details > summary::before {
+  content: "+ ";
+}
+
+details[open] > summary::before {
+  content: "– ";
+}
+
+.details-panel {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(138, 154, 126, 0.25);
 }
