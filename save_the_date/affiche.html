@@ -1,0 +1,114 @@
+<title>Affiche Lysandre &amp; Louisa</title>
+<meta name="description" content="Save the date : Lysandre &amp; Louisa, le 4 septembre 2027 au château de Chambord.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@500;700&display=swap">
+<style>
+  /* Layout: full-bleed photo card, yellow title in the sky, three short lines at the foot. Nothing else. */
+  :root {
+    --ground: #efe9e0;
+    --ground-ink: #7a7266;
+    --yellow: #f4c542;
+    --shade: rgba(40, 32, 36, 0.45);
+    --shade-clear: rgba(40, 32, 36, 0);
+
+    --font: 'Futura', 'Jost', 'Century Gothic', 'Avenir Next', sans-serif;
+
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body { height: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ground-ink);
+    font-family: var(--font);
+    padding-inline: 16px;
+    padding-block: clamp(16px, 4vh, 40px);
+    display: grid;
+    place-items: center;
+  }
+
+  .card {
+    container-type: inline-size;
+    position: relative;
+    width: min(560px, 100%, calc((100svh - 80px) * 0.6667));
+    min-width: 280px;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    background: #6b6560;
+    color: var(--yellow);
+    text-align: center;
+    box-shadow: 0 18px 40px -14px rgba(50, 40, 30, 0.35);
+  }
+
+  .card img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 30%;
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom, var(--shade) 0%, var(--shade-clear) 34%),
+      linear-gradient(to top, var(--shade) 0%, var(--shade-clear) 30%);
+    pointer-events: none;
+  }
+
+  .title,
+  .info {
+    position: absolute;
+    left: 6cqw;
+    right: 6cqw;
+    z-index: 1;
+    margin: 0;
+  }
+
+  .title {
+    top: 10cqw;
+    font-weight: 700;
+    font-size: 9.4cqw;
+    line-height: 1;
+    letter-spacing: 0.05em;
+    padding-left: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .info {
+    bottom: 8cqw;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6cqw;
+    font-weight: 500;
+    font-size: 3.4cqw;
+    letter-spacing: 0.2em;
+    padding-left: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .info span { display: block; }
+</style>
+
+<main class="card" aria-label="Save the date de Lysandre et Louisa">
+  <img src="img/toits-de-paris.jpg" width="831" height="1800"
+       alt="Lysandre et Louisa enlacés sur un toit de Paris au coucher du soleil, la tour Eiffel au loin">
+
+  <h1 class="title">Save the Date</h1>
+
+  <p class="info">
+    <span>Lysandre &amp; Louisa</span>
+    <span><time datetime="2027-09-04">4 septembre 2027</time></span>
+    <span>Château de Chambord</span>
+  </p>
+</main>
