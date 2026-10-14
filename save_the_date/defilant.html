@@ -428,6 +428,9 @@
     }
     .js .reveal.is-in { opacity: 1; transform: none; }
 
+    /* used for an instant, off screen, to put a section back to its start state */
+    .js .no-anim, .js .no-anim *, .js .no-anim *::before { transition: none !important; }
+
     /* date and place: each piece rises in turn (--s is set by the script) */
     .js .st {
       opacity: 0;
@@ -818,23 +821,33 @@
       });
     }
 
-    // Reveal sections when they are scrolled to: checked against the screen on every scroll,
-    // which works the same in every browser.
-    var pending = Array.prototype.slice.call(document.querySelectorAll('.reveal, .watch'));
+    // Reveal sections when they are scrolled to, in either direction, and reset them once they are
+    // completely off screen so the animation plays again next time. Checked on every scroll.
+    var watched = Array.prototype.slice.call(document.querySelectorAll('.reveal, .watch'));
     function show(el) {
       el.classList.add('is-in');
-      if (el.classList.contains('closing')) countUp();
+      if (el.classList.contains('closing')) { counted = false; countUp(); }
       if (el.classList.contains('map')) {
         drawn.forEach(function (path) { path.style.strokeDashoffset = '0'; });
       }
     }
+    function reset(el) {
+      // jump back to the start state without animating (nobody can see it)
+      el.classList.add('no-anim');
+      el.classList.remove('is-in');
+      if (el.classList.contains('map')) {
+        drawn.forEach(function (path) { path.style.strokeDashoffset = path.style.strokeDasharray.split(' ')[0]; });
+      }
+      void el.offsetWidth;
+      el.classList.remove('no-anim');
+    }
     function checkReveal() {
       var vh = window.innerHeight;
-      pending = pending.filter(function (el) {
+      watched.forEach(function (el) {
         var r = el.getBoundingClientRect();
-        var visible = r.top < vh * 0.82 && r.bottom > 0;
-        if (visible) show(el);
-        return !visible;
+        var shown = el.classList.contains('is-in');
+        if (!shown && r.top < vh * 0.82 && r.bottom > vh * 0.18) show(el);
+        else if (shown && !still && (r.bottom < 0 || r.top > vh)) reset(el);
       });
     }
     window.addEventListener('scroll', checkReveal, { passive: true });
