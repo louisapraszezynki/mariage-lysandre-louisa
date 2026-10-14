@@ -283,6 +283,8 @@
   }
 
   .map .label-big { font-size: 19px; letter-spacing: 0.2em; }
+  .map .label-tag { font-size: 12px; letter-spacing: 0.08em; }
+  .map .shield { fill: var(--paper); stroke: currentColor; stroke-width: 1.4; }
   .map .label-small { font-size: 12px; letter-spacing: 0.14em; fill: var(--sage); }
 
   .map .line {
@@ -586,13 +588,13 @@
     <p class="address st">41250 Chambord · Loir-et-Cher, Centre-Val de Loire</p>
 
     <figure class="map watch st">
-      <svg viewBox="0 0 640 500" role="img" data-i18n-label="mapLabel"
-           aria-label="Plan dessiné de la région : Paris au nord-est, la Loire, Blois, Chambord, Tours – Saint-Pierre-des-Corps et Angers">
+      <svg viewBox="0 0 640 512" role="img" data-i18n-label="mapLabel"
+           aria-label="Plan de la région : l'A10 relie Paris à Orléans, Blois et Tours en passant au nord de Chambord ; l'A85 relie Angers à Tours">
         <defs>
           <!-- slight wobble so the lines look drawn by hand -->
           <filter id="hand" x="-5%" y="-5%" width="110%" height="110%">
             <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" />
-            <feDisplacementMap in="SourceGraphic" scale="3.2" />
+            <feDisplacementMap in="SourceGraphic" scale="2.6" />
           </filter>
           <symbol id="tree" viewBox="-6 -8 12 22" overflow="visible">
             <path d="M0 2 V12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
@@ -600,99 +602,97 @@
           </symbol>
         </defs>
 
+        <!-- Positions follow the real geography (traced from a road map). -->
         <g filter="url(#hand)">
-          <!-- La Loire -->
-          <path id="loire" class="line draw" stroke-width="2.4"
-                d="M640 336 C 600 326 545 296 498 300 C 468 304 452 322 438 338 C 420 358 408 374 396 388 C 372 410 340 424 300 436 C 258 448 216 458 176 464 C 136 468 98 452 58 440 C 38 434 18 434 0 436" />
-          <!-- Autoroute A10, drawn as a two-line road -->
-          <path id="a10" class="line draw second" stroke-width="13"
-                d="M566 76 C 546 160 512 240 492 290 C 474 322 446 340 422 352 C 398 364 372 376 352 390 C 334 402 318 410 306 414" />
-          <path class="line paper-line draw second" stroke-width="9.4"
-                d="M566 76 C 546 160 512 240 492 290 C 474 322 446 340 422 352 C 398 364 372 376 352 390 C 334 402 318 410 306 414" />
-          <!-- TGV Paris – Saint-Pierre-des-Corps -->
-          <path id="tgv" class="line late" stroke-width="1.6" stroke-dasharray="2 7"
-                d="M556 64 C 470 150 400 230 360 300 C 335 345 315 380 300 400" />
+          <!-- A10: Paris → Orléans → Mer → Blois → Tours, drawn as a two-line road -->
+          <path class="line draw" stroke-width="8"
+                d="M591 71 L582 94 L534 159 L510 272 L508 308 L477 342 L442 377 L408 403 L345 448 L298 453 L292 466 L284 500" />
+          <path class="line paper-line draw" stroke-width="4.4"
+                d="M591 71 L582 94 L534 159 L510 272 L508 308 L477 342 L442 377 L408 403 L345 448 L298 453 L292 466 L284 500" />
+          <!-- A85: Angers → Tours -->
+          <path class="line draw second" stroke-width="8"
+                d="M70 440 L94 425 L148 467 L156 484 L197 492 L239 482 L286 474 L292 466" />
+          <path class="line paper-line draw second" stroke-width="4.4"
+                d="M70 440 L94 425 L148 467 L156 484 L197 492 L239 482 L286 474 L292 466" />
 
           <!-- Paris: Eiffel tower -->
           <g class="pop" style="--d:0">
-            <path class="ink" d="M576 14 L578 30 L582 48 L590 72 L584 72 L579 60 L573 60 L568 72 L562 72 L570 48 L574 30 Z" />
-            <path class="line" stroke-width="1.6" d="M568 48 H584 M572 36 H580" />
+            <path class="ink" d="M603 10 L605 24 L608 40 L615 62 L610 62 L606 52 L600 52 L596 62 L591 62 L598 40 L601 24 Z" />
+            <path class="line" stroke-width="1.4" d="M596 40 H610 M599 30 H607" />
           </g>
+
+          <!-- Orléans and Blois: simple dots -->
+          <circle class="ink pop" style="--d:1" cx="518" cy="321" r="3.6" />
+          <circle class="ink pop" style="--d:2" cx="410" cy="410" r="3.6" />
 
           <!-- Chambord: the château, its towers and its lantern -->
           <g class="pop" style="--d:3">
-          <g class="ink">
-            <rect x="410" y="386" width="62" height="20" />
-            <rect x="402" y="380" width="13" height="26" />
-            <rect x="467" y="380" width="13" height="26" />
-            <path d="M400 381 L408.5 368 L417 381 Z M465 381 L473.5 368 L482 381 Z" />
-            <rect x="425" y="373" width="32" height="14" />
-            <rect x="437" y="358" width="8" height="16" />
-            <path d="M435 359 L441 346 L447 359 Z" />
-            <rect x="428" y="366" width="3" height="8" />
-            <rect x="451" y="366" width="3" height="8" />
-            <rect x="419" y="379" width="3" height="8" />
-            <rect x="460" y="379" width="3" height="8" />
-          </g>
-          <g class="paper">
-            <rect x="416" y="392" width="3" height="6" /><rect x="424" y="392" width="3" height="6" />
-            <rect x="432" y="392" width="3" height="6" /><rect x="440" y="392" width="3" height="6" />
-            <rect x="448" y="392" width="3" height="6" /><rect x="456" y="392" width="3" height="6" />
-            <rect x="464" y="392" width="3" height="6" />
-          </g>
+            <g class="ink">
+              <rect x="434" y="413" width="38" height="13" />
+              <rect x="429" y="409" width="8" height="17" />
+              <rect x="469" y="409" width="8" height="17" />
+              <path d="M428 410 L433 402 L438 410 Z M468 410 L473 402 L478 410 Z" />
+              <rect x="444" y="405" width="18" height="9" />
+              <rect x="450" y="395" width="6" height="11" />
+              <path d="M449 396 L453 387 L457 396 Z" />
+            </g>
+            <g class="paper">
+              <rect x="438" y="417" width="2" height="5" /><rect x="444" y="417" width="2" height="5" />
+              <rect x="450" y="417" width="2" height="5" /><rect x="456" y="417" width="2" height="5" />
+              <rect x="462" y="417" width="2" height="5" />
+            </g>
           </g>
 
           <!-- forest of Chambord -->
           <g class="pop" style="--d:4">
-            <use href="#tree" x="488" y="396" width="12" height="22" />
-            <use href="#tree" x="500" y="412" width="12" height="22" />
-            <use href="#tree" x="486" y="424" width="12" height="22" />
-            <use href="#tree" x="388" y="416" width="12" height="22" />
-            <use href="#tree" x="404" y="428" width="12" height="22" />
-            <use href="#tree" x="476" y="440" width="12" height="22" />
+            <use href="#tree" x="482" y="400" width="10" height="18" />
+            <use href="#tree" x="495" y="410" width="10" height="18" />
+            <use href="#tree" x="508" y="400" width="10" height="18" />
           </g>
 
-          <!-- Blois -->
-          <circle class="ink pop" style="--d:2" cx="394" cy="384" r="3.6" />
-
           <!-- Tours / Saint-Pierre-des-Corps: the station -->
-          <g class="pop" style="--d:1">
-            <path class="ink" d="M272 418 V404 Q288 390 304 404 V418 Z" />
-            <path class="paper" d="M279 418 V408 h4 V418 Z M286 418 V405 h4 V418 Z M293 418 V408 h4 V418 Z" />
+          <g class="pop" style="--d:2">
+            <path class="ink" d="M304 486 V474 Q318 462 332 474 V486 Z" />
+            <path class="paper" d="M310 486 V477 h3 V486 Z M316.5 486 V474 h3 V486 Z M323 486 V477 h3 V486 Z" />
           </g>
 
           <!-- Angers: the castle and its round towers -->
-          <g class="pop" style="--d:2">
-          <g class="ink">
-            <rect x="46" y="396" width="34" height="16" />
-            <rect x="42" y="388" width="9" height="24" rx="3" />
-            <rect x="58" y="388" width="9" height="24" rx="3" />
-            <rect x="74" y="388" width="9" height="24" rx="3" />
-          </g>
-          <path class="line paper-line" stroke-width="1.2" d="M42 396 H51 M58 396 H67 M74 396 H83 M42 404 H51 M58 404 H67 M74 404 H83" />
+          <g class="pop" style="--d:1">
+            <g class="ink">
+              <rect x="44" y="428" width="30" height="13" />
+              <rect x="40" y="421" width="8" height="20" rx="3" />
+              <rect x="55" y="421" width="8" height="20" rx="3" />
+              <rect x="70" y="421" width="8" height="20" rx="3" />
+            </g>
+            <path class="line paper-line" stroke-width="1.1" d="M40 427 H48 M55 427 H63 M70 427 H78 M40 434 H48 M55 434 H63 M70 434 H78" />
           </g>
 
           <!-- north arrow -->
-          <path class="line late" stroke-width="1.6" d="M612 478 V444 M606 452 L612 444 L618 452" />
+          <path class="line late" stroke-width="1.5" d="M612 488 V454 M606 462 L612 454 L618 462" />
+        </g>
+
+        <!-- road numbers, in little shields -->
+        <g class="late">
+          <rect class="shield" x="536" y="200" width="38" height="20" rx="4" />
+          <text class="label label-tag" x="555" y="215" text-anchor="middle">A10</text>
+          <rect class="shield" x="104" y="460" width="38" height="20" rx="4" />
+          <text class="label label-tag" x="123" y="475" text-anchor="middle">A85</text>
         </g>
 
         <!-- labels, not wobbled so they stay crisp -->
-        <text class="label label-big" x="556" y="56" text-anchor="end">PARIS</text>
-        <text class="label label-big" x="441" y="434" text-anchor="middle">CHAMBORD</text>
-        <text class="label" x="384" y="370" text-anchor="end">BLOIS</text>
-        <text class="label" x="288" y="470" text-anchor="middle">TOURS</text>
-        <text class="label label-small" x="288" y="488" text-anchor="middle">ST-PIERRE-DES-CORPS</text>
-        <text class="label" x="62" y="378" text-anchor="middle">ANGERS</text>
-        <text class="label label-small" x="612" y="494" text-anchor="middle">N</text>
-
-        <text class="label label-small"><textPath href="#loire" startOffset="73%" data-i18n="mapLoire">LA LOIRE</textPath></text>
-        <text class="label label-small" dy="-11"><textPath href="#a10" startOffset="14%" data-i18n="mapA10">AUTOROUTE A10</textPath></text>
-        <text class="label label-small" dy="-8"><textPath href="#tgv" startOffset="38%">TGV ≈ 1 H</textPath></text>
+        <text class="label label-big" x="588" y="46" text-anchor="end">PARIS</text>
+        <text class="label" x="528" y="326">ORLÉANS</text>
+        <text class="label" x="400" y="398" text-anchor="end">BLOIS</text>
+        <text class="label label-big" x="458" y="452" text-anchor="middle">CHAMBORD</text>
+        <text class="label" x="340" y="482">TOURS</text>
+        <text class="label label-small" x="340" y="497">ST-PIERRE-DES-CORPS</text>
+        <text class="label" x="59" y="410" text-anchor="middle">ANGERS</text>
+        <text class="label label-small" x="612" y="504" text-anchor="middle">N</text>
       </svg>
     </figure>
 
     <ul class="travel">
-      <li class="st"><b data-i18n="carTitle">En voiture</b><span data-i18n="car">Environ 2 h depuis Paris par l'A10, sortie Mer.</span></li>
+      <li class="st"><b data-i18n="carTitle">En voiture</b><span data-i18n="car">Depuis Paris : A10, sortie Mer (environ 2 h). Depuis Tours ou Angers : A85 puis A10, sortie Blois.</span></li>
       <li class="st"><b data-i18n="trainTitle">En train</b><span data-i18n="train">Paris → Blois-Chambord ou Saint-Pierre-des-Corps, puis 20 min à 1 h de route.</span></li>
     </ul>
   </section>
@@ -723,11 +723,9 @@
         month: 'Septembre 2027',
         weekdays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
         placeEyebrow: 'Le lieu',
-        mapLabel: 'Plan dessiné de la région : Paris au nord-est, la Loire, Blois, Chambord, Tours – Saint-Pierre-des-Corps et Angers',
-        mapLoire: 'LA LOIRE',
-        mapA10: 'AUTOROUTE A10',
+        mapLabel: "Plan de la région : l'A10 relie Paris à Orléans, Blois et Tours en passant au nord de Chambord ; l'A85 relie Angers à Tours",
         carTitle: 'En voiture',
-        car: "Environ 2 h depuis Paris par l'A10, sortie Mer.",
+        car: "Depuis Paris : A10, sortie Mer (environ 2 h). Depuis Tours ou Angers : A85 puis A10, sortie Blois.",
         trainTitle: 'En train',
         train: 'Paris → Blois-Chambord ou Saint-Pierre-des-Corps, puis 20 min à 1 h de route.',
         script: 'Soyez des nôtres !',
@@ -747,11 +745,9 @@
         month: 'September 2027',
         weekdays: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
         placeEyebrow: 'The place',
-        mapLabel: 'Hand-drawn map of the region: Paris to the north-east, the Loire, Blois, Chambord, Tours – Saint-Pierre-des-Corps and Angers',
-        mapLoire: 'THE LOIRE',
-        mapA10: 'A10 MOTORWAY',
+        mapLabel: 'Map of the region: the A10 runs from Paris through Orléans, Blois and Tours, just north of Chambord; the A85 links Angers to Tours',
         carTitle: 'By car',
-        car: 'About 2 hours from Paris on the A10, exit Mer.',
+        car: 'From Paris: A10, exit Mer (about 2 hours). From Tours or Angers: A85 then A10, exit Blois.',
         trainTitle: 'By train',
         train: 'Paris → Blois-Chambord or Saint-Pierre-des-Corps, then a 20 min to 1 hour drive.',
         script: 'Join us!',
