@@ -295,33 +295,13 @@
   }
 
   .map .line.river { stroke: var(--sage); }
+  .map .label-note { font-size: 15px; letter-spacing: 0.03em; }
+  .map .label-soft { fill: var(--sage); }
   .map .label-river { font-size: 12px; letter-spacing: 0.3em; fill: var(--sage); }
   .map .line.paper-line { stroke: var(--paper); }
   .map .ink { fill: currentColor; }
   .map .paper { fill: var(--paper); }
 
-  .travel {
-    margin: 10px 0 0;
-    padding: 0;
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 10px 32px;
-  }
-
-  .travel li {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .travel b {
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    color: var(--sage);
-  }
 
   /* ---------- 5. the invitation, over the last photo ---------- */
 
@@ -677,6 +657,38 @@
           <path class="line late" stroke-width="1.5" d="M612 488 V454 M606 462 L612 454 L618 462" />
         </g>
 
+        <!-- by car: legend in the empty top-left corner -->
+        <g class="late car-note">
+          <g transform="translate(24 20)" filter="url(#hand)">
+            <path class="line" stroke-width="1.8"
+                  d="M4 22 V16 Q4 12.5 8.5 12 L15 11 L21 4.5 Q22.5 3 25.5 3 H37 Q40 3 42 5.5 L46.5 11 Q52 12 52 16 V22 M10 22 H18 M38 22 H46" />
+            <path class="line" stroke-width="1.4" d="M19 11 L23.5 6 H31 V11 Z M34 6 H38.5 L42 11 H34 Z" />
+            <circle class="line" stroke-width="1.8" cx="14" cy="22" r="4" />
+            <circle class="line" stroke-width="1.8" cx="42" cy="22" r="4" />
+          </g>
+          <text class="label label-big" x="88" y="44" data-i18n="carTitle">EN VOITURE</text>
+          <text class="label label-note" x="24" y="80" data-i18n="car1">Depuis Paris : A10, sortie Mer</text>
+          <text class="label label-note label-soft" x="24" y="100" data-i18n="car2">environ 2 h</text>
+          <text class="label label-note" x="24" y="130" data-i18n="car3">Depuis Tours ou Angers :</text>
+          <text class="label label-note" x="24" y="150" data-i18n="car4">A85 puis A10, sortie Blois</text>
+        </g>
+
+        <!-- by train: same, just below -->
+        <g class="late car-note">
+          <g transform="translate(24 186)" filter="url(#hand)">
+            <path class="line" stroke-width="1.8" d="M6 22 V9 Q6 4 11 4 H40 Q49 4 52 13 L53 22 Z" />
+            <path class="line" stroke-width="1.4" d="M12 9 H20 V14 H12 Z M25 9 H33 V14 H25 Z M38 9 H44 L47 14 H38 Z" />
+            <circle class="line" stroke-width="1.6" cx="14" cy="25" r="2.6" />
+            <circle class="line" stroke-width="1.6" cx="26" cy="25" r="2.6" />
+            <circle class="line" stroke-width="1.6" cx="42" cy="25" r="2.6" />
+            <path class="line" stroke-width="1.4" d="M0 30 H58" />
+          </g>
+          <text class="label label-big" x="88" y="212" data-i18n="trainTitle">EN TRAIN</text>
+          <text class="label label-note" x="24" y="248" data-i18n="train1">Paris → Blois-Chambord</text>
+          <text class="label label-note" x="24" y="268" data-i18n="train2">ou Saint-Pierre-des-Corps,</text>
+          <text class="label label-note label-soft" x="24" y="288" data-i18n="train3">puis 20 min à 1 h de route</text>
+        </g>
+
         <!-- road numbers, in little shields -->
         <g class="late">
           <rect class="shield" x="536" y="200" width="38" height="20" rx="4" />
@@ -697,11 +709,6 @@
         <text class="label label-river" dy="-7"><textPath href="#loire" startOffset="21%" data-i18n="mapLoire">LA LOIRE</textPath></text>
       </svg>
     </figure>
-
-    <ul class="travel">
-      <li class="st"><b data-i18n="carTitle">En voiture</b><span data-i18n="car">Depuis Paris : A10, sortie Mer (environ 2 h). Depuis Tours ou Angers : A85 puis A10, sortie Blois.</span></li>
-      <li class="st"><b data-i18n="trainTitle">En train</b><span data-i18n="train">Paris → Blois-Chambord ou Saint-Pierre-des-Corps, puis 20 min à 1 h de route.</span></li>
-    </ul>
   </section>
 
   <!-- 5 -->
@@ -732,10 +739,15 @@
         placeEyebrow: 'Le lieu',
         mapLoire: 'LA LOIRE',
         mapLabel: "Plan de la région, avec la Loire : l'A10 relie Paris à Orléans, Blois et Tours en passant au nord de Chambord ; l'A85 relie Angers à Tours",
-        carTitle: 'En voiture',
-        car: "Depuis Paris : A10, sortie Mer (environ 2 h). Depuis Tours ou Angers : A85 puis A10, sortie Blois.",
-        trainTitle: 'En train',
-        train: 'Paris → Blois-Chambord ou Saint-Pierre-des-Corps, puis 20 min à 1 h de route.',
+        carTitle: 'EN VOITURE',
+        car1: 'Depuis Paris\u00a0: A10, sortie Mer',
+        car2: 'environ 2\u00a0h',
+        car3: 'Depuis Tours ou Angers\u00a0:',
+        car4: 'A85 puis A10, sortie Blois',
+        trainTitle: 'EN TRAIN',
+        train1: 'Paris → Blois-Chambord',
+        train2: 'ou Saint-Pierre-des-Corps,',
+        train3: 'puis 20\u00a0min à 1\u00a0h de route',
         script: 'Soyez des nôtres !',
         left: 'avant le grand jour',
         follow: 'Faire-part à suivre',
@@ -755,10 +767,15 @@
         placeEyebrow: 'The place',
         mapLoire: 'THE LOIRE',
         mapLabel: 'Map of the region, with the Loire: the A10 runs from Paris through Orléans, Blois and Tours, just north of Chambord; the A85 links Angers to Tours',
-        carTitle: 'By car',
-        car: 'From Paris: A10, exit Mer (about 2 hours). From Tours or Angers: A85 then A10, exit Blois.',
-        trainTitle: 'By train',
-        train: 'Paris → Blois-Chambord or Saint-Pierre-des-Corps, then a 20 min to 1 hour drive.',
+        carTitle: 'BY CAR',
+        car1: 'From Paris: A10, exit Mer',
+        car2: 'about 2 hours',
+        car3: 'From Tours or Angers:',
+        car4: 'A85 then A10, exit Blois',
+        trainTitle: 'BY TRAIN',
+        train1: 'Paris → Blois-Chambord',
+        train2: 'or Saint-Pierre-des-Corps,',
+        train3: 'then a 20 min to 1 hour drive',
         script: 'Join us!',
         left: 'until the big day',
         follow: 'Formal invitation to follow',
