@@ -1,0 +1,451 @@
+<title>Louisa &amp; Lysandre</title>
+<meta name="description" content="Save the date : Louisa &amp; Lysandre se marient le samedi 4 septembre 2027 au château de Chambord.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:wght@500;600&family=Gloock&display=swap">
+<style>
+  /* Layout: one narrow column that scrolls like a story. Title, three photos of the proposal, the ring, the date. */
+  :root {
+    --paper: #f8f8f3;          /* white */
+    --sage: #8a9a7e;
+    --sage-deep: #b4c0a6;      /* same sage as the card version's background */
+    --sage-dark: #4f5e47;
+    --ink: #3f4c38;
+    --photo-ink: #ffffff;
+
+    --font-title: 'Gloock', 'Didot', Georgia, serif;
+    --font-text: 'Cormorant Garamond', Garamond, 'Times New Roman', serif;
+    --font-script: 'Alex Brush', 'Snell Roundhand', 'Apple Chancery', cursive;
+
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-text);
+    font-size: 19px;
+    line-height: 1.5;
+    padding-inline: 16px;
+    overflow-x: hidden;
+  }
+
+  main {
+    max-width: 680px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(56px, 12vw, 120px);
+    padding-block: 0 72px;
+  }
+
+  /* ---------- opening ---------- */
+
+  .opening {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    padding-block: clamp(88px, 18vh, 160px) 8px;
+    text-align: center;
+    color: var(--sage-dark);
+  }
+
+  .names {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    padding-left: 0.32em;
+  }
+
+  .title {
+    margin: 0;
+    font-family: var(--font-title);
+    font-weight: 400;
+    font-size: clamp(3.4rem, 15vw, 7.2rem);
+    line-height: 0.95;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+  }
+
+  .title .word { display: inline-block; white-space: nowrap; }
+  .title .ch { display: inline-block; }
+
+  .details {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    column-gap: 0.9em;
+    row-gap: 2px;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+  .details .bar { color: var(--sage); font-weight: 500; }
+
+  .cue {
+    margin-top: 18px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: var(--sage-dark);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    padding-left: 0.24em;
+  }
+
+  .cue svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .cue:focus-visible { outline: 2px solid var(--sage-dark); outline-offset: 4px; }
+
+  /* ---------- the proposal, in three photos ---------- */
+
+  .story {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(20px, 5vw, 36px);
+    scroll-margin-top: 24px;
+  }
+
+  .story figure {
+    margin: 0;
+    width: 88%;
+    overflow: hidden;
+    background: var(--sage-deep);
+  }
+
+  .story figure:nth-child(2) { align-self: flex-end; }
+
+  .story img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 1100 / 760;
+    object-fit: cover;
+  }
+
+  /* ---------- the ring ---------- */
+
+  .ring {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    background: var(--sage-dark);
+    aspect-ratio: 4 / 5;
+  }
+
+  .ring img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 62%;
+  }
+
+  .ring::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(34, 42, 30, 0.62) 0%, rgba(34, 42, 30, 0.25) 26%, rgba(34, 42, 30, 0) 44%);
+    pointer-events: none;
+  }
+
+  .ring figcaption {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: clamp(22px, 6vw, 40px);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: var(--photo-ink);
+    text-align: center;
+    text-shadow: 0 1px 10px rgba(20, 26, 18, 0.35);
+  }
+
+  .ring figcaption p { margin: 0; }
+
+  .ring .script {
+    font-family: var(--font-script);
+    font-size: clamp(2.6rem, 9vw, 4rem);
+    line-height: 1.05;
+  }
+
+  .ring .line {
+    font-size: clamp(1.05rem, 3.6vw, 1.35rem);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+
+  /* ---------- closing ---------- */
+
+  .closing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    text-align: center;
+    color: var(--sage-dark);
+  }
+
+  .closing p { margin: 0; }
+
+  .follow {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    padding-left: 0.28em;
+  }
+
+  .countdown {
+    font-family: var(--font-title);
+    font-size: clamp(2.2rem, 8vw, 3.2rem);
+    line-height: 1.1;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+
+  .countdown-label { font-size: 18px; font-style: italic; }
+
+  .sprig {
+    width: 44px;
+    height: 30px;
+    fill: none;
+    stroke: var(--sage);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+  }
+
+  /* ---------- language switch ---------- */
+
+  .lang {
+    position: fixed;
+    top: calc(14px + env(safe-area-inset-top, 0px));
+    right: 16px;
+    z-index: 2;
+    display: flex;
+    padding: 3px;
+    border: 1px solid var(--sage);
+    border-radius: 999px;
+    background: var(--paper);
+  }
+
+  .lang button {
+    padding: 5px 12px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--sage-dark);
+    font-family: var(--font-text);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    cursor: pointer;
+  }
+
+  .lang button[aria-pressed="true"] { background: var(--sage-dark); color: var(--paper); }
+  .lang button:focus-visible { outline: 2px solid var(--sage-dark); outline-offset: 2px; }
+
+  /* ---------- motion ---------- */
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* on arrival: the title letters rise one after another */
+    .names   { animation: appear 0.9s ease-out 0.1s both; }
+    .title .ch { animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(0.35s + var(--i) * 0.06s); }
+    .details { animation: appear 0.9s ease-out 1.4s both; }
+    .cue     { animation: appear 0.9s ease-out 1.9s both; }
+    .cue svg { animation: bob 2.2s ease-in-out 2.8s infinite; }
+
+    /* while scrolling: photos slide in and settle, where the browser supports scroll-linked animation */
+    @supports (animation-timeline: view()) {
+      .story figure,
+      .ring {
+        animation: slide-in linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 70%;
+      }
+      .story figure:nth-child(2) { animation-name: slide-in-right; }
+      .story img,
+      .ring img {
+        animation: settle linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 50%;
+      }
+    }
+  }
+
+  @keyframes appear { from { opacity: 0; } to { opacity: 1; } }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(0.45em); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(5px); }
+  }
+
+  @keyframes slide-in {
+    from { opacity: 0.15; transform: translateX(-6%); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  @keyframes slide-in-right {
+    from { opacity: 0.15; transform: translateX(6%); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  @keyframes settle {
+    from { transform: scale(1.14); }
+    to   { transform: scale(1); }
+  }
+</style>
+
+<div class="lang" role="group" aria-label="Langue / Language">
+  <button type="button" data-lang="fr" aria-pressed="true">FR</button>
+  <button type="button" data-lang="en" aria-pressed="false">EN</button>
+</div>
+
+<main>
+  <header class="opening">
+    <p class="names">Louisa &amp; Lysandre</p>
+    <h1 class="title" id="title" aria-label="Save the date">SAVE THE DATE</h1>
+    <p class="details">
+      <time datetime="2027-09-04" data-i18n="date">04 Septembre 2027</time>
+      <span class="bar" aria-hidden="true">|</span>
+      <span>Chambord, Centre-Val de Loire</span>
+    </p>
+    <a class="cue" href="#story">
+      <span data-i18n="cue">Notre histoire</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    </a>
+  </header>
+
+  <section class="story" id="story" aria-label="La demande">
+    <figure><img src="img/genou.jpg" width="1100" height="760" data-i18n-alt="alt1" alt="Lysandre fait sa demande à genou sur un toit de Paris"></figure>
+    <figure><img src="img/genou-calin.jpg" width="1100" height="760" data-i18n-alt="alt2" alt="Louisa se penche pour l'embrasser"></figure>
+    <figure><img src="img/debout.jpg" width="1100" height="760" data-i18n-alt="alt3" alt="Louisa et Lysandre enlacés sur le toit"></figure>
+  </section>
+
+  <figure class="ring">
+    <img src="img/bague.jpg" width="831" height="1800" data-i18n-alt="alt4" alt="Louisa montre sa bague de fiançailles, la tour Eiffel au loin">
+    <figcaption>
+      <p class="script" data-i18n="script">Soyez des nôtres !</p>
+      <p class="line"><span data-i18n="day">Samedi 4 Septembre 2027</span><br>Château de Chambord</p>
+    </figcaption>
+  </figure>
+
+  <footer class="closing">
+    <svg class="sprig" viewBox="0 0 48 32" aria-hidden="true">
+      <path d="M4 28 V14 M10 28 V10 M16 28 V6 M24 28 V2 M32 28 V6 M38 28 V10 M44 28 V14
+               M4 14 Q4 8 10 10 M10 10 Q10 4 16 6 M16 6 Q16 1 24 2 M24 2 Q32 1 32 6 M32 6 Q38 4 38 10 M38 10 Q44 8 44 14" />
+    </svg>
+    <p class="countdown" id="countdown">J − 325</p>
+    <p class="countdown-label" id="countdown-label" data-i18n="left">avant le grand jour</p>
+    <p class="follow" data-i18n="follow">Faire-part à suivre</p>
+  </footer>
+</main>
+
+<script>
+  (function () {
+    // « Save the date » reste tel quel dans les deux langues.
+    var text = {
+      fr: {
+        date: '04 Septembre 2027',
+        cue: 'Notre histoire',
+        script: 'Soyez des nôtres !',
+        day: 'Samedi 4 Septembre 2027',
+        left: 'avant le grand jour',
+        follow: 'Faire-part à suivre',
+        alt1: 'Lysandre fait sa demande à genou sur un toit de Paris',
+        alt2: "Louisa se penche pour l'embrasser",
+        alt3: 'Louisa et Lysandre enlacés sur le toit',
+        alt4: 'Louisa montre sa bague de fiançailles, la tour Eiffel au loin'
+      },
+      en: {
+        date: 'September 4, 2027',
+        cue: 'Our story',
+        script: 'Join us!',
+        day: 'Saturday, September 4, 2027',
+        left: 'until the big day',
+        follow: 'Formal invitation to follow',
+        alt1: 'Lysandre proposing on one knee on a Paris rooftop',
+        alt2: 'Louisa leaning down to kiss him',
+        alt3: 'Louisa and Lysandre embracing on the rooftop',
+        alt4: 'Louisa showing her engagement ring, the Eiffel Tower in the distance'
+      }
+    };
+
+    // Split the title into letters so they can rise one by one (screen readers use the aria-label).
+    var title = document.getElementById('title');
+    var i = 0;
+    title.innerHTML = title.textContent.split(' ').map(function (word) {
+      return '<span class="word" aria-hidden="true">' + word.split('').map(function (c) {
+        return '<span class="ch" style="--i:' + (i++) + '">' + c + '</span>';
+      }).join('') + '</span>';
+    }).join(' ');
+
+    // Countdown in days.
+    var wedding = new Date(2027, 8, 4);
+    var now = new Date();
+    var days = Math.round((wedding - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 86400000);
+    var count = document.getElementById('countdown');
+    var countLabel = document.getElementById('countdown-label');
+    if (days > 0) count.textContent = 'J − ' + days;
+    else { count.hidden = true; countLabel.hidden = true; }
+
+    function setLang(next) {
+      var lang = text[next] ? next : 'fr';
+      var t = text[lang];
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        el.textContent = t[el.dataset.i18n];
+      });
+      document.querySelectorAll('[data-i18n-alt]').forEach(function (el) {
+        el.alt = t[el.dataset.i18nAlt];
+      });
+      if (days > 0) count.textContent = (lang === 'en' ? 'D − ' : 'J − ') + days;
+      document.querySelectorAll('.lang button').forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
+      });
+      try { localStorage.setItem('std-lang', lang); } catch (e) {}
+    }
+
+    document.querySelectorAll('.lang button').forEach(function (b) {
+      b.addEventListener('click', function () { setLang(b.dataset.lang); });
+    });
+
+    var saved = null;
+    try { saved = localStorage.getItem('std-lang'); } catch (e) {}
+    if (location.hash === '#en' || location.hash === '#fr') saved = location.hash.slice(1);
+    if (saved) setLang(saved);
+  })();
+</script>
