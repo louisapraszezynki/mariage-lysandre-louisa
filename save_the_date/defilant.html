@@ -92,6 +92,15 @@
     color: var(--sage-dark);
   }
 
+  .married {
+    margin: 0;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(1.5rem, 5vw, 2.2rem);
+    line-height: 1.2;
+    color: var(--sage-dark);
+  }
+
   .title .word { display: inline-block; white-space: nowrap; }
   .title .ch { display: inline-block; }
 
@@ -406,6 +415,7 @@
   @media (prefers-reduced-motion: no-preference) {
     .names     { animation: appear 0.9s ease-out 0.1s both; }
     .title .ch { animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(0.35s + var(--i) * 0.06s); }
+    .married   { animation: appear 1s ease-out 1.3s both; }
     .cue       { animation: appear 1s ease-out 1.8s both; }
     .cue::after { animation: draw 2.4s cubic-bezier(0.6, 0, 0.3, 1) 2s infinite; }
 
@@ -451,6 +461,7 @@
   <header class="opening">
     <p class="eyebrow names">Louisa &amp; Lysandre</p>
     <h1 class="title" id="title" aria-label="Save the date">SAVE THE DATE</h1>
+    <p class="married" data-i18n="married">On se marie</p>
     <a class="cue" href="#photos" data-i18n-label="cue" aria-label="Défiler vers la suite"></a>
   </header>
 
@@ -611,6 +622,7 @@
     // « Save the date » reste tel quel dans les deux langues.
     var text = {
       fr: {
+        married: 'On se marie',
         cue: 'Défiler vers la suite',
         photos: 'La demande',
         dateEyebrow: 'La date',
@@ -634,6 +646,7 @@
         alt3: 'Louisa et Lysandre enlacés sur le toit'
       },
       en: {
+        married: 'We’re getting married',
         cue: 'Scroll down',
         photos: 'The proposal',
         dateEyebrow: 'The date',
