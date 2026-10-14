@@ -2,20 +2,21 @@
 <meta name="description" content="Save the date : Louisa &amp; Lysandre se marient le samedi 4 septembre 2027 au château de Chambord.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:wght@500;600&family=Gloock&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Architects+Daughter&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Gloock&display=swap">
 <style>
-  /* Layout: one narrow column that scrolls like a story. Title, three photos of the proposal, the ring, the date. */
+  /* Layout: a scrolling story. Title alone on the first screen, then photos, the date, the place (hand-drawn map), the invitation. */
   :root {
     --paper: #f8f8f3;          /* white */
+    --sage-pale: #e6eadf;
     --sage: #8a9a7e;
-    --sage-deep: #b4c0a6;      /* same sage as the card version's background */
+    --sage-deep: #b4c0a6;
     --sage-dark: #4f5e47;
     --ink: #3f4c38;
-    --photo-ink: #ffffff;
 
     --font-title: 'Gloock', 'Didot', Georgia, serif;
     --font-text: 'Cormorant Garamond', Garamond, 'Times New Roman', serif;
     --font-script: 'Alex Brush', 'Snell Roundhand', 'Apple Chancery', cursive;
+    --font-hand: 'Architects Daughter', 'Marker Felt', 'Comic Sans MS', cursive;
 
     color-scheme: light;
   }
@@ -36,172 +37,310 @@
   }
 
   main {
-    max-width: 680px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: clamp(56px, 12vw, 120px);
-    padding-block: 0 72px;
-  }
-
-  /* ---------- opening ---------- */
-
-  .opening {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 22px;
-    padding-block: clamp(88px, 18vh, 160px) 8px;
-    text-align: center;
-    color: var(--sage-dark);
+    gap: clamp(88px, 16vw, 160px);
+    padding-block: 0 64px;
   }
 
-  .names {
+  main > * { width: 100%; }
+
+  .eyebrow {
     margin: 0;
     font-size: 15px;
     font-weight: 600;
     letter-spacing: 0.32em;
     text-transform: uppercase;
     padding-left: 0.32em;
+    color: var(--sage);
   }
+
+  .heading {
+    margin: 0;
+    font-family: var(--font-title);
+    font-weight: 400;
+    font-size: clamp(2.2rem, 7vw, 3.4rem);
+    line-height: 1.08;
+    color: var(--sage-dark);
+    text-wrap: balance;
+  }
+
+  /* ---------- 1. title, alone on the first screen ---------- */
+
+  .opening {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    text-align: center;
+    color: var(--sage-dark);
+  }
+
+  .names { color: var(--sage-dark); }
 
   .title {
     margin: 0;
     font-family: var(--font-title);
     font-weight: 400;
-    font-size: clamp(3.4rem, 15vw, 7.2rem);
+    font-size: clamp(3.4rem, 15vw, 8rem);
     line-height: 0.95;
     letter-spacing: 0.01em;
-    text-wrap: balance;
+    color: var(--sage-dark);
   }
 
   .title .word { display: inline-block; white-space: nowrap; }
   .title .ch { display: inline-block; }
 
-  .details {
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    column-gap: 0.9em;
-    row-gap: 2px;
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-  }
-
-  .details .bar { color: var(--sage); font-weight: 500; }
-
+  /* a thin line that keeps drawing downwards: scroll */
   .cue {
-    margin-top: 18px;
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    color: var(--sage-dark);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    padding-left: 0.24em;
+    position: absolute;
+    left: 50%;
+    bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+    width: 1px;
+    height: 56px;
+    margin-left: -0.5px;
+    overflow: hidden;
+    background: var(--sage-pale);
   }
 
-  .cue svg {
-    width: 22px;
-    height: 22px;
+  .cue::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: var(--sage-dark);
+    transform-origin: top;
+  }
+
+  .cue:focus-visible { outline: 2px solid var(--sage-dark); outline-offset: 6px; }
+
+  /* ---------- 2. three photos, side by side ---------- */
+
+  .strip {
+    max-width: 1040px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(8px, 2vw, 18px);
+    scroll-margin-top: 40px;
+  }
+
+  .strip figure {
+    margin: 0;
+    overflow: hidden;
+    background: var(--sage-pale);
+    aspect-ratio: 3 / 4;
+  }
+
+  .strip img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 48% 50%;
+  }
+
+  /* ---------- 3. the date ---------- */
+
+  .date {
+    max-width: 860px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 320px);
+    align-items: center;
+    gap: clamp(32px, 7vw, 80px);
+  }
+
+  .date-text {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .date-text .eyebrow { padding-left: 0; }
+
+  .calendar {
+    margin: 0;
+    padding: 22px 20px 18px;
+    background: var(--sage-pale);
+    color: var(--sage-dark);
+  }
+
+  .calendar figcaption {
+    margin-bottom: 12px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    padding-left: 0.26em;
+  }
+
+  .calendar table {
+    width: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: lining-nums tabular-nums;
+    font-size: 17px;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .calendar th {
+    padding-bottom: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--sage);
+  }
+
+  .calendar td { height: 34px; }
+
+  .calendar .day-mark {
+    position: relative;
+    font-weight: 600;
+    color: var(--paper);
+  }
+
+  .calendar .day-mark span {
+    position: relative;
+    z-index: 1;
+  }
+
+  .calendar .day-mark::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 32px;
+    height: 32px;
+    margin: -16px 0 0 -16px;
+    border-radius: 50%;
+    background: var(--sage-dark);
+  }
+
+  /* ---------- 4. the place ---------- */
+
+  .place {
+    max-width: 860px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .address {
+    margin: 0;
+    font-size: 20px;
+    color: var(--ink);
+  }
+
+  .map {
+    margin: 18px 0 0;
+    padding: clamp(8px, 2vw, 20px);
+    background: var(--paper);
+    border: 1px solid var(--sage-pale);
+    overflow-x: auto;
+  }
+
+  .map svg {
+    display: block;
+    width: 100%;
+    min-width: 520px;
+    height: auto;
+    color: var(--sage-dark);
+  }
+
+  .map .label {
+    font-family: var(--font-hand);
+    font-size: 15px;
+    letter-spacing: 0.16em;
+    fill: currentColor;
+  }
+
+  .map .label-big { font-size: 19px; letter-spacing: 0.2em; }
+  .map .label-small { font-size: 12px; letter-spacing: 0.14em; fill: var(--sage); }
+
+  .map .line {
     fill: none;
     stroke: currentColor;
-    stroke-width: 1.5;
+    stroke-width: 1.8;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
 
-  .cue:focus-visible { outline: 2px solid var(--sage-dark); outline-offset: 4px; }
+  .map .line.paper-line { stroke: var(--paper); }
+  .map .ink { fill: currentColor; }
+  .map .paper { fill: var(--paper); }
 
-  /* ---------- the proposal, in three photos ---------- */
+  .travel {
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 10px 32px;
+  }
 
-  .story {
+  .travel li {
     display: flex;
     flex-direction: column;
-    gap: clamp(20px, 5vw, 36px);
-    scroll-margin-top: 24px;
+    gap: 2px;
   }
 
-  .story figure {
-    margin: 0;
-    width: 88%;
-    overflow: hidden;
-    background: var(--sage-deep);
+  .travel b {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--sage);
   }
 
-  .story figure:nth-child(2) { align-self: flex-end; }
+  /* ---------- 5. the invitation, over the last photo ---------- */
 
-  .story img {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    aspect-ratio: 1100 / 760;
-    object-fit: cover;
-  }
-
-  /* ---------- the ring ---------- */
-
-  .ring {
+  .invite {
     position: relative;
-    margin: 0;
+    max-width: 1040px;
+    min-height: clamp(420px, 70vh, 680px);
+    display: grid;
+    place-items: center;
     overflow: hidden;
-    background: var(--sage-dark);
-    aspect-ratio: 4 / 5;
+    background: var(--sage-pale);
   }
 
-  .ring img {
+  .invite img {
     position: absolute;
     inset: 0;
     width: 100%;
     max-width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 50% 62%;
+    object-position: 50% 58%;
   }
 
-  .ring::after {
+  /* the photo stays in the background: a white veil, the text carries the section */
+  .invite::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(34, 42, 30, 0.62) 0%, rgba(34, 42, 30, 0.25) 26%, rgba(34, 42, 30, 0) 44%);
-    pointer-events: none;
-  }
-
-  .ring figcaption {
-    position: absolute;
-    left: 20px;
-    right: 20px;
-    bottom: clamp(22px, 6vw, 40px);
     z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    color: var(--photo-ink);
-    text-align: center;
-    text-shadow: 0 1px 10px rgba(20, 26, 18, 0.35);
+    background: rgba(248, 248, 243, 0.62);
   }
 
-  .ring figcaption p { margin: 0; }
-
-  .ring .script {
+  .invite-text {
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    padding: 24px;
     font-family: var(--font-script);
-    font-size: clamp(2.6rem, 9vw, 4rem);
+    font-weight: 400;
+    font-size: clamp(3.4rem, 13vw, 7.5rem);
     line-height: 1.05;
-  }
-
-  .ring .line {
-    font-size: clamp(1.05rem, 3.6vw, 1.35rem);
-    font-weight: 600;
-    letter-spacing: 0.06em;
+    color: var(--sage-dark);
+    text-align: center;
   }
 
   /* ---------- closing ---------- */
@@ -210,38 +349,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 14px;
+    gap: 6px;
     text-align: center;
     color: var(--sage-dark);
   }
 
   .closing p { margin: 0; }
 
-  .follow {
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    padding-left: 0.28em;
-  }
-
   .countdown {
     font-family: var(--font-title);
-    font-size: clamp(2.2rem, 8vw, 3.2rem);
+    font-size: clamp(2rem, 7vw, 2.8rem);
     line-height: 1.1;
     font-variant-numeric: lining-nums tabular-nums;
   }
 
-  .countdown-label { font-size: 18px; font-style: italic; }
-
-  .sprig {
-    width: 44px;
-    height: 30px;
-    fill: none;
-    stroke: var(--sage);
-    stroke-width: 1.4;
-    stroke-linecap: round;
-  }
+  .countdown-label { font-style: italic; font-size: 19px; }
+  .closing .eyebrow { margin-top: 26px; color: var(--sage-dark); }
 
   /* ---------- language switch ---------- */
 
@@ -249,7 +372,7 @@
     position: fixed;
     top: calc(14px + env(safe-area-inset-top, 0px));
     right: 16px;
-    z-index: 2;
+    z-index: 5;
     display: flex;
     padding: 3px;
     border: 1px solid var(--sage);
@@ -273,32 +396,32 @@
   .lang button[aria-pressed="true"] { background: var(--sage-dark); color: var(--paper); }
   .lang button:focus-visible { outline: 2px solid var(--sage-dark); outline-offset: 2px; }
 
+  @media (max-width: 700px) {
+    .date { grid-template-columns: minmax(0, 1fr); }
+    .calendar { max-width: 340px; }
+  }
+
   /* ---------- motion ---------- */
 
   @media (prefers-reduced-motion: no-preference) {
-    /* on arrival: the title letters rise one after another */
-    .names   { animation: appear 0.9s ease-out 0.1s both; }
+    .names     { animation: appear 0.9s ease-out 0.1s both; }
     .title .ch { animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(0.35s + var(--i) * 0.06s); }
-    .details { animation: appear 0.9s ease-out 1.4s both; }
-    .cue     { animation: appear 0.9s ease-out 1.9s both; }
-    .cue svg { animation: bob 2.2s ease-in-out 2.8s infinite; }
+    .cue       { animation: appear 1s ease-out 1.8s both; }
+    .cue::after { animation: draw 2.4s cubic-bezier(0.6, 0, 0.3, 1) 2s infinite; }
 
-    /* while scrolling: photos slide in and settle, where the browser supports scroll-linked animation */
-    @supports (animation-timeline: view()) {
-      .story figure,
-      .ring {
-        animation: slide-in linear both;
-        animation-timeline: view();
-        animation-range: entry 0% entry 70%;
-      }
-      .story figure:nth-child(2) { animation-name: slide-in-right; }
-      .story img,
-      .ring img {
-        animation: settle linear both;
-        animation-timeline: view();
-        animation-range: entry 0% cover 50%;
-      }
+    /* sections appear as they are scrolled to (only when the script is running) */
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 1s ease-out, transform 1s cubic-bezier(0.2, 0.7, 0.2, 1);
     }
+    .js .reveal.is-in { opacity: 1; transform: none; }
+
+    .js .strip figure:nth-child(2) { transition-delay: 0.25s; }
+    .js .strip figure:nth-child(3) { transition-delay: 0.5s; }
+
+    .js .invite img { transform: scale(1.08); transition: transform 2.4s ease-out; }
+    .js .invite.is-in img { transform: none; }
   }
 
   @keyframes appear { from { opacity: 0; } to { opacity: 1; } }
@@ -308,26 +431,15 @@
     to   { opacity: 1; transform: none; }
   }
 
-  @keyframes bob {
-    0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(5px); }
-  }
-
-  @keyframes slide-in {
-    from { opacity: 0.15; transform: translateX(-6%); }
-    to   { opacity: 1; transform: none; }
-  }
-
-  @keyframes slide-in-right {
-    from { opacity: 0.15; transform: translateX(6%); }
-    to   { opacity: 1; transform: none; }
-  }
-
-  @keyframes settle {
-    from { transform: scale(1.14); }
-    to   { transform: scale(1); }
+  @keyframes draw {
+    0%   { transform: scaleY(0); transform-origin: top; }
+    50%  { transform: scaleY(1); transform-origin: top; }
+    51%  { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
   }
 </style>
+
+<script>document.documentElement.classList.add('js');</script>
 
 <div class="lang" role="group" aria-label="Langue / Language">
   <button type="button" data-lang="fr" aria-pressed="true">FR</button>
@@ -335,42 +447,162 @@
 </div>
 
 <main>
+  <!-- 1 -->
   <header class="opening">
-    <p class="names">Louisa &amp; Lysandre</p>
+    <p class="eyebrow names">Louisa &amp; Lysandre</p>
     <h1 class="title" id="title" aria-label="Save the date">SAVE THE DATE</h1>
-    <p class="details">
-      <time datetime="2027-09-04" data-i18n="date">04 Septembre 2027</time>
-      <span class="bar" aria-hidden="true">|</span>
-      <span>Chambord, Centre-Val de Loire</span>
-    </p>
-    <a class="cue" href="#story">
-      <span data-i18n="cue">Notre histoire</span>
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-    </a>
+    <a class="cue" href="#photos" data-i18n-label="cue" aria-label="Défiler vers la suite"></a>
   </header>
 
-  <section class="story" id="story" aria-label="La demande">
-    <figure><img src="img/genou.jpg" width="1100" height="760" data-i18n-alt="alt1" alt="Lysandre fait sa demande à genou sur un toit de Paris"></figure>
-    <figure><img src="img/genou-calin.jpg" width="1100" height="760" data-i18n-alt="alt2" alt="Louisa se penche pour l'embrasser"></figure>
-    <figure><img src="img/debout.jpg" width="1100" height="760" data-i18n-alt="alt3" alt="Louisa et Lysandre enlacés sur le toit"></figure>
+  <!-- 2 -->
+  <section class="strip" id="photos" data-i18n-label="photos" aria-label="La demande">
+    <figure class="reveal"><img src="img/genou.jpg" width="1100" height="760" loading="lazy" data-i18n-alt="alt1" alt="Lysandre fait sa demande à genou sur un toit de Paris"></figure>
+    <figure class="reveal"><img src="img/genou-calin.jpg" width="1100" height="760" loading="lazy" data-i18n-alt="alt2" alt="Louisa se penche pour l'embrasser"></figure>
+    <figure class="reveal"><img src="img/debout.jpg" width="1100" height="760" loading="lazy" data-i18n-alt="alt3" alt="Louisa et Lysandre enlacés sur le toit"></figure>
   </section>
 
-  <figure class="ring">
-    <img src="img/bague.jpg" width="831" height="1800" data-i18n-alt="alt4" alt="Louisa montre sa bague de fiançailles, la tour Eiffel au loin">
-    <figcaption>
-      <p class="script" data-i18n="script">Soyez des nôtres !</p>
-      <p class="line"><span data-i18n="day">Samedi 4 Septembre 2027</span><br>Château de Chambord</p>
-    </figcaption>
-  </figure>
+  <!-- 3 -->
+  <section class="date reveal" aria-labelledby="date-heading">
+    <div class="date-text">
+      <p class="eyebrow" data-i18n="dateEyebrow">La date</p>
+      <h2 class="heading" id="date-heading" data-i18n="dateHeading">Samedi 4 Septembre 2027</h2>
+    </div>
 
-  <footer class="closing">
-    <svg class="sprig" viewBox="0 0 48 32" aria-hidden="true">
-      <path d="M4 28 V14 M10 28 V10 M16 28 V6 M24 28 V2 M32 28 V6 M38 28 V10 M44 28 V14
-               M4 14 Q4 8 10 10 M10 10 Q10 4 16 6 M16 6 Q16 1 24 2 M24 2 Q32 1 32 6 M32 6 Q38 4 38 10 M38 10 Q44 8 44 14" />
-    </svg>
+    <figure class="calendar">
+      <figcaption data-i18n="month">Septembre 2027</figcaption>
+      <table>
+        <thead>
+          <tr id="weekdays"><th>L</th><th>M</th><th>M</th><th>J</th><th>V</th><th>S</th><th>D</th></tr>
+        </thead>
+        <tbody>
+          <tr><td></td><td></td><td>1</td><td>2</td><td>3</td><td class="day-mark"><span>4</span></td><td>5</td></tr>
+          <tr><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td></tr>
+          <tr><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td></tr>
+          <tr><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td></tr>
+          <tr><td>27</td><td>28</td><td>29</td><td>30</td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </figure>
+  </section>
+
+  <!-- 4 -->
+  <section class="place reveal" aria-labelledby="place-heading">
+    <p class="eyebrow" data-i18n="placeEyebrow">Le lieu</p>
+    <h2 class="heading" id="place-heading">Château de Chambord</h2>
+    <p class="address">41250 Chambord · Loir-et-Cher, Centre-Val de Loire</p>
+
+    <figure class="map">
+      <svg viewBox="0 0 640 500" role="img" data-i18n-label="mapLabel"
+           aria-label="Plan dessiné de la région : Paris au nord-est, la Loire, Blois, Chambord, Tours – Saint-Pierre-des-Corps et Angers">
+        <defs>
+          <!-- slight wobble so the lines look drawn by hand -->
+          <filter id="hand" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" />
+            <feDisplacementMap in="SourceGraphic" scale="3.2" />
+          </filter>
+          <symbol id="tree" viewBox="-6 -8 12 22" overflow="visible">
+            <path d="M0 2 V12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+            <circle cx="0" cy="-2" r="4.4" fill="none" stroke="currentColor" stroke-width="1.4" />
+          </symbol>
+        </defs>
+
+        <g filter="url(#hand)">
+          <!-- La Loire -->
+          <path id="loire" class="line" stroke-width="2.4"
+                d="M640 336 C 600 326 545 296 498 300 C 468 304 452 322 438 338 C 420 358 408 374 396 388 C 372 410 340 424 300 436 C 258 448 216 458 176 464 C 136 468 98 452 58 440 C 38 434 18 434 0 436" />
+          <!-- Autoroute A10, drawn as a two-line road -->
+          <path id="a10" class="line" stroke-width="13"
+                d="M566 76 C 546 160 512 240 492 290 C 474 322 446 340 422 352 C 398 364 372 376 352 390 C 334 402 318 410 306 414" />
+          <path class="line paper-line" stroke-width="9.4"
+                d="M566 76 C 546 160 512 240 492 290 C 474 322 446 340 422 352 C 398 364 372 376 352 390 C 334 402 318 410 306 414" />
+          <!-- TGV Paris – Saint-Pierre-des-Corps -->
+          <path id="tgv" class="line" stroke-width="1.6" stroke-dasharray="2 7"
+                d="M556 64 C 470 150 400 230 360 300 C 335 345 315 380 300 400" />
+
+          <!-- Paris: Eiffel tower -->
+          <path class="ink" d="M576 14 L578 30 L582 48 L590 72 L584 72 L579 60 L573 60 L568 72 L562 72 L570 48 L574 30 Z" />
+          <path class="line" stroke-width="1.6" d="M568 48 H584 M572 36 H580" />
+
+          <!-- Chambord: the château, its towers and its lantern -->
+          <g class="ink">
+            <rect x="410" y="386" width="62" height="20" />
+            <rect x="402" y="380" width="13" height="26" />
+            <rect x="467" y="380" width="13" height="26" />
+            <path d="M400 381 L408.5 368 L417 381 Z M465 381 L473.5 368 L482 381 Z" />
+            <rect x="425" y="373" width="32" height="14" />
+            <rect x="437" y="358" width="8" height="16" />
+            <path d="M435 359 L441 346 L447 359 Z" />
+            <rect x="428" y="366" width="3" height="8" />
+            <rect x="451" y="366" width="3" height="8" />
+            <rect x="419" y="379" width="3" height="8" />
+            <rect x="460" y="379" width="3" height="8" />
+          </g>
+          <g class="paper">
+            <rect x="416" y="392" width="3" height="6" /><rect x="424" y="392" width="3" height="6" />
+            <rect x="432" y="392" width="3" height="6" /><rect x="440" y="392" width="3" height="6" />
+            <rect x="448" y="392" width="3" height="6" /><rect x="456" y="392" width="3" height="6" />
+            <rect x="464" y="392" width="3" height="6" />
+          </g>
+
+          <!-- forest of Chambord -->
+          <use href="#tree" x="488" y="396" width="12" height="22" />
+          <use href="#tree" x="500" y="412" width="12" height="22" />
+          <use href="#tree" x="486" y="424" width="12" height="22" />
+          <use href="#tree" x="388" y="416" width="12" height="22" />
+          <use href="#tree" x="404" y="428" width="12" height="22" />
+          <use href="#tree" x="476" y="440" width="12" height="22" />
+
+          <!-- Blois -->
+          <circle class="ink" cx="394" cy="384" r="3.6" />
+
+          <!-- Tours / Saint-Pierre-des-Corps: the station -->
+          <path class="ink" d="M272 418 V404 Q288 390 304 404 V418 Z" />
+          <path class="paper" d="M279 418 V408 h4 V418 Z M286 418 V405 h4 V418 Z M293 418 V408 h4 V418 Z" />
+
+          <!-- Angers: the castle and its round towers -->
+          <g class="ink">
+            <rect x="46" y="396" width="34" height="16" />
+            <rect x="42" y="388" width="9" height="24" rx="3" />
+            <rect x="58" y="388" width="9" height="24" rx="3" />
+            <rect x="74" y="388" width="9" height="24" rx="3" />
+          </g>
+          <path class="line paper-line" stroke-width="1.2" d="M42 396 H51 M58 396 H67 M74 396 H83 M42 404 H51 M58 404 H67 M74 404 H83" />
+
+          <!-- north arrow -->
+          <path class="line" stroke-width="1.6" d="M612 478 V444 M606 452 L612 444 L618 452" />
+        </g>
+
+        <!-- labels, not wobbled so they stay crisp -->
+        <text class="label label-big" x="556" y="56" text-anchor="end">PARIS</text>
+        <text class="label label-big" x="441" y="434" text-anchor="middle">CHAMBORD</text>
+        <text class="label" x="384" y="370" text-anchor="end">BLOIS</text>
+        <text class="label" x="288" y="470" text-anchor="middle">TOURS</text>
+        <text class="label label-small" x="288" y="488" text-anchor="middle">ST-PIERRE-DES-CORPS</text>
+        <text class="label" x="62" y="378" text-anchor="middle">ANGERS</text>
+        <text class="label label-small" x="612" y="494" text-anchor="middle">N</text>
+
+        <text class="label label-small"><textPath href="#loire" startOffset="73%" data-i18n="mapLoire">LA LOIRE</textPath></text>
+        <text class="label label-small" dy="-11"><textPath href="#a10" startOffset="14%" data-i18n="mapA10">AUTOROUTE A10</textPath></text>
+        <text class="label label-small" dy="-8"><textPath href="#tgv" startOffset="38%">TGV ≈ 1 H</textPath></text>
+      </svg>
+    </figure>
+
+    <ul class="travel">
+      <li><b data-i18n="carTitle">En voiture</b><span data-i18n="car">Environ 2 h depuis Paris par l'A10, sortie Mer.</span></li>
+      <li><b data-i18n="trainTitle">En train</b><span data-i18n="train">Paris → Blois-Chambord ou Saint-Pierre-des-Corps, puis 20 min à 1 h de route.</span></li>
+    </ul>
+  </section>
+
+  <!-- 5 -->
+  <section class="invite reveal" aria-labelledby="invite-text">
+    <img src="img/bague.jpg" width="831" height="1800" loading="lazy" alt="">
+    <h2 class="invite-text" id="invite-text" data-i18n="script">Soyez des nôtres !</h2>
+  </section>
+
+  <footer class="closing reveal">
     <p class="countdown" id="countdown">J − 325</p>
     <p class="countdown-label" id="countdown-label" data-i18n="left">avant le grand jour</p>
-    <p class="follow" data-i18n="follow">Faire-part à suivre</p>
+    <p class="eyebrow" data-i18n="follow">Faire-part à suivre</p>
   </footer>
 </main>
 
@@ -379,37 +611,59 @@
     // « Save the date » reste tel quel dans les deux langues.
     var text = {
       fr: {
-        date: '04 Septembre 2027',
-        cue: 'Notre histoire',
+        cue: 'Défiler vers la suite',
+        photos: 'La demande',
+        dateEyebrow: 'La date',
+        dateHeading: 'Samedi 4 Septembre 2027',
+        month: 'Septembre 2027',
+        weekdays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
+        placeEyebrow: 'Le lieu',
+        mapLabel: 'Plan dessiné de la région : Paris au nord-est, la Loire, Blois, Chambord, Tours – Saint-Pierre-des-Corps et Angers',
+        mapLoire: 'LA LOIRE',
+        mapA10: 'AUTOROUTE A10',
+        carTitle: 'En voiture',
+        car: "Environ 2 h depuis Paris par l'A10, sortie Mer.",
+        trainTitle: 'En train',
+        train: 'Paris → Blois-Chambord ou Saint-Pierre-des-Corps, puis 20 min à 1 h de route.',
         script: 'Soyez des nôtres !',
-        day: 'Samedi 4 Septembre 2027',
         left: 'avant le grand jour',
         follow: 'Faire-part à suivre',
+        countPrefix: 'J − ',
         alt1: 'Lysandre fait sa demande à genou sur un toit de Paris',
         alt2: "Louisa se penche pour l'embrasser",
-        alt3: 'Louisa et Lysandre enlacés sur le toit',
-        alt4: 'Louisa montre sa bague de fiançailles, la tour Eiffel au loin'
+        alt3: 'Louisa et Lysandre enlacés sur le toit'
       },
       en: {
-        date: 'September 4, 2027',
-        cue: 'Our story',
+        cue: 'Scroll down',
+        photos: 'The proposal',
+        dateEyebrow: 'The date',
+        dateHeading: 'Saturday, September 4, 2027',
+        month: 'September 2027',
+        weekdays: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+        placeEyebrow: 'The place',
+        mapLabel: 'Hand-drawn map of the region: Paris to the north-east, the Loire, Blois, Chambord, Tours – Saint-Pierre-des-Corps and Angers',
+        mapLoire: 'THE LOIRE',
+        mapA10: 'A10 MOTORWAY',
+        carTitle: 'By car',
+        car: 'About 2 hours from Paris on the A10, exit Mer.',
+        trainTitle: 'By train',
+        train: 'Paris → Blois-Chambord or Saint-Pierre-des-Corps, then a 20 min to 1 hour drive.',
         script: 'Join us!',
-        day: 'Saturday, September 4, 2027',
         left: 'until the big day',
         follow: 'Formal invitation to follow',
+        countPrefix: 'D − ',
         alt1: 'Lysandre proposing on one knee on a Paris rooftop',
         alt2: 'Louisa leaning down to kiss him',
-        alt3: 'Louisa and Lysandre embracing on the rooftop',
-        alt4: 'Louisa showing her engagement ring, the Eiffel Tower in the distance'
+        alt3: 'Louisa and Lysandre embracing on the rooftop'
       }
     };
 
-    // Split the title into letters so they can rise one by one (screen readers use the aria-label).
+    // Title letters rise one by one (screen readers use the aria-label).
     var title = document.getElementById('title');
-    var i = 0;
+    var n = 0;
     title.innerHTML = title.textContent.split(' ').map(function (word) {
       return '<span class="word" aria-hidden="true">' + word.split('').map(function (c) {
-        return '<span class="ch" style="--i:' + (i++) + '">' + c + '</span>';
+        return '<span class="ch" style="--i:' + (n++) + '">' + c + '</span>';
       }).join('') + '</span>';
     }).join(' ');
 
@@ -419,20 +673,17 @@
     var days = Math.round((wedding - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 86400000);
     var count = document.getElementById('countdown');
     var countLabel = document.getElementById('countdown-label');
-    if (days > 0) count.textContent = 'J − ' + days;
-    else { count.hidden = true; countLabel.hidden = true; }
+    if (days <= 0) { count.hidden = true; countLabel.hidden = true; }
 
     function setLang(next) {
       var lang = text[next] ? next : 'fr';
       var t = text[lang];
       document.documentElement.lang = lang;
-      document.querySelectorAll('[data-i18n]').forEach(function (el) {
-        el.textContent = t[el.dataset.i18n];
-      });
-      document.querySelectorAll('[data-i18n-alt]').forEach(function (el) {
-        el.alt = t[el.dataset.i18nAlt];
-      });
-      if (days > 0) count.textContent = (lang === 'en' ? 'D − ' : 'J − ') + days;
+      document.querySelectorAll('[data-i18n]').forEach(function (el) { el.textContent = t[el.dataset.i18n]; });
+      document.querySelectorAll('[data-i18n-alt]').forEach(function (el) { el.alt = t[el.dataset.i18nAlt]; });
+      document.querySelectorAll('[data-i18n-label]').forEach(function (el) { el.setAttribute('aria-label', t[el.dataset.i18nLabel]); });
+      document.querySelectorAll('#weekdays th').forEach(function (th, i) { th.textContent = t.weekdays[i]; });
+      if (days > 0) count.textContent = t.countPrefix + days;
       document.querySelectorAll('.lang button').forEach(function (b) {
         b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
       });
@@ -446,6 +697,22 @@
     var saved = null;
     try { saved = localStorage.getItem('std-lang'); } catch (e) {}
     if (location.hash === '#en' || location.hash === '#fr') saved = location.hash.slice(1);
-    if (saved) setLang(saved);
+    setLang(saved || 'fr');
+
+    // Reveal sections as they come into view.
+    var items = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      items.forEach(function (el) { el.classList.add('is-in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    items.forEach(function (el) { io.observe(el); });
   })();
 </script>
