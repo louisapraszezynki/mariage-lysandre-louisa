@@ -413,10 +413,11 @@
   /* ---------- motion ---------- */
 
   @media (prefers-reduced-motion: no-preference) {
-    .names     { animation: appear 0.9s ease-out 0.1s both; }
+    /* "backwards" so that once faded in, the scroll script can fade them out again */
+    .names     { animation: appear 0.9s ease-out 0.1s backwards; }
     .title .ch { animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(0.35s + var(--i) * 0.06s); }
-    .married   { animation: appear 1s ease-out 1.3s both; }
-    .cue       { animation: appear 1s ease-out 1.8s both; }
+    .married   { animation: appear 1s ease-out 1.3s backwards; }
+    .cue       { animation: appear 1s ease-out 1.8s backwards; }
     .cue::after { animation: draw 2.4s cubic-bezier(0.6, 0, 0.3, 1) 2s infinite; }
 
     /* sections appear as they are scrolled to (only when the script is running) */
@@ -430,8 +431,56 @@
     .js .strip figure:nth-child(2) { transition-delay: 0.25s; }
     .js .strip figure:nth-child(3) { transition-delay: 0.5s; }
 
-    .js .invite img { transform: scale(1.08); transition: transform 2.4s ease-out; }
-    .js .invite.is-in img { transform: none; }
+    /* photos open like a curtain, from the bottom, one after the other */
+    .js .strip .reveal {
+      opacity: 1;
+      transform: none;
+      clip-path: inset(100% 0 0 0);
+      transition: clip-path 1.2s cubic-bezier(0.7, 0, 0.2, 1);
+    }
+    .js .strip .reveal.is-in { clip-path: inset(0 0 0 0); }
+
+    /* calendar: the days appear one by one, then the 4 is circled */
+    .js .calendar td {
+      opacity: 0;
+      transform: scale(0.6);
+      transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+      transition-delay: calc(0.3s + var(--d, 0) * 0.025s);
+    }
+    .js .date.is-in .calendar td { opacity: 1; transform: none; }
+
+    .js .calendar .day-mark { color: var(--ink); transition: opacity 0.4s, transform 0.4s, color 0.3s ease 1.5s; }
+    .js .calendar .day-mark::before { transform: scale(0); transition: transform 0.7s cubic-bezier(0.3, 1.6, 0.5, 1) 1.4s; }
+    .js .date.is-in .calendar .day-mark { color: var(--paper); }
+    .js .date.is-in .calendar .day-mark::before { transform: scale(1); }
+
+    /* map: the river and the roads draw themselves, then the places appear */
+    .js .map .draw { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 2.4s cubic-bezier(0.6, 0, 0.3, 1); }
+    .js .map .draw.second { transition-delay: 0.5s; }
+    .js .map.is-in .draw { stroke-dashoffset: 0; }
+
+    .js .map .pop {
+      opacity: 0;
+      transform: translateY(8px);
+      transform-box: fill-box;
+      transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.3, 1.5, 0.5, 1);
+      transition-delay: calc(1.2s + var(--d, 0) * 0.18s);
+    }
+    .js .map.is-in .pop { opacity: 1; transform: none; }
+
+    .js .map text, .js .map .late { opacity: 0; transition: opacity 0.9s ease-out 2.2s; }
+    .js .map.is-in text, .js .map.is-in .late { opacity: 1; }
+
+    /* the invitation tightens into place */
+    .js .invite .invite-text {
+      opacity: 0;
+      letter-spacing: 0.14em;
+      transition: opacity 1.4s ease-out 0.3s, letter-spacing 2s cubic-bezier(0.2, 0.7, 0.2, 1) 0.3s;
+    }
+    .js .invite.is-in .invite-text { opacity: 1; letter-spacing: 0; }
+
+    /* room for the photos to move inside their frames while scrolling */
+    .js .strip img, .js .invite img { will-change: transform; }
   }
 
   @keyframes appear { from { opacity: 0; } to { opacity: 1; } }
@@ -502,7 +551,7 @@
     <h2 class="heading" id="place-heading">Château de Chambord</h2>
     <p class="address">41250 Chambord · Loir-et-Cher, Centre-Val de Loire</p>
 
-    <figure class="map">
+    <figure class="map watch">
       <svg viewBox="0 0 640 500" role="img" data-i18n-label="mapLabel"
            aria-label="Plan dessiné de la région : Paris au nord-est, la Loire, Blois, Chambord, Tours – Saint-Pierre-des-Corps et Angers">
         <defs>
@@ -519,22 +568,25 @@
 
         <g filter="url(#hand)">
           <!-- La Loire -->
-          <path id="loire" class="line" stroke-width="2.4"
+          <path id="loire" class="line draw" pathLength="1" stroke-width="2.4"
                 d="M640 336 C 600 326 545 296 498 300 C 468 304 452 322 438 338 C 420 358 408 374 396 388 C 372 410 340 424 300 436 C 258 448 216 458 176 464 C 136 468 98 452 58 440 C 38 434 18 434 0 436" />
           <!-- Autoroute A10, drawn as a two-line road -->
-          <path id="a10" class="line" stroke-width="13"
+          <path id="a10" class="line draw second" pathLength="1" stroke-width="13"
                 d="M566 76 C 546 160 512 240 492 290 C 474 322 446 340 422 352 C 398 364 372 376 352 390 C 334 402 318 410 306 414" />
-          <path class="line paper-line" stroke-width="9.4"
+          <path class="line paper-line draw second" pathLength="1" stroke-width="9.4"
                 d="M566 76 C 546 160 512 240 492 290 C 474 322 446 340 422 352 C 398 364 372 376 352 390 C 334 402 318 410 306 414" />
           <!-- TGV Paris – Saint-Pierre-des-Corps -->
-          <path id="tgv" class="line" stroke-width="1.6" stroke-dasharray="2 7"
+          <path id="tgv" class="line late" stroke-width="1.6" stroke-dasharray="2 7"
                 d="M556 64 C 470 150 400 230 360 300 C 335 345 315 380 300 400" />
 
           <!-- Paris: Eiffel tower -->
-          <path class="ink" d="M576 14 L578 30 L582 48 L590 72 L584 72 L579 60 L573 60 L568 72 L562 72 L570 48 L574 30 Z" />
-          <path class="line" stroke-width="1.6" d="M568 48 H584 M572 36 H580" />
+          <g class="pop" style="--d:0">
+            <path class="ink" d="M576 14 L578 30 L582 48 L590 72 L584 72 L579 60 L573 60 L568 72 L562 72 L570 48 L574 30 Z" />
+            <path class="line" stroke-width="1.6" d="M568 48 H584 M572 36 H580" />
+          </g>
 
           <!-- Chambord: the château, its towers and its lantern -->
+          <g class="pop" style="--d:3">
           <g class="ink">
             <rect x="410" y="386" width="62" height="20" />
             <rect x="402" y="380" width="13" height="26" />
@@ -554,23 +606,29 @@
             <rect x="448" y="392" width="3" height="6" /><rect x="456" y="392" width="3" height="6" />
             <rect x="464" y="392" width="3" height="6" />
           </g>
+          </g>
 
           <!-- forest of Chambord -->
-          <use href="#tree" x="488" y="396" width="12" height="22" />
-          <use href="#tree" x="500" y="412" width="12" height="22" />
-          <use href="#tree" x="486" y="424" width="12" height="22" />
-          <use href="#tree" x="388" y="416" width="12" height="22" />
-          <use href="#tree" x="404" y="428" width="12" height="22" />
-          <use href="#tree" x="476" y="440" width="12" height="22" />
+          <g class="pop" style="--d:4">
+            <use href="#tree" x="488" y="396" width="12" height="22" />
+            <use href="#tree" x="500" y="412" width="12" height="22" />
+            <use href="#tree" x="486" y="424" width="12" height="22" />
+            <use href="#tree" x="388" y="416" width="12" height="22" />
+            <use href="#tree" x="404" y="428" width="12" height="22" />
+            <use href="#tree" x="476" y="440" width="12" height="22" />
+          </g>
 
           <!-- Blois -->
-          <circle class="ink" cx="394" cy="384" r="3.6" />
+          <circle class="ink pop" style="--d:2" cx="394" cy="384" r="3.6" />
 
           <!-- Tours / Saint-Pierre-des-Corps: the station -->
-          <path class="ink" d="M272 418 V404 Q288 390 304 404 V418 Z" />
-          <path class="paper" d="M279 418 V408 h4 V418 Z M286 418 V405 h4 V418 Z M293 418 V408 h4 V418 Z" />
+          <g class="pop" style="--d:1">
+            <path class="ink" d="M272 418 V404 Q288 390 304 404 V418 Z" />
+            <path class="paper" d="M279 418 V408 h4 V418 Z M286 418 V405 h4 V418 Z M293 418 V408 h4 V418 Z" />
+          </g>
 
           <!-- Angers: the castle and its round towers -->
+          <g class="pop" style="--d:2">
           <g class="ink">
             <rect x="46" y="396" width="34" height="16" />
             <rect x="42" y="388" width="9" height="24" rx="3" />
@@ -578,9 +636,10 @@
             <rect x="74" y="388" width="9" height="24" rx="3" />
           </g>
           <path class="line paper-line" stroke-width="1.2" d="M42 396 H51 M58 396 H67 M74 396 H83 M42 404 H51 M58 404 H67 M74 404 H83" />
+          </g>
 
           <!-- north arrow -->
-          <path class="line" stroke-width="1.6" d="M612 478 V444 M606 452 L612 444 L618 452" />
+          <path class="line late" stroke-width="1.6" d="M612 478 V444 M606 452 L612 444 L618 452" />
         </g>
 
         <!-- labels, not wobbled so they stay crisp -->
@@ -712,20 +771,84 @@
     if (location.hash === '#en' || location.hash === '#fr') saved = location.hash.slice(1);
     setLang(saved || 'fr');
 
-    // Reveal sections as they come into view.
-    var items = document.querySelectorAll('.reveal');
-    if (!('IntersectionObserver' in window)) {
-      items.forEach(function (el) { el.classList.add('is-in'); });
-      return;
+    var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Calendar days appear in order.
+    document.querySelectorAll('.calendar td').forEach(function (td, i) { td.style.setProperty('--d', i); });
+
+    // Countdown counts up to the number of days.
+    var counted = false;
+    function countUp() {
+      if (counted || days <= 0) return;
+      counted = true;
+      if (still) return;
+      var prefix = count.textContent.replace(/\d+$/, '');
+      var start = null;
+      function step(ts) {
+        if (start === null) start = ts;
+        var p = Math.min((ts - start) / 1600, 1);
+        var eased = 1 - Math.pow(1 - p, 3);
+        count.textContent = prefix + Math.round(eased * days);
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
     }
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-in');
-          io.unobserve(entry.target);
-        }
+
+    // Reveal sections as they come into view.
+    var items = document.querySelectorAll('.reveal, .watch');
+    function show(el) {
+      el.classList.add('is-in');
+      if (el.classList.contains('closing')) countUp();
+    }
+    if (!('IntersectionObserver' in window)) {
+      items.forEach(show);
+    } else {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            show(entry.target);
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+      items.forEach(function (el) { io.observe(el); });
+    }
+
+    // While scrolling: the title drifts up and fades, photos move gently inside their frames.
+    if (still) return;
+    var opening = document.querySelector('.opening');
+    var heroParts = opening.querySelectorAll('.names, .title, .married');
+    var cue = opening.querySelector('.cue');
+    var floats = Array.prototype.map.call(document.querySelectorAll('.strip img, .invite img'), function (img, i) {
+      var isInvite = img.closest('.invite') !== null;
+      return { img: img, box: img.parentElement, amount: isInvite ? 70 : [26, 40, 26][i] };
+    });
+    var ticking = false;
+
+    function update() {
+      ticking = false;
+      var vh = window.innerHeight;
+      var y = window.scrollY;
+
+      var p = Math.min(y / (vh * 0.7), 1);
+      heroParts.forEach(function (el, i) {
+        el.style.transform = 'translateY(' + (-y * (0.18 + i * 0.08)) + 'px)';
+        el.style.opacity = String(1 - p);
       });
-    }, { threshold: 0.2 });
-    items.forEach(function (el) { io.observe(el); });
+      cue.style.opacity = String(1 - Math.min(y / 80, 1));
+
+      floats.forEach(function (f) {
+        var r = f.box.getBoundingClientRect();
+        if (r.bottom < -100 || r.top > vh + 100) return;
+        var progress = (r.top + r.height / 2 - vh / 2) / vh;   // -1 … 1 across the screen
+        f.img.style.transform = 'translateY(' + (progress * f.amount).toFixed(1) + 'px) scale(1.18)';
+      });
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
   })();
 </script>
