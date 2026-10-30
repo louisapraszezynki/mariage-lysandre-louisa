@@ -2,7 +2,7 @@
 <meta name="description" content="Save the date : Louisa &amp; Lysandre se marient le samedi 4 septembre 2027 au château de Chambord.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Architects+Daughter&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Gloock&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Architects+Daughter&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Gloock&family=Klee+One:wght@600&family=Shippori+Mincho:wght@500;600&display=swap">
 <style>
   /* Layout: a scrolling story. Title alone on the first screen, then photos, the date, the place (hand-drawn map), the invitation. */
   :root {
@@ -13,15 +13,20 @@
     --sage-dark: #4f5e47;
     --ink: #3f4c38;
 
-    --font-title: 'Gloock', 'Didot', Georgia, serif;
-    --font-text: 'Cormorant Garamond', Garamond, 'Times New Roman', serif;
-    --font-script: 'Alex Brush', 'Snell Roundhand', 'Apple Chancery', cursive;
-    --font-hand: 'Architects Daughter', 'Marker Felt', 'Comic Sans MS', cursive;
+    /* Japanese glyphs fall through to Shippori Mincho / Klee One (only downloaded when used) */
+    --font-title: 'Gloock', 'Didot', Georgia, 'Shippori Mincho', serif;
+    --font-text: 'Cormorant Garamond', Garamond, 'Times New Roman', 'Shippori Mincho', serif;
+    --font-script: 'Alex Brush', 'Snell Roundhand', 'Apple Chancery', 'Shippori Mincho', cursive;
+    --font-hand: 'Architects Daughter', 'Marker Felt', 'Comic Sans MS', 'Klee One', cursive;
 
     color-scheme: light;
   }
 
   * { box-sizing: border-box; }
+
+  /* phones: nothing may push the page sideways (the calendar slides in from the right, for instance).
+     iOS only honours this when it is on html too; clip where supported, hidden as a fallback. */
+  html, body { overflow-x: hidden; overflow-x: clip; }
 
   html { scroll-behavior: smooth; }
 
@@ -33,7 +38,6 @@
     font-size: 19px;
     line-height: 1.5;
     padding-inline: 16px;
-    overflow-x: hidden;
   }
 
   main {
@@ -80,7 +84,12 @@
     color: var(--sage-dark);
   }
 
-  .names { color: var(--sage-dark); }
+  .opening .names {
+    font-size: clamp(20px, 4.6vw, 30px);
+    letter-spacing: 0.24em;
+    padding-left: 0.24em;
+    color: var(--sage-dark);
+  }
 
   .title {
     margin: 0;
@@ -94,10 +103,10 @@
 
   .married {
     margin: 0;
-    font-style: italic;
-    font-weight: 500;
-    font-size: clamp(1.5rem, 5vw, 2.2rem);
-    line-height: 1.2;
+    font-family: var(--font-script);
+    font-weight: 400;
+    font-size: clamp(2.4rem, 8vw, 3.6rem);
+    line-height: 1.1;
     color: var(--sage-dark);
   }
 
@@ -187,6 +196,13 @@
 
   .date-text .eyebrow { padding-left: 0; }
 
+  .weekend {
+    margin: 4px 0 0;
+    font-size: 21px;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+
   .calendar {
     margin: 0;
     padding: 22px 20px 18px;
@@ -246,6 +262,21 @@
     background: var(--sage-dark);
   }
 
+  /* Friday and Sunday: the rest of the weekend, circled lightly */
+  .calendar .day-weekend { position: relative; font-weight: 600; }
+
+  .calendar .day-weekend::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 30px;
+    height: 30px;
+    margin: -15px 0 0 -15px;
+    border: 1.5px solid var(--sage);
+    border-radius: 50%;
+  }
+
   /* ---------- 4. the place ---------- */
 
   .place {
@@ -267,6 +298,7 @@
     background: var(--paper);
     border: 1px solid var(--sage-pale);
     overflow-x: auto;
+    overscroll-behavior-x: contain;   /* sliding the map never drags the page */
   }
 
   .map svg {
@@ -336,17 +368,31 @@
     background: rgba(248, 248, 243, 0.62);
   }
 
-  .invite-text {
+  .invite-copy {
     position: relative;
     z-index: 2;
-    margin: 0;
     padding: 24px;
+    text-align: center;
+  }
+
+  .invite-text {
+    margin: 0;
     font-family: var(--font-script);
     font-weight: 400;
     font-size: clamp(3.4rem, 13vw, 7.5rem);
     line-height: 1.05;
     color: var(--sage-dark);
     text-align: center;
+  }
+
+  .invite-follow {
+    margin: 18px 0 0;
+    font-size: clamp(16px, 2.6vw, 21px);
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    padding-left: 0.32em;
+    color: var(--sage-dark);
   }
 
   /* ---------- closing ---------- */
@@ -370,7 +416,6 @@
   }
 
   .countdown-label { font-style: italic; font-size: 19px; }
-  .closing .eyebrow { margin-top: 26px; color: var(--sage-dark); }
 
   /* ---------- language switch ---------- */
 
@@ -401,6 +446,14 @@
 
   .lang button[aria-pressed="true"] { background: var(--sage-dark); color: var(--paper); }
   .lang button:focus-visible { outline: 2px solid var(--sage-dark); outline-offset: 2px; }
+
+  /* Japanese: the script sizes are made for short Latin words, so bring them down */
+  :lang(ja) .married { font-size: clamp(1.6rem, 5vw, 2.4rem); }
+  :lang(ja) .strip-title { font-size: clamp(1.3rem, 3.8vw, 2rem); }
+  :lang(ja) .invite-text { font-size: clamp(2rem, 6.5vw, 3.8rem); }
+  :lang(ja) .invite-follow { letter-spacing: 0.16em; }
+  :lang(ja) .heading { font-size: clamp(1.8rem, 5.6vw, 2.8rem); }
+  :lang(ja) .map .label-note { font-size: 14px; letter-spacing: 0; }
 
   @media (max-width: 700px) {
     .date { grid-template-columns: minmax(0, 1fr); }
@@ -499,6 +552,10 @@
     }
     .js .invite.is-in .invite-text { opacity: 1; letter-spacing: 0; }
 
+    /* then the note about the invitation */
+    .js .invite .invite-follow { opacity: 0; transition: opacity 0.5s ease-out 0.9s; }
+    .js .invite.is-in .invite-follow { opacity: 1; }
+
     /* room for the photos to move inside their frames while scrolling */
     .js .strip img, .js .invite img { will-change: transform; }
   }
@@ -523,6 +580,7 @@
 <div class="lang" role="group" aria-label="Langue / Language">
   <button type="button" data-lang="fr" aria-pressed="true">FR</button>
   <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  <button type="button" data-lang="ja" aria-pressed="false" lang="ja">日本語</button>
 </div>
 
 <main>
@@ -540,14 +598,15 @@
     <figure><img src="img/genou.jpg" width="1100" height="760" data-i18n-alt="alt1" alt="Lysandre fait sa demande à genou sur un toit de Paris"></figure>
     <figure><img src="img/genou-calin.jpg" width="1100" height="760" data-i18n-alt="alt2" alt="Louisa se penche pour l'embrasser"></figure>
     <figure><img src="img/debout.jpg" width="1100" height="760" data-i18n-alt="alt3" alt="Louisa et Lysandre enlacés sur le toit"></figure>
-    <p class="strip-title strip-after" data-i18n="planned">notre mariage est prévu en 2027&nbsp;:</p>
+    <p class="strip-title strip-after" data-i18n="planned">nous fêtons notre mariage en 2027&nbsp;:</p>
   </section>
 
   <!-- 3 -->
   <section class="date watch" aria-labelledby="date-heading">
     <div class="date-text">
       <p class="eyebrow st" data-i18n="dateEyebrow">La date</p>
-      <h2 class="heading st" id="date-heading" data-i18n="dateHeading">le samedi 4 Septembre 2027</h2>
+      <h2 class="heading st" id="date-heading" data-i18n="dateHeading">le samedi 4 septembre 2027</h2>
+      <p class="weekend st" data-i18n="weekend">Nous vous attendons dès le vendredi 3 au soir, et jusqu'au dimanche 5 midi.</p>
     </div>
 
     <figure class="calendar st">
@@ -557,7 +616,7 @@
           <tr id="weekdays"><th>L</th><th>M</th><th>M</th><th>J</th><th>V</th><th>S</th><th>D</th></tr>
         </thead>
         <tbody>
-          <tr><td></td><td></td><td>1</td><td>2</td><td>3</td><td class="day-mark"><span>4</span></td><td>5</td></tr>
+          <tr><td></td><td></td><td>1</td><td>2</td><td class="day-weekend">3</td><td class="day-mark"><span>4</span></td><td class="day-weekend">5</td></tr>
           <tr><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td></tr>
           <tr><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td></tr>
           <tr><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td></tr>
@@ -574,8 +633,8 @@
     <p class="address st">41250 Chambord · Loir-et-Cher, Centre-Val de Loire</p>
 
     <figure class="map watch st">
-      <svg viewBox="0 0 640 512" role="img" data-i18n-label="mapLabel"
-           aria-label="Plan de la région : l'A10 relie Paris à Orléans, Blois et Tours en passant au nord de Chambord ; l'A85 relie Angers à Tours">
+      <svg viewBox="0 0 640 680" role="img" data-i18n-label="mapLabel"
+           aria-label="Plan de la région : l'A10 relie Paris à Orléans, Blois, Tours et Poitiers en passant au nord de Chambord ; l'A85 relie Angers à Tours">
         <defs>
           <!-- slight wobble so the lines look drawn by hand -->
           <filter id="hand" x="-5%" y="-5%" width="110%" height="110%">
@@ -594,11 +653,11 @@
           <path id="loire" class="line river draw" stroke-width="2.6"
                 d="M0 452 C 30 452 50 458 65 456 C 95 470 125 496 151 500 C 180 496 210 490 239 483 C 260 476 278 465 292 461 C 312 459 330 460 345 458 C 370 440 395 422 410 410 C 422 402 434 396 442 389 C 450 375 456 362 464 355 C 482 338 500 324 516 321 C 530 322 542 328 554 333 C 590 350 620 368 648 381" />
 
-          <!-- A10: Paris → Orléans → Mer → Blois → Tours, drawn as a two-line road -->
+          <!-- A10: Paris → Orléans → Mer → Blois → Tours → Poitiers, drawn as a two-line road -->
           <path class="line draw" stroke-width="8"
-                d="M591 71 L582 94 L534 159 L510 272 L508 308 L477 342 L442 377 L408 403 L345 448 L298 453 L292 466 L284 500" />
+                d="M591 71 L582 94 L534 159 L510 272 L508 308 L477 342 L442 377 L408 403 L345 448 L298 453 L292 466 L284 500 L276 548 L262 596 L246 650" />
           <path class="line paper-line draw" stroke-width="4.4"
-                d="M591 71 L582 94 L534 159 L510 272 L508 308 L477 342 L442 377 L408 403 L345 448 L298 453 L292 466 L284 500" />
+                d="M591 71 L582 94 L534 159 L510 272 L508 308 L477 342 L442 377 L408 403 L345 448 L298 453 L292 466 L284 500 L276 548 L262 596 L246 650" />
           <!-- A85: Angers → Tours -->
           <path class="line draw second" stroke-width="8"
                 d="M70 440 L94 425 L148 467 L156 484 L197 492 L239 482 L286 474 L292 466" />
@@ -614,6 +673,17 @@
           <!-- Orléans and Blois: simple dots -->
           <circle class="ink pop" style="--d:1" cx="518" cy="321" r="3.6" />
           <circle class="ink pop" style="--d:2" cx="410" cy="410" r="3.6" />
+
+          <!-- Poitiers, at the end of the A10: a big tree, filled like the other town icons -->
+          <g class="pop" style="--d:3">
+            <g class="ink">
+              <circle cx="224" cy="635" r="9.5" />
+              <circle cx="216.5" cy="643" r="7.5" />
+              <circle cx="231.5" cy="643" r="7.5" />
+              <rect x="222" y="645" width="4" height="16" />
+            </g>
+            <path class="line paper-line" stroke-width="1.2" d="M224 652 V638 M224 645 L218.5 640 M224 642 L229 637.5" />
+          </g>
 
           <!-- Chambord: the château, its towers and its lantern -->
           <g class="pop" style="--d:3">
@@ -676,10 +746,12 @@
           <text class="label label-note" x="24" y="130" data-i18n="car3">Depuis Tours ou Angers :</text>
           <text class="label label-note" x="24" y="150" data-i18n="car4">A85 puis A10, sortie Blois</text>
           <text class="label label-note label-soft" x="24" y="170" data-i18n="car5">environ 1 h depuis Tours, 2 h 15 depuis Angers</text>
+          <text class="label label-note" x="24" y="200" data-i18n="car6">Depuis Poitiers : A10, sortie Blois</text>
+          <text class="label label-note label-soft" x="24" y="220" data-i18n="car7">environ 2 h</text>
         </g>
 
         <!-- by train: same, just below -->
-        <g class="late car-note">
+        <g class="late car-note" transform="translate(0 50)">
           <g transform="translate(24 206)" filter="url(#hand)">
             <path class="line" stroke-width="1.8" d="M6 22 V9 Q6 4 11 4 H40 Q49 4 52 13 L53 22 Z" />
             <path class="line" stroke-width="1.4" d="M12 9 H20 V14 H12 Z M25 9 H33 V14 H25 Z M38 9 H44 L47 14 H38 Z" />
@@ -700,6 +772,8 @@
           <text class="label label-tag" x="555" y="215" text-anchor="middle">A10</text>
           <rect class="shield" x="112" y="398" width="38" height="20" rx="4" />
           <text class="label label-tag" x="131" y="413" text-anchor="middle">A85</text>
+          <rect class="shield" x="216" y="566" width="38" height="20" rx="4" />
+          <text class="label label-tag" x="235" y="581" text-anchor="middle">A10</text>
         </g>
 
         <!-- labels, not wobbled so they stay crisp -->
@@ -710,6 +784,7 @@
         <text class="label" x="340" y="482">TOURS</text>
         <text class="label label-small" x="340" y="497">ST-PIERRE-DES-CORPS</text>
         <text class="label" x="59" y="410" text-anchor="middle">ANGERS</text>
+        <text class="label" x="260" y="660">POITIERS</text>
         <text class="label label-small" x="612" y="504" text-anchor="middle">N</text>
         <text class="label label-river" dy="-7"><textPath href="#loire" startOffset="21%" data-i18n="mapLoire">LA LOIRE</textPath></text>
       </svg>
@@ -719,13 +794,15 @@
   <!-- 5 -->
   <section class="invite reveal" aria-labelledby="invite-text">
     <img src="img/bague.jpg" width="831" height="1800" alt="">
-    <h2 class="invite-text" id="invite-text" data-i18n="script">Soyez des nôtres !</h2>
+    <div class="invite-copy">
+      <h2 class="invite-text" id="invite-text" data-i18n="script">Soyez des nôtres&nbsp;!</h2>
+      <p class="invite-follow" data-i18n="follow">Faire-part à venir</p>
+    </div>
   </section>
 
   <footer class="closing reveal">
     <p class="countdown" id="countdown">J − 325</p>
     <p class="countdown-label" id="countdown-label" data-i18n="left">avant le grand jour</p>
-    <p class="eyebrow" data-i18n="follow">Faire-part à suivre</p>
   </footer>
 </main>
 
@@ -738,27 +815,30 @@
         cue: 'Défiler vers la suite',
         saidYes: 'Après nos fiançailles sur les toits de Paris,',
         dateEyebrow: 'La date',
-        dateHeading: 'le samedi 4 Septembre 2027',
-        planned: 'notre mariage est prévu en 2027\u00a0:',
+        dateHeading: 'le samedi 4 septembre 2027',
+        planned: 'nous fêtons notre mariage en 2027\u00a0:',
+        weekend: "Nous vous attendons dès le vendredi 3 au soir, et jusqu'au dimanche 5 midi.",
         placeHeading: 'au Château de Chambord',
         month: 'Septembre 2027',
         weekdays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
         placeEyebrow: 'Le lieu',
         mapLoire: 'LA LOIRE',
-        mapLabel: "Plan de la région, avec la Loire : l'A10 relie Paris à Orléans, Blois et Tours en passant au nord de Chambord ; l'A85 relie Angers à Tours",
+        mapLabel: "Plan de la région, avec la Loire : l'A10 relie Paris à Orléans, Blois, Tours et Poitiers en passant au nord de Chambord ; l'A85 relie Angers à Tours",
         carTitle: 'EN VOITURE',
         car1: 'Depuis Paris\u00a0: A10, sortie Mer',
         car2: 'environ 2\u00a0h',
         car3: 'Depuis Tours ou Angers\u00a0:',
         car4: 'A85 puis A10, sortie Blois',
         car5: 'environ 1\u00a0h depuis Tours, 2\u00a0h\u00a015 depuis Angers',
+        car6: 'Depuis Poitiers\u00a0: A10, sortie Blois',
+        car7: 'environ 2\u00a0h',
         trainTitle: 'EN TRAIN',
         train1: 'Paris-Austerlitz → Blois-Chambord',
         train2: 'environ 1\u00a0h\u00a025 de train',
         train3: 'puis 30\u00a0min en voiture',
-        script: 'Soyez des nôtres !',
+        script: 'Soyez des nôtres\u00a0!',
         left: 'avant le grand jour',
-        follow: 'Faire-part à suivre',
+        follow: 'Faire-part à venir',
         countPrefix: 'J − ',
         alt1: 'Lysandre fait sa demande à genou sur un toit de Paris',
         alt2: "Louisa se penche pour l'embrasser",
@@ -770,19 +850,22 @@
         saidYes: 'After getting engaged on the rooftops of Paris,',
         dateEyebrow: 'The date',
         dateHeading: 'on Saturday, September 4, 2027',
-        planned: 'our wedding will take place in 2027:',
+        planned: 'we are celebrating our wedding in 2027:',
+        weekend: 'We look forward to welcoming you from Friday the 3rd in the evening until Sunday the 5th at lunchtime.',
         placeHeading: 'at the Château de Chambord',
         month: 'September 2027',
         weekdays: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
         placeEyebrow: 'The place',
         mapLoire: 'THE LOIRE',
-        mapLabel: 'Map of the region, with the Loire: the A10 runs from Paris through Orléans, Blois and Tours, just north of Chambord; the A85 links Angers to Tours',
+        mapLabel: 'Map of the region, with the Loire: the A10 runs from Paris through Orléans, Blois, Tours and Poitiers, just north of Chambord; the A85 links Angers to Tours',
         carTitle: 'BY CAR',
         car1: 'From Paris: A10, exit Mer',
         car2: 'about 2 hours',
         car3: 'From Tours or Angers:',
         car4: 'A85 then A10, exit Blois',
         car5: 'about 1 hour from Tours, 2 h 15 from Angers',
+        car6: 'From Poitiers: A10, exit Blois',
+        car7: 'about 2 hours',
         trainTitle: 'BY TRAIN',
         train1: 'Paris Austerlitz → Blois-Chambord',
         train2: 'about 1 h 25 by train',
@@ -794,6 +877,41 @@
         alt1: 'Lysandre proposing on one knee on a Paris rooftop',
         alt2: 'Louisa leaning down to kiss him',
         alt3: 'Louisa and Lysandre embracing on the rooftop'
+      },
+      ja: {
+        married: '結婚します！',
+        cue: '下へスクロール',
+        saidYes: 'パリの屋根の上で婚約した私たちは、',
+        dateEyebrow: '日程',
+        dateHeading: '2027年9月4日（土）',
+        planned: '2027年に結婚式を挙げます：',
+        weekend: '9月3日（金）の夜から9月5日（日）のお昼まで、皆さまをお待ちしております。',
+        placeHeading: 'シャンボール城にて',
+        month: '2027年9月',
+        weekdays: ['月', '火', '水', '木', '金', '土', '日'],
+        placeEyebrow: '会場',
+        mapLoire: 'ロワール川',
+        mapLabel: '地域の地図（ロワール川沿い）：A10号線はパリからオルレアン、ブロワ、トゥール、ポワティエを結び、シャンボールの北を通ります。A85号線はアンジェとトゥールを結びます。',
+        carTitle: '車で',
+        car1: 'パリから：A10号線、Mer出口',
+        car2: '約2時間',
+        car3: 'トゥール・アンジェから：',
+        car4: 'A85号線からA10号線へ、Blois出口',
+        car5: 'トゥールから約1時間、アンジェから約2時間15分',
+        car6: 'ポワティエから：A10号線、Blois出口',
+        car7: '約2時間',
+        trainTitle: '電車で',
+        train1: 'パリ・オステルリッツ駅 → ブロワ＝シャンボール駅',
+        train2: '電車で約1時間25分',
+        train3: '駅から車で約30分',
+        script: 'ぜひお越しください',
+        left: '結婚式当日まで',
+        follow: '招待状は後日お送りします',
+        countPrefix: 'あと ',
+        countSuffix: ' 日',
+        alt1: 'パリの屋上で片膝をついてプロポーズするLysandre',
+        alt2: 'Lysandreにキスをしようと身をかがめるLouisa',
+        alt3: '屋上で抱き合うLouisaとLysandre'
       }
     };
 
@@ -810,6 +928,7 @@
     var wedding = new Date(2027, 8, 4);
     var now = new Date();
     var days = Math.round((wedding - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 86400000);
+    var current = text.fr;
     var count = document.getElementById('countdown');
     var countLabel = document.getElementById('countdown-label');
     if (days <= 0) { count.hidden = true; countLabel.hidden = true; }
@@ -822,7 +941,8 @@
       document.querySelectorAll('[data-i18n-alt]').forEach(function (el) { el.alt = t[el.dataset.i18nAlt]; });
       document.querySelectorAll('[data-i18n-label]').forEach(function (el) { el.setAttribute('aria-label', t[el.dataset.i18nLabel]); });
       document.querySelectorAll('#weekdays th').forEach(function (th, i) { th.textContent = t.weekdays[i]; });
-      if (days > 0) count.textContent = t.countPrefix + days;
+      current = t;
+      if (days > 0) count.textContent = t.countPrefix + days + (t.countSuffix || '');
       document.querySelectorAll('.lang button').forEach(function (b) {
         b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
       });
@@ -835,7 +955,7 @@
 
     var saved = null;
     try { saved = localStorage.getItem('std-lang'); } catch (e) {}
-    if (location.hash === '#en' || location.hash === '#fr') saved = location.hash.slice(1);
+    if (/^#(fr|en|ja)$/.test(location.hash)) saved = location.hash.slice(1);
     setLang(saved || 'fr');
 
     var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -849,13 +969,12 @@
       if (counted || days <= 0) return;
       counted = true;
       if (still) return;
-      var prefix = count.textContent.replace(/\d+$/, '');
       var start = null;
       function step(ts) {
         if (start === null) start = ts;
         var p = Math.min((ts - start) / 1600, 1);
         var eased = 1 - Math.pow(1 - p, 3);
-        count.textContent = prefix + Math.round(eased * days);
+        count.textContent = current.countPrefix + Math.round(eased * days) + (current.countSuffix || '');
         if (p < 1) requestAnimationFrame(step);
       }
       requestAnimationFrame(step);
@@ -901,7 +1020,8 @@
       watched.forEach(function (el) {
         var r = el.getBoundingClientRect();
         var shown = el.classList.contains('is-in');
-        if (!shown && r.top < vh * 0.82 && r.bottom > vh * 0.18) show(el);
+        // fully on screen also counts: the short footer at the very bottom may never reach 82 %
+        if (!shown && (r.top < vh * 0.82 || r.bottom <= vh) && r.bottom > vh * 0.18) show(el);
         else if (shown && !still && (r.bottom < 0 || r.top > vh)) reset(el);
       });
     }
