@@ -3,16 +3,9 @@ from decimal import Decimal, InvalidOperation
 
 from flask import Blueprint, redirect, render_template, request, url_for
 
-from auth import current_email
 from models import CategorieBudget, LigneBudget, Paiement, db
 
 bp = Blueprint("budget", __name__, url_prefix="/budget")
-
-
-@bp.before_request
-def exiger_connexion():
-    if not current_email():
-        return redirect(url_for("home"))
 
 
 def _decimal_ou_none(valeur):

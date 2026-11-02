@@ -1,15 +1,8 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 
-from auth import current_email
 from models import Prestataire, db
 
 bp = Blueprint("prestataires", __name__, url_prefix="/prestataires")
-
-
-@bp.before_request
-def exiger_connexion():
-    if not current_email():
-        return redirect(url_for("home"))
 
 
 @bp.route("/")

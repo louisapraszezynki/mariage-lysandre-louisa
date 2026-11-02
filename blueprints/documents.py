@@ -12,18 +12,11 @@ from flask import (
 )
 from werkzeug.utils import secure_filename
 
-from auth import current_email
 from models import Document, Prestataire, db
 
 bp = Blueprint("documents", __name__, url_prefix="/documents")
 
 EXTENSIONS_AUTORISEES = {"pdf", "jpg", "jpeg", "png", "docx", "xlsx"}
-
-
-@bp.before_request
-def exiger_connexion():
-    if not current_email():
-        return redirect(url_for("home"))
 
 
 def extension_autorisee(nom_fichier):

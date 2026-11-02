@@ -26,20 +26,15 @@ ne sont volontairement pas dans le dépôt.
 
 ## Application d'organisation
 
-Application Flask (`app.py`, `blueprints/`, `templates/`), protégée par une
-connexion Google et réservée aux adresses listées dans `ALLOWED_EMAILS`.
+Application Flask (`app.py`, `blueprints/`, `templates/`), sans connexion :
+elle tourne sur votre ordinateur et n'est accessible que depuis celui-ci.
 
-Pour la lancer en local :
+Pour la lancer :
 
 ```sh
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-
-export FLASK_SECRET_KEY=...        # une longue chaîne au hasard
-export GOOGLE_CLIENT_ID=...
-export GOOGLE_CLIENT_SECRET=...
-export ALLOWED_EMAILS=a@exemple.com,b@exemple.com
 
 python app.py                      # puis http://localhost:7860
 ```
