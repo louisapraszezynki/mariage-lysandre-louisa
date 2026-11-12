@@ -1,0 +1,1513 @@
+<title>Louisa &amp; Lysandre</title>
+<meta name="description" content="Save the date : Louisa &amp; Lysandre se marient le samedi 4 septembre 2027 au château de Chambord.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Architects+Daughter&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Gloock&family=Klee+One:wght@600&family=Shippori+Mincho:wght@500;600&display=swap">
+<style>
+  /* Layout: a scrolling story. Title alone on the first screen, then photos, the date, the place (hand-drawn map), the invitation. */
+  :root {
+    --paper: #f8f8f3;          /* white */
+    --sage-pale: #e6eadf;
+    --sage: #8a9a7e;
+    --sage-deep: #b4c0a6;
+    --sage-dark: #4f5e47;
+    --ink: #3f4c38;
+
+    /* Japanese glyphs fall through to Shippori Mincho / Klee One (only downloaded when used) */
+    --font-title: 'Gloock', 'Didot', Georgia, 'Shippori Mincho', serif;
+    --font-text: 'Cormorant Garamond', Garamond, 'Times New Roman', 'Shippori Mincho', serif;
+    --font-script: 'Alex Brush', 'Snell Roundhand', 'Apple Chancery', 'Shippori Mincho', cursive;
+    --font-hand: 'Architects Daughter', 'Marker Felt', 'Comic Sans MS', 'Klee One', cursive;
+
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+
+  /* phones: nothing may push the page sideways (the calendar slides in from the right, for instance).
+     iOS only honours this when it is on html too; clip where supported, hidden as a fallback. */
+  html, body { overflow-x: hidden; overflow-x: clip; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-text);
+    font-size: 19px;
+    line-height: 1.5;
+    padding-inline: 16px;
+  }
+
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(88px, 16vw, 160px);
+    padding-block: 0 64px;
+  }
+
+  main > * { width: 100%; }
+
+  .eyebrow {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    padding-left: 0.32em;
+    color: var(--sage);
+  }
+
+  .heading {
+    margin: 0;
+    font-family: var(--font-title);
+    font-weight: 400;
+    font-size: clamp(2.2rem, 7vw, 3.4rem);
+    line-height: 1.08;
+    color: var(--sage-dark);
+    text-wrap: balance;
+  }
+
+  /* ---------- 1. title, alone on the first screen ---------- */
+
+  .opening {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    text-align: center;
+    color: var(--sage-dark);
+  }
+
+  .opening .names {
+    font-size: clamp(20px, 4.6vw, 30px);
+    letter-spacing: 0.24em;
+    padding-left: 0.24em;
+    color: var(--sage-dark);
+  }
+
+  .title {
+    margin: 0;
+    font-family: var(--font-title);
+    font-weight: 400;
+    font-size: clamp(3.4rem, 15vw, 8rem);
+    line-height: 0.95;
+    letter-spacing: 0.01em;
+    color: var(--sage-dark);
+  }
+
+  .married {
+    margin: 0;
+    font-family: var(--font-script);
+    font-weight: 400;
+    font-size: clamp(2.4rem, 8vw, 3.6rem);
+    line-height: 1.1;
+    color: var(--sage-dark);
+  }
+
+  .title .word { display: inline-block; white-space: nowrap; }
+  .title .ch { display: inline-block; }
+
+  /* a thin line that keeps drawing downwards: scroll */
+  .cue {
+    position: absolute;
+    left: 50%;
+    bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+    width: 1px;
+    height: 56px;
+    margin-left: -0.5px;
+    overflow: hidden;
+    background: var(--sage-pale);
+  }
+
+  .cue::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: var(--sage-dark);
+    transform-origin: top;
+  }
+
+  .cue:focus-visible { outline: 2px solid var(--sage-dark); outline-offset: 6px; }
+
+  /* ---------- 2. three photos, side by side ---------- */
+
+  .strip {
+    max-width: 1040px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(8px, 2vw, 18px);
+    scroll-margin-top: 40px;
+  }
+
+  .strip-title {
+    grid-column: 1 / -1;
+    margin: 0 0 clamp(12px, 3vw, 28px);
+    font-family: var(--font-script);
+    font-weight: 400;
+    font-size: clamp(2.1rem, 6.2vw, 3.4rem);
+    line-height: 1.15;
+    text-align: center;
+    text-wrap: balance;
+    color: var(--sage-dark);
+  }
+
+  .strip-after { margin: clamp(28px, 6vw, 56px) 0 0; }
+
+  .strip figure {
+    margin: 0;
+    overflow: hidden;
+    background: var(--sage-pale);
+    aspect-ratio: 3 / 4;
+  }
+
+  .strip img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 48% 50%;
+  }
+
+  /* ---------- 3. the date ---------- */
+
+  .date {
+    max-width: 860px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 320px);
+    align-items: center;
+    gap: clamp(32px, 7vw, 80px);
+  }
+
+  .date-text {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .date-text .eyebrow { padding-left: 0; }
+
+  .weekend {
+    margin: 4px 0 0;
+    font-size: 21px;
+    line-height: 1.45;
+    white-space: pre-line;   /* the texts are written in two paragraphs */
+    color: var(--ink);
+  }
+
+  .calendar {
+    margin: 0;
+    padding: 22px 20px 18px;
+    background: var(--sage-pale);
+    color: var(--sage-dark);
+  }
+
+  .calendar figcaption {
+    margin-bottom: 12px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    padding-left: 0.26em;
+  }
+
+  .calendar table {
+    width: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: lining-nums tabular-nums;
+    font-size: 17px;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .calendar th {
+    padding-bottom: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--sage);
+  }
+
+  .calendar td { height: 34px; }
+
+  .calendar .day-mark {
+    position: relative;
+    font-weight: 600;
+    color: var(--paper);
+  }
+
+  .calendar .day-mark span {
+    position: relative;
+    z-index: 1;
+  }
+
+  .calendar .day-mark::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 32px;
+    height: 32px;
+    margin: -16px 0 0 -16px;
+    border-radius: 50%;
+    background: var(--sage-dark);
+  }
+
+  /* Friday dinner: a fold-out list of restaurants, under the date and the calendar */
+  .dinner {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--sage-pale);
+    border-bottom: 1px solid var(--sage-pale);
+    font-size: 17px;
+  }
+
+  .dinner summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 0;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    line-height: 1.3;
+    color: var(--sage-dark);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .dinner summary::-webkit-details-marker { display: none; }
+
+  .dinner summary::after {
+    content: "+";
+    flex-shrink: 0;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1;
+    transition: transform 0.3s ease;
+  }
+
+  .dinner[open] summary::after { transform: rotate(45deg); }
+  .dinner summary:focus-visible { outline: 2px solid var(--sage-dark); outline-offset: 4px; }
+
+  .dinner-intro { margin: 4px 0 18px; }
+
+  .restaurants {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+    gap: 18px 32px;
+    margin: 0;
+    padding: 0 0 20px;
+    list-style: none;
+  }
+
+  /* where to stay: a little bigger, and further from the map */
+  .stay { margin-top: 36px; }
+  .stay summary { padding: 16px 0; font-size: 19px; font-weight: 700; }
+  .stay summary::after { font-size: 28px; }
+
+  .stay-note { font-style: italic; color: var(--sage-dark); }
+
+  .stay-group {
+    margin: 6px 0 14px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sage);
+  }
+
+  .restaurants h3, .restaurants h4 {
+    margin: 0;
+    font-family: var(--font-title);
+    font-weight: 400;
+    font-size: 1.1rem;
+    line-height: 1.2;
+    color: var(--sage-dark);
+  }
+
+  .restaurants p { margin: 2px 0 0; line-height: 1.4; }
+  .resto-town { font-style: italic; color: var(--sage); }
+  .resto-info { font-size: 14px; font-weight: 600; color: var(--sage-dark); }
+
+  .restaurants .resto-links { margin-top: 4px; color: var(--sage); }
+
+  .restaurants a {
+    color: var(--ink);
+    text-decoration: none;
+    font-variant-numeric: lining-nums;
+    border-bottom: 1px solid var(--sage-deep);
+  }
+
+  .restaurants a:focus-visible { outline: 2px solid var(--sage-dark); outline-offset: 3px; }
+
+  /* Friday and Sunday: the rest of the weekend, circled lightly */
+  .calendar .day-weekend { position: relative; font-weight: 600; }
+
+  .calendar .day-weekend::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 30px;
+    height: 30px;
+    margin: -15px 0 0 -15px;
+    border: 1.5px solid var(--sage);
+    border-radius: 50%;
+  }
+
+  /* ---------- 4. the place ---------- */
+
+  .place {
+    max-width: 860px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .address {
+    margin: 0;
+    font-size: 20px;
+    color: var(--ink);
+  }
+
+  .map {
+    margin: 18px 0 0;
+    padding: clamp(8px, 2vw, 20px);
+    background: var(--paper);
+    border: 1px solid var(--sage-pale);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;   /* sliding the map never drags the page */
+  }
+
+  .map svg {
+    display: block;
+    width: 100%;
+    min-width: 520px;
+    height: auto;
+    color: var(--sage-dark);
+  }
+
+  .map .label {
+    font-family: var(--font-hand);
+    font-size: 15px;
+    letter-spacing: 0.16em;
+    fill: currentColor;
+  }
+
+  .map .label-big { font-size: 19px; letter-spacing: 0.2em; }
+  .map .label-tag { font-size: 12px; letter-spacing: 0.08em; }
+  .map .shield { fill: var(--paper); stroke: currentColor; stroke-width: 1.4; }
+  .map .label-small { font-size: 12px; letter-spacing: 0.14em; fill: var(--sage); }
+
+  .map .line {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .map .line.river { stroke: var(--sage); }
+  .map .label-note { font-size: 15px; letter-spacing: 0.03em; }
+  .map .label-soft { fill: var(--sage); }
+  .map .label-river { font-size: 12px; letter-spacing: 0.3em; fill: var(--sage); }
+  .map .line.paper-line { stroke: var(--paper); }
+  .map .ink { fill: currentColor; }
+  .map .paper { fill: var(--paper); }
+
+
+  /* ---------- 5. the invitation, over the last photo ---------- */
+
+  .invite {
+    position: relative;
+    max-width: 1040px;
+    min-height: clamp(420px, 70vh, 680px);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: var(--sage-pale);
+  }
+
+  .invite img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 51%;   /* faces and the Eiffel tower in the upper part */
+  }
+
+  /* the photo stays in the background: a white veil, the text carries the section */
+  .invite::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: rgba(248, 248, 243, 0.62);
+  }
+
+  .invite-copy {
+    position: relative;
+    z-index: 2;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .invite-text {
+    margin: 0;
+    font-family: var(--font-script);
+    font-weight: 400;
+    font-size: clamp(3.4rem, 13vw, 7.5rem);
+    line-height: 1.05;
+    color: var(--sage-dark);
+    text-align: center;
+  }
+
+  .invite-follow {
+    margin: 18px 0 0;
+    font-size: clamp(16px, 2.6vw, 21px);
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    padding-left: 0.32em;
+    color: var(--sage-dark);
+  }
+
+  /* ---------- closing ---------- */
+
+  .closing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+    color: var(--sage-dark);
+  }
+
+  .closing p { margin: 0; }
+
+  .countdown {
+    font-family: var(--font-title);
+    font-size: clamp(2rem, 7vw, 2.8rem);
+    line-height: 1.1;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+
+  .countdown-label { font-style: italic; font-size: 19px; }
+
+  /* ---------- the monograms: the simple one on top, the illustrated one at the end ---------- */
+
+  .logo { display: block; height: auto; color: var(--sage-dark); }
+  .logo-top { width: clamp(96px, 24vw, 150px); }
+  .logo-bottom { width: clamp(150px, 38vw, 220px); margin-top: 44px; }
+
+  /* ---------- language switch ---------- */
+
+  .lang {
+    position: fixed;
+    top: calc(14px + env(safe-area-inset-top, 0px));
+    right: 16px;
+    z-index: 5;
+    display: flex;
+    padding: 3px;
+    border: 1px solid var(--sage);
+    border-radius: 999px;
+    background: var(--paper);
+  }
+
+  .lang button {
+    padding: 5px 12px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--sage-dark);
+    font-family: var(--font-text);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    cursor: pointer;
+  }
+
+  .lang button[aria-pressed="true"] { background: var(--sage-dark); color: var(--paper); }
+  .lang button:focus-visible { outline: 2px solid var(--sage-dark); outline-offset: 2px; }
+
+  /* Japanese: the script sizes are made for short Latin words, so bring them down */
+  :lang(ja) .married { font-size: clamp(1.6rem, 5vw, 2.4rem); }
+  :lang(ja) .strip-title { font-size: clamp(1.6rem, 4.8vw, 2.6rem); }
+  :lang(ja) .invite-text { font-size: clamp(2rem, 6.5vw, 3.8rem); }
+  :lang(ja) .invite-follow { letter-spacing: 0.16em; }
+  :lang(ja) .heading { font-size: clamp(1.8rem, 5.6vw, 2.8rem); }
+  :lang(ja) .map .label-note { font-size: 14px; letter-spacing: 0; }
+
+  @media (max-width: 700px) {
+    .date { grid-template-columns: minmax(0, 1fr); }
+    .calendar { max-width: 340px; }
+  }
+
+  /* ---------- motion ---------- */
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* "backwards" so that once faded in, the scroll script can fade them out again */
+    .logo-top  { animation: appear 0.9s ease-out backwards; }
+    .names     { animation: appear 0.9s ease-out 0.1s backwards; }
+    .title .ch { animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(0.35s + var(--i) * 0.06s); }
+    .married   { animation: appear 1s ease-out 1.3s backwards; }
+    .cue       { animation: appear 1s ease-out 1.8s backwards; }
+    .cue::after { animation: draw 2.4s cubic-bezier(0.6, 0, 0.3, 1) 2s infinite; }
+
+    /* sections appear as they are scrolled to (only when the script is running) */
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 1s ease-out, transform 1s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+    .js .reveal.is-in { opacity: 1; transform: none; }
+
+    /* used for an instant, off screen, to put a section back to its start state */
+    .js .no-anim, .js .no-anim *, .js .no-anim *::before { transition: none !important; }
+
+    /* date and place: each piece rises in turn (--s is set by the script) */
+    .js .st {
+      opacity: 0;
+      transform: translateY(44px);
+      transition: opacity 0.9s ease-out, transform 1.1s cubic-bezier(0.2, 0.7, 0.2, 1);
+      transition-delay: calc(var(--s, 0) * 0.16s);
+    }
+    .js .calendar.st { transform: translateX(60px) rotate(4deg); }
+    .js .is-in .st { opacity: 1; transform: none; }
+
+    /* the title comes first, then the photos one after the other */
+    .js .strip .strip-title {
+      opacity: 0;
+      transform: translateY(30px) rotate(-3deg);
+      transition: opacity 0.9s ease-out, transform 1.1s cubic-bezier(0.3, 1.4, 0.5, 1);
+    }
+    .js .strip.is-in .strip-title { opacity: 1; transform: none; }
+    .js .strip .strip-after { transition-delay: 1.4s; }
+
+    .js .strip figure:nth-of-type(1) { transition-delay: 0.45s; }
+    .js .strip figure:nth-of-type(2) { transition-delay: 0.7s; }
+    .js .strip figure:nth-of-type(3) { transition-delay: 0.95s; }
+
+    /* photos open like a curtain, from the bottom, one after the other */
+    /* the row itself is watched (a fully clipped photo never counts as "on screen") */
+    .js .strip figure {
+      clip-path: inset(100% 0 0 0);
+      transition: clip-path 1.2s cubic-bezier(0.7, 0, 0.2, 1);
+    }
+    .js .strip.is-in figure { clip-path: inset(0 0 0 0); }
+
+    /* calendar: the days appear one by one, then the 4 is circled */
+    .js .calendar td {
+      opacity: 0;
+      transform: scale(0.6);
+      transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+      transition-delay: calc(0.3s + var(--d, 0) * 0.025s);
+    }
+    .js .date.is-in .calendar td { opacity: 1; transform: none; }
+
+    .js .calendar .day-mark { color: var(--ink); transition: opacity 0.4s, transform 0.4s, color 0.3s ease 1.5s; }
+    .js .calendar .day-mark::before { transform: scale(0); transition: transform 0.7s cubic-bezier(0.3, 1.6, 0.5, 1) 1.4s; }
+    .js .date.is-in .calendar .day-mark { color: var(--paper); }
+    .js .date.is-in .calendar .day-mark::before { transform: scale(1); }
+
+    /* map: the river and the roads draw themselves, then the places appear */
+    /* lengths are measured and set by the script, so this works in every browser */
+    .js .map .draw { transition: stroke-dashoffset 2.6s cubic-bezier(0.6, 0, 0.3, 1) 0.4s; }
+    .js .map .draw.second { transition-delay: 0.9s; }
+    .js .map .river.draw { transition-duration: 2.2s; transition-delay: 0s; }
+
+    .js .map .pop {
+      opacity: 0;
+      transform: translateY(8px);
+      transform-box: fill-box;
+      transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.3, 1.5, 0.5, 1);
+      transition-delay: calc(1.8s + var(--d, 0) * 0.2s);
+    }
+    .js .map.is-in .pop { opacity: 1; transform: none; }
+
+    .js .map text, .js .map .late { opacity: 0; transition: opacity 0.9s ease-out 2.9s; }
+    .js .map.is-in text, .js .map.is-in .late { opacity: 1; }
+
+    /* the invitation tightens into place */
+    .js .invite .invite-text {
+      opacity: 0;
+      letter-spacing: 0.14em;
+      transition: opacity 1.4s ease-out 0.3s, letter-spacing 2s cubic-bezier(0.2, 0.7, 0.2, 1) 0.3s;
+    }
+    .js .invite.is-in .invite-text { opacity: 1; letter-spacing: 0; }
+
+    /* then the note about the invitation */
+    .js .invite .invite-follow { opacity: 0; transition: opacity 0.5s ease-out 0.9s; }
+    .js .invite.is-in .invite-follow { opacity: 1; }
+
+    /* room for the photos to move inside their frames while scrolling */
+    .js .strip img, .js .invite img { will-change: transform; }
+  }
+
+  @keyframes appear { from { opacity: 0; } to { opacity: 1; } }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(0.45em); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  @keyframes draw {
+    0%   { transform: scaleY(0); transform-origin: top; }
+    50%  { transform: scaleY(1); transform-origin: top; }
+    51%  { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+</style>
+
+<script>document.documentElement.classList.add('js');</script>
+
+<div class="lang" role="group" aria-label="Langue / Language">
+  <button type="button" data-lang="fr" aria-pressed="true">FR</button>
+  <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  <button type="button" data-lang="ja" aria-pressed="false" lang="ja">日本語</button>
+</div>
+
+<main>
+  <!-- 1 -->
+  <header class="opening">
+    <svg class="logo logo-top" viewBox="406 397 767 364" aria-hidden="true"><g transform="translate(0 1060) scale(0.1 -0.1)" fill="currentColor"><path d="M9585 6544 c-355 -22 -718 -103 -930 -207 -16 -8 -77 -37 -135 -63 -120 -55 -221 -113 -265 -149 -29 -25 -29 -26 -11 -40 31 -23 49 -19 153 40 113 63 305 148 449 198 104 36 325 81 450 91 174 14 611 -29 796 -78 370 -99 434 -124 753 -309 133 -77 274 -221 394 -401 50 -77 107 -171 126 -210 70 -142 90 -325 60 -531 -37 -251 -64 -316 -202 -491 -268 -339 -743 -696 -1140 -855 -309 -124 -702 -212 -1088 -243 -537 -42 -975 -32 -1224 29 -239 58 -384 115 -556 216 -186 110 -457 349 -413 364 7 2 33 9 58 15 71 17 188 50 270 75 41 13 129 38 195 56 313 83 370 102 700 224 55 21 125 46 157 57 l56 20 109 -26 c217 -51 288 -60 493 -61 245 0 359 14 505 63 99 34 232 121 292 192 23 27 28 43 27 80 -3 82 -80 200 -141 217 -15 4 -95 8 -178 8 -167 0 -200 -6 -460 -81 -49 -14 -128 -37 -175 -49 -156 -43 -187 -52 -349 -106 -151 -50 -164 -52 -204 -42 -77 21 -159 55 -150 63 4 4 116 39 248 79 132 40 328 101 435 136 107 35 253 80 323 100 l128 37 72 -16 c40 -9 119 -27 177 -40 200 -46 348 -61 585 -60 121 0 234 3 250 6 17 3 66 11 110 17 264 40 368 76 444 156 82 87 90 140 38 250 -39 80 -56 92 -181 126 -75 20 -201 28 -243 15 -10 -3 -72 -10 -138 -16 -126 -12 -279 -38 -405 -70 -41 -10 -140 -28 -219 -40 -79 -11 -171 -27 -205 -34 -33 -8 -121 -28 -195 -44 -90 -20 -141 -27 -155 -22 -327 133 -727 265 -1048 345 -427 107 -414 104 -723 140 -372 43 -1033 26 -1325 -35 -694 -145 -1171 -390 -1572 -806 -150 -156 -223 -309 -243 -504 -24 -242 194 -616 440 -756 89 -51 129 -68 239 -99 170 -48 296 -64 296 -38 0 4 -64 30 -143 58 -297 104 -504 290 -609 547 -37 92 -52 197 -45 323 7 128 32 207 93 292 66 93 254 277 350 341 272 184 805 365 1239 421 257 34 444 44 835 45 345 1 423 -2 525 -17 288 -44 712 -141 870 -199 44 -16 145 -54 225 -85 80 -30 158 -60 173 -65 35 -13 29 -19 -41 -39 -84 -24 -541 -165 -662 -204 -58 -18 -133 -41 -168 -50 l-62 -18 -48 45 c-145 136 -341 185 -517 129 -113 -35 -214 -89 -266 -141 -77 -77 -87 -161 -34 -273 31 -67 70 -90 190 -112 154 -29 329 -8 624 75 78 22 147 40 155 40 14 0 144 -81 145 -91 1 -3 -74 -31 -166 -62 -93 -31 -280 -95 -418 -141 -251 -86 -408 -130 -585 -166 l-94 -18 -46 38 c-25 21 -58 53 -75 70 -89 95 -270 166 -447 177 -113 7 -256 -16 -310 -50 -18 -12 -36 -21 -40 -22 -16 -1 -71 -49 -89 -78 -36 -60 -15 -155 53 -232 49 -55 89 -77 186 -99 39 -9 102 -23 140 -31 123 -28 246 -24 495 14 37 6 85 15 107 20 39 9 39 9 91 -53 382 -448 877 -702 1442 -741 223 -16 697 -5 912 20 22 3 87 9 145 15 121 12 116 11 320 51 452 89 766 221 1133 476 90 62 88 61 251 204 190 167 337 332 447 504 29 46 110 211 132 271 26 70 64 225 77 314 19 132 14 345 -9 440 -54 217 -188 438 -380 630 -268 267 -610 432 -1056 510 -118 20 -445 34 -600 24z m940 -1369 c41 -6 85 -38 85 -61 0 -32 -146 -92 -320 -132 -95 -21 -351 -21 -495 2 -134 20 -286 56 -280 65 2 5 35 11 72 15 37 4 118 18 178 31 171 37 358 68 535 87 39 5 180 0 225 -7z m-3032 -384 c32 -19 56 -35 54 -37 -2 -2 -46 -15 -98 -29 -259 -70 -364 -82 -432 -49 -59 28 -47 66 35 117 47 29 98 36 243 33 138 -2 141 -3 198 -35z m1873 -136 c34 -14 35 -15 20 -42 -23 -44 -76 -90 -138 -118 -79 -36 -227 -47 -498 -37 -253 9 -257 2 54 107 266 90 480 125 562 90z m-3162 -471 c85 -18 193 -55 272 -93 57 -28 58 -29 31 -36 -38 -10 -355 11 -447 30 -14 3 -41 8 -60 11 -54 10 -110 35 -110 49 0 21 36 45 81 55 51 10 134 4 233 -16z"/></g></svg>
+    <p class="eyebrow names">Louisa &amp; Lysandre</p>
+    <h1 class="title" id="title" aria-label="Save the date">SAVE THE DATE</h1>
+    <p class="married" data-i18n="married">On se marie&nbsp;!</p>
+    <a class="cue" href="#photos" data-i18n-label="cue" aria-label="Défiler vers la suite"></a>
+  </header>
+
+  <!-- 2 -->
+  <section class="strip watch" id="photos" aria-labelledby="strip-title">
+    <h2 class="strip-title" id="strip-title" data-i18n="saidYes">Après nos fiançailles sur les toits de Paris,</h2>
+    <figure><img src="img/genou.jpg" width="1100" height="760" data-i18n-alt="alt1" alt="Lysandre fait sa demande à genou sur un toit de Paris"></figure>
+    <figure><img src="img/genou-calin.jpg" width="1100" height="760" data-i18n-alt="alt2" alt="Louisa se penche pour l'embrasser"></figure>
+    <figure><img src="img/debout.jpg" width="1100" height="760" data-i18n-alt="alt3" alt="Louisa et Lysandre enlacés sur le toit"></figure>
+    <p class="strip-title strip-after" data-i18n="planned">nous fêtons notre mariage en 2027&nbsp;:</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="date watch" aria-labelledby="date-heading">
+    <div class="date-text">
+      <p class="eyebrow st" data-i18n="dateEyebrow">La date</p>
+      <h2 class="heading st" id="date-heading" data-i18n="dateHeading">le samedi 4 septembre 2027</h2>
+      <p class="weekend st" data-i18n="weekend">Nous vous attendons dès le vendredi 3 au soir, et jusqu'au dimanche 5 midi.</p>
+    </div>
+
+    <figure class="calendar st">
+      <figcaption data-i18n="month">Septembre 2027</figcaption>
+      <table>
+        <thead>
+          <tr id="weekdays"><th>L</th><th>M</th><th>M</th><th>J</th><th>V</th><th>S</th><th>D</th></tr>
+        </thead>
+        <tbody>
+          <tr><td></td><td></td><td>1</td><td>2</td><td class="day-weekend">3</td><td class="day-mark"><span>4</span></td><td class="day-weekend">5</td></tr>
+          <tr><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td></tr>
+          <tr><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td></tr>
+          <tr><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td></tr>
+          <tr><td>27</td><td>28</td><td>29</td><td>30</td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </figure>
+
+    <!-- diner-vendredi : only kept in the pages that need it (see build.py) -->
+    <details class="dinner st">
+      <summary data-i18n="dinnerTitle">Où dîner le vendredi soir&nbsp;?</summary>
+      <p class="dinner-intro" data-i18n="dinnerIntro">Les restaurants situés juste devant le château ferment en fin d’après-midi. Voici donc nos adresses préférées dans les villages alentour, toutes à 15 minutes en voiture au maximum. Pensez à réserver&nbsp;: début septembre, c’est encore la haute saison&nbsp;!</p>
+      <ul class="restaurants">
+        <li>
+          <h3>Domus</h3>
+          <p class="resto-town" data-i18n="r1Town">à Mont-près-Chambord</p>
+          <p data-i18n="r1Desc">Une cuisine moderne et de saison, élaborée avec des produits de Sologne. Le restaurant a reçu un Bib Gourmand au guide Michelin et il est souvent complet.</p>
+          <p class="resto-info" data-i18n="r1Info">Vendredi de 19 h 15 à 21 h 30 · Menus de 39 à 53 € · Environ 12 min</p>
+          <p class="resto-links"><a href="tel:+33254740253">☎ 02&nbsp;54&nbsp;74&nbsp;02&nbsp;53</a> · <a href="https://www.google.com/maps/search/?api=1&amp;query=Domus+Mont-pr%C3%A8s-Chambord" target="_blank" rel="noopener" data-i18n="mapsLink">Voir sur Google Maps</a></p>
+        </li>
+        <li>
+          <h3>Le Rendez-vous des Gourmets</h3>
+          <p class="resto-town" data-i18n="r2Town">à Bracieux</p>
+          <p data-i18n="r2Desc">Une belle table de cuisine traditionnelle, connue pour son gibier et ses spécialités solognotes. Il y a une jolie terrasse et le restaurant a aussi un Bib Gourmand.</p>
+          <p class="resto-info" data-i18n="r2Info">Vendredi de 19 h à 21 h · Menus d’environ 30 à 65 € · Environ 10 min</p>
+          <p class="resto-links"><a href="tel:+33254460387">☎ 02&nbsp;54&nbsp;46&nbsp;03&nbsp;87</a> · <a href="https://www.google.com/maps/search/?api=1&amp;query=Le+Rendez-vous+des+Gourmets+Bracieux" target="_blank" rel="noopener" data-i18n="mapsLink">Voir sur Google Maps</a></p>
+        </li>
+        <li>
+          <h3>La Chanterelle</h3>
+          <p class="resto-town" data-i18n="r3Town">à Muides-sur-Loire</p>
+          <p data-i18n="r3Desc">Une auberge au bord de la Loire, avec une cuisine raffinée et des produits locaux.</p>
+          <p class="resto-info" data-i18n="r3Info">Vendredi de 19 h à 21 h · Menus d’environ 35 à 60 € · Environ 10 min</p>
+          <p class="resto-links"><a href="tel:+33254812044">☎ 02&nbsp;54&nbsp;81&nbsp;20&nbsp;44</a> · <a href="https://www.google.com/maps/search/?api=1&amp;query=La+Chanterelle+Muides-sur-Loire" target="_blank" rel="noopener" data-i18n="mapsLink">Voir sur Google Maps</a></p>
+        </li>
+        <li>
+          <h3>Le Cyprès Chauve</h3>
+          <p class="resto-town" data-i18n="r4Town">à Fontaines-en-Sologne</p>
+          <p data-i18n="r4Desc">Une table élégante au cœur d’un domaine en pleine nature, idéale pour une soirée chic.</p>
+          <p class="resto-info" data-i18n="r4Info">Vendredi de 19 h à 21 h 30 · Menu à 55 € · Environ 15 min</p>
+          <p class="resto-links"><a href="tel:+33234460688">☎ 02&nbsp;34&nbsp;46&nbsp;06&nbsp;88</a> · <a href="https://www.google.com/maps/search/?api=1&amp;query=Le+Cypr%C3%A8s+Chauve+Fontaines-en-Sologne" target="_blank" rel="noopener" data-i18n="mapsLink">Voir sur Google Maps</a></p>
+        </li>
+        <li>
+          <h3>Manoir Bel Air</h3>
+          <p class="resto-town" data-i18n="r5Town">à Saint-Dyé-sur-Loire</p>
+          <p data-i18n="r5Desc">Un manoir avec une salle donnant sur la Loire, très agréable au coucher du soleil.</p>
+          <p class="resto-info" data-i18n="r5Info">Vendredi jusqu’à 22 h · Environ 30 à 50 € · Environ 8 min</p>
+          <p class="resto-links"><a href="tel:+33254816010">☎ 02&nbsp;54&nbsp;81&nbsp;60&nbsp;10</a> · <a href="https://www.google.com/maps/search/?api=1&amp;query=Manoir+Bel+Air+Saint-Dy%C3%A9-sur-Loire" target="_blank" rel="noopener" data-i18n="mapsLink">Voir sur Google Maps</a></p>
+        </li>
+        <li>
+          <h3>Café du Commerce</h3>
+          <p class="resto-town" data-i18n="r6Town">à Bracieux</p>
+          <p data-i18n="r6Desc">Une brasserie conviviale avec un généreux buffet maison. Parfait pour un dîner détendu entre amis.</p>
+          <p class="resto-info" data-i18n="r6Info">Vendredi jusqu’à 23 h · Environ 20 à 30 € · Environ 10 min</p>
+          <p class="resto-links"><a href="tel:+33254464116">☎ 02&nbsp;54&nbsp;46&nbsp;41&nbsp;16</a> · <a href="https://www.google.com/maps/search/?api=1&amp;query=Caf%C3%A9+du+Commerce+Bracieux" target="_blank" rel="noopener" data-i18n="mapsLink">Voir sur Google Maps</a></p>
+        </li>
+        <li>
+          <h3>Sorrente</h3>
+          <p class="resto-town" data-i18n="r7Town">à Bracieux</p>
+          <p data-i18n="r7Desc">Une pizzeria très appréciée par les habitants de la région, simple et efficace.</p>
+          <p class="resto-info" data-i18n="r7Info">Vendredi de 19 h à 21 h 30 · Environ 15 à 25 € · Environ 10 min</p>
+          <p class="resto-links"><a href="tel:+33254460384">☎ 02&nbsp;54&nbsp;46&nbsp;03&nbsp;84</a> · <a href="https://www.google.com/maps/search/?api=1&amp;query=Sorrente+Bracieux" target="_blank" rel="noopener" data-i18n="mapsLink">Voir sur Google Maps</a></p>
+        </li>
+      </ul>
+    </details>
+    <!-- /diner-vendredi -->
+  </section>
+
+  <!-- 4 -->
+  <section class="place watch" aria-labelledby="place-heading">
+    <p class="eyebrow st" data-i18n="placeEyebrow">Le lieu</p>
+    <h2 class="heading st" id="place-heading" data-i18n="placeHeading">au Château de Chambord</h2>
+    <p class="address st">Place Saint-Louis · 41250 Chambord · Loir-et-Cher, Centre-Val de Loire</p>
+
+    <figure class="map watch st">
+      <svg viewBox="0 0 640 680" role="img" data-i18n-label="mapLabel"
+           aria-label="Plan de la région : l'A10 relie Paris à Orléans, Blois, Tours et Poitiers en passant au nord de Chambord ; l'A85 relie Angers à Tours">
+        <defs>
+          <!-- slight wobble so the lines look drawn by hand -->
+          <filter id="hand" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" />
+            <feDisplacementMap in="SourceGraphic" scale="2.6" />
+          </filter>
+          <symbol id="tree" viewBox="-6 -8 12 22" overflow="visible">
+            <path d="M0 2 V12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+            <circle cx="0" cy="-2" r="4.4" fill="none" stroke="currentColor" stroke-width="1.4" />
+          </symbol>
+        </defs>
+
+        <!-- Positions follow the real geography (traced from a road map). -->
+        <g filter="url(#hand)">
+          <!-- La Loire, from Angers up to Orléans and beyond -->
+          <path id="loire" class="line river draw" stroke-width="2.6"
+                d="M0 452 C 30 452 50 458 65 456 C 95 470 125 496 151 500 C 180 496 210 490 239 483 C 260 476 278 465 292 461 C 312 459 330 460 345 458 C 370 440 395 422 410 410 C 422 402 434 396 442 389 C 450 375 456 362 464 355 C 482 338 500 324 516 321 C 530 322 542 328 554 333 C 590 350 620 368 648 381" />
+
+          <!-- A10: Paris → Orléans → Mer → Blois → Tours → Poitiers, drawn as a two-line road -->
+          <path class="line draw" stroke-width="8"
+                d="M591 71 L582 94 L534 159 L510 272 L508 308 L477 342 L442 377 L408 403 L345 448 L298 453 L292 466 L284 500 L276 548 L262 596 L246 650" />
+          <path class="line paper-line draw" stroke-width="4.4"
+                d="M591 71 L582 94 L534 159 L510 272 L508 308 L477 342 L442 377 L408 403 L345 448 L298 453 L292 466 L284 500 L276 548 L262 596 L246 650" />
+          <!-- A85: Angers → Tours -->
+          <path class="line draw second" stroke-width="8"
+                d="M70 440 L94 425 L148 467 L156 484 L197 492 L239 482 L286 474 L292 466" />
+          <path class="line paper-line draw second" stroke-width="4.4"
+                d="M70 440 L94 425 L148 467 L156 484 L197 492 L239 482 L286 474 L292 466" />
+
+          <!-- Paris: Eiffel tower -->
+          <g class="pop" style="--d:0">
+            <path class="ink" d="M603 10 L605 24 L608 40 L615 62 L610 62 L606 52 L600 52 L596 62 L591 62 L598 40 L601 24 Z" />
+            <path class="line" stroke-width="1.4" d="M596 40 H610 M599 30 H607" />
+          </g>
+
+          <!-- Orléans and Blois: simple dots -->
+          <circle class="ink pop" style="--d:1" cx="518" cy="321" r="3.6" />
+          <circle class="ink pop" style="--d:2" cx="410" cy="410" r="3.6" />
+
+          <!-- Poitiers, at the end of the A10: a big tree, filled like the other town icons -->
+          <g class="pop" style="--d:3">
+            <g class="ink">
+              <circle cx="224" cy="635" r="9.5" />
+              <circle cx="216.5" cy="643" r="7.5" />
+              <circle cx="231.5" cy="643" r="7.5" />
+              <rect x="222" y="645" width="4" height="16" />
+            </g>
+            <path class="line paper-line" stroke-width="1.2" d="M224 652 V638 M224 645 L218.5 640 M224 642 L229 637.5" />
+          </g>
+
+          <!-- Chambord: the château, its towers and its lantern -->
+          <g class="pop" style="--d:3">
+            <g class="ink">
+              <rect x="434" y="419" width="38" height="13" />
+              <rect x="429" y="415" width="8" height="17" />
+              <rect x="469" y="415" width="8" height="17" />
+              <path d="M 428 416 L 433 408 L 438 416 Z M 468 416 L 473 408 L 478 416 Z" />
+              <rect x="444" y="411" width="18" height="9" />
+              <rect x="450" y="401" width="6" height="11" />
+              <path d="M 449 402 L 453 393 L 457 402 Z" />
+            </g>
+            <g class="paper">
+              <rect x="438" y="423" width="2" height="5" /><rect x="444" y="423" width="2" height="5" />
+              <rect x="450" y="423" width="2" height="5" /><rect x="456" y="423" width="2" height="5" />
+              <rect x="462" y="423" width="2" height="5" />
+            </g>
+          </g>
+
+          <!-- forest of Chambord -->
+          <g class="pop" style="--d:4">
+            <use href="#tree" x="482" y="406" width="10" height="18" />
+            <use href="#tree" x="495" y="416" width="10" height="18" />
+            <use href="#tree" x="508" y="406" width="10" height="18" />
+          </g>
+
+          <!-- Tours / Saint-Pierre-des-Corps: the station -->
+          <g class="pop" style="--d:2">
+            <path class="ink" d="M304 486 V474 Q318 462 332 474 V486 Z" />
+            <path class="paper" d="M310 486 V477 h3 V486 Z M316.5 486 V474 h3 V486 Z M323 486 V477 h3 V486 Z" />
+          </g>
+
+          <!-- Angers: the castle and its round towers -->
+          <g class="pop" style="--d:1">
+            <g class="ink">
+              <rect x="44" y="428" width="30" height="13" />
+              <rect x="40" y="421" width="8" height="20" rx="3" />
+              <rect x="55" y="421" width="8" height="20" rx="3" />
+              <rect x="70" y="421" width="8" height="20" rx="3" />
+            </g>
+            <path class="line paper-line" stroke-width="1.1" d="M40 427 H48 M55 427 H63 M70 427 H78 M40 434 H48 M55 434 H63 M70 434 H78" />
+          </g>
+
+          <!-- north arrow -->
+          <path class="line late" stroke-width="1.5" d="M612 488 V454 M606 462 L612 454 L618 462" />
+        </g>
+
+        <!-- by car: legend in the empty top-left corner -->
+        <g class="late car-note">
+          <g transform="translate(24 20)" filter="url(#hand)">
+            <path class="line" stroke-width="1.8"
+                  d="M4 22 V16 Q4 12.5 8.5 12 L15 11 L21 4.5 Q22.5 3 25.5 3 H37 Q40 3 42 5.5 L46.5 11 Q52 12 52 16 V22 M10 22 H18 M38 22 H46" />
+            <path class="line" stroke-width="1.4" d="M19 11 L23.5 6 H31 V11 Z M34 6 H38.5 L42 11 H34 Z" />
+            <circle class="line" stroke-width="1.8" cx="14" cy="22" r="4" />
+            <circle class="line" stroke-width="1.8" cx="42" cy="22" r="4" />
+          </g>
+          <text class="label label-big" x="88" y="44" data-i18n="carTitle">EN VOITURE</text>
+          <text class="label label-note" x="24" y="80" data-i18n="car1">Depuis Paris : A10, sortie Mer</text>
+          <text class="label label-note label-soft" x="24" y="100" data-i18n="car2">environ 2 h</text>
+          <text class="label label-note" x="24" y="130" data-i18n="car3">Depuis Tours ou Angers :</text>
+          <text class="label label-note" x="24" y="150" data-i18n="car4">A85 puis A10, sortie Blois</text>
+          <text class="label label-note label-soft" x="24" y="170" data-i18n="car5">environ 1 h depuis Tours, 2 h 15 depuis Angers</text>
+          <text class="label label-note" x="24" y="200" data-i18n="car6">Depuis Poitiers : A10, sortie Blois</text>
+          <text class="label label-note label-soft" x="24" y="220" data-i18n="car7">environ 2 h</text>
+        </g>
+
+        <!-- by train: same, just below -->
+        <g class="late car-note" transform="translate(0 50)">
+          <g transform="translate(24 206)" filter="url(#hand)">
+            <path class="line" stroke-width="1.8" d="M6 22 V9 Q6 4 11 4 H40 Q49 4 52 13 L53 22 Z" />
+            <path class="line" stroke-width="1.4" d="M12 9 H20 V14 H12 Z M25 9 H33 V14 H25 Z M38 9 H44 L47 14 H38 Z" />
+            <circle class="line" stroke-width="1.6" cx="14" cy="25" r="2.6" />
+            <circle class="line" stroke-width="1.6" cx="26" cy="25" r="2.6" />
+            <circle class="line" stroke-width="1.6" cx="42" cy="25" r="2.6" />
+            <path class="line" stroke-width="1.4" d="M0 30 H58" />
+          </g>
+          <text class="label label-big" x="88" y="232" data-i18n="trainTitle">EN TRAIN</text>
+          <text class="label label-note" x="24" y="268" data-i18n="train1">Paris-Austerlitz → Blois-Chambord</text>
+          <text class="label label-note label-soft" x="24" y="288" data-i18n="train2">environ 1 h 25 de train</text>
+          <text class="label label-note label-soft" x="24" y="308" data-i18n="train3">puis 30 min en voiture</text>
+        </g>
+
+        <!-- road numbers, in little shields -->
+        <g class="late">
+          <rect class="shield" x="536" y="200" width="38" height="20" rx="4" />
+          <text class="label label-tag" x="555" y="215" text-anchor="middle">A10</text>
+          <rect class="shield" x="112" y="398" width="38" height="20" rx="4" />
+          <text class="label label-tag" x="131" y="413" text-anchor="middle">A85</text>
+          <rect class="shield" x="216" y="566" width="38" height="20" rx="4" />
+          <text class="label label-tag" x="235" y="581" text-anchor="middle">A10</text>
+        </g>
+
+        <!-- labels, not wobbled so they stay crisp -->
+        <text class="label label-big" x="588" y="46" text-anchor="end">PARIS</text>
+        <text class="label" x="528" y="326">ORLÉANS</text>
+        <text class="label" x="400" y="398" text-anchor="end">BLOIS</text>
+        <text class="label label-big" x="458" y="460" text-anchor="middle">CHAMBORD</text>
+        <text class="label" x="340" y="482">TOURS</text>
+        <text class="label label-small" x="340" y="497">ST-PIERRE-DES-CORPS</text>
+        <text class="label" x="59" y="410" text-anchor="middle">ANGERS</text>
+        <text class="label" x="260" y="660">POITIERS</text>
+        <text class="label label-small" x="612" y="504" text-anchor="middle">N</text>
+        <text class="label label-river" dy="-7"><textPath href="#loire" startOffset="21%" data-i18n="mapLoire">LA LOIRE</textPath></text>
+      </svg>
+    </figure>
+    <!-- dormir : only kept in the pages that need it (see build.py) -->
+    <details class="dinner stay st">
+      <summary data-i18n="stayTitle">Où dormir&nbsp;?</summary>
+      <p class="dinner-intro" data-i18n="stayIntro">Le château est entouré de jolis villages où vous trouverez des hôtels de charme, des chambres d’hôtes et des gîtes. Tous sont à 20 minutes en voiture au maximum. Début septembre, c’est encore la haute saison : nous vous conseillons de réserver dès que possible !</p>
+      <p class="dinner-intro stay-note" data-i18n="stayNote">Les prix sont indiqués par nuit pour deux personnes, sans le petit-déjeuner, et sont donnés à titre indicatif.</p>
+      <h3 class="stay-group" data-i18n="g1">✦ Pour se faire plaisir</h3>
+      <ul class="restaurants">
+        <li>
+          <h4>Les Hayes en Sologne</h4>
+          <p class="resto-town" data-i18n="h1Town">à Fontaines-en-Sologne</p>
+          <p data-i18n="h1Desc">Un hôtel 4 étoiles installé dans un château du XIXᵉ siècle, au bord d’un étang et en pleine forêt. Il y a une piscine, et le restaurant gastronomique Le Cyprès Chauve se trouve sur place.</p>
+          <p class="resto-info" data-i18n="h1Info">À partir d’environ 160 à 250 € · Environ 15 à 20 min</p>
+          <p class="resto-links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Les+Hayes+en+Sologne+Fontaines-en-Sologne" target="_blank" rel="noopener" data-i18n="mapsLink">Voir sur Google Maps</a></p>
+        </li>
+      </ul>
+      <h3 class="stay-group" data-i18n="g2">✦ Hôtels de charme</h3>
+      <ul class="restaurants">
+        <li>
+          <h4>Logis Hôtel du Cygne</h4>
+          <p class="resto-town" data-i18n="h2Town">à Bracieux</p>
+          <p data-i18n="h2Desc">Une maison solognote du XIXᵉ siècle au cœur du village, avec une piscine chauffée. Les clients apprécient particulièrement son accueil chaleureux et son très bon petit-déjeuner.</p>
+          <p class="resto-info" data-i18n="h2Info">Environ 130 à 180 € · Environ 12 min</p>
+          <p class="resto-links"><a href="tel:+33254464107">☎ 02&nbsp;54&nbsp;46&nbsp;41&nbsp;07</a> · <a href="https://logishotels.com/en/hotel/logis-hotel-du-cygne-618" target="_blank" rel="noopener" data-i18n="siteLink">Site internet</a> · <a href="https://www.google.com/maps/search/?api=1&amp;query=Logis+H%C3%B4tel+du+Cygne+Bracieux" target="_blank" rel="noopener" data-i18n="mapsLink">Voir sur Google Maps</a></p>
+        </li>
+        <li>
+          <h4>Le Brame de Sologne</h4>
+          <p class="resto-town" data-i18n="h3Town">à Muides-sur-Loire</p>
+          <p data-i18n="h3Desc">Un hôtel 3 étoiles calme, avec piscine et espace détente. Il est l’un des hébergements les mieux notés du secteur.</p>
+          <p class="resto-info" data-i18n="h3Info">Environ 110 à 160 € · Environ 10 min</p>
+          <p class="resto-links"><a href="tel:+33255590524">☎ 02&nbsp;55&nbsp;59&nbsp;05&nbsp;24</a> · <a href="https://www.google.com/maps/search/?api=1&amp;query=Le+Brame+de+Sologne+Muides-sur-Loire" target="_blank" rel="noopener" data-i18n="mapsLink">Voir sur Google Maps</a></p>
+        </li>
+        <li>
+          <h4>La Clef des Châteaux</h4>
+          <p class="resto-town" data-i18n="h4Town">à Maslives</p>
+          <p data-i18n="h4Desc">Un hôtel 3 étoiles à seulement 3 km du château, avec piscine, bar et restaurant. C’est l’adresse la plus proche !</p>
+          <p class="resto-info" data-i18n="h4Info">Environ 100 à 150 € · Environ 5 min</p>
+          <p class="resto-links"><a href="tel:+33254814242">☎ 02&nbsp;54&nbsp;81&nbsp;42&nbsp;42</a> · <a href="https://www.hotel-la-clef-des-chateaux.fr" target="_blank" rel="noopener" data-i18n="siteLink">Site internet</a> · <a href="https://www.google.com/maps/search/?api=1&amp;query=La+Clef+des+Ch%C3%A2teaux+Maslives" target="_blank" rel="noopener" data-i18n="mapsLink">Voir sur Google Maps</a></p>
+        </li>
+        <li>
+          <h4>Manoir Bel Air</h4>
+          <p class="resto-town" data-i18n="h5Town">à Saint-Dyé-sur-Loire</p>
+          <p data-i18n="h5Desc">Un manoir posé au bord de la Loire, avec une très belle vue sur le fleuve.</p>
+          <p class="resto-info" data-i18n="h5Info">Environ 90 à 150 € · Environ 8 min</p>
+          <p class="resto-links"><a href="tel:+33254816010">☎ 02&nbsp;54&nbsp;81&nbsp;60&nbsp;10</a> · <a href="https://www.manoirbelair.com" target="_blank" rel="noopener" data-i18n="siteLink">Site internet</a> · <a href="https://www.google.com/maps/search/?api=1&amp;query=Manoir+Bel+Air+Saint-Dy%C3%A9-sur-Loire" target="_blank" rel="noopener" data-i18n="mapsLink">Voir sur Google Maps</a></p>
+        </li>
+      </ul>
+      <h3 class="stay-group" data-i18n="g3">✦ Petits budgets</h3>
+      <ul class="restaurants">
+        <li>
+          <h4>Logis Hôtel du Château</h4>
+          <p class="resto-town" data-i18n="h6Town">à Tour-en-Sologne</p>
+          <p data-i18n="h6Desc">Une adresse simple et chaleureuse, avec des chambres de plain-pied qui donnent sur le jardin et un petit-déjeuner fait de produits locaux.</p>
+          <p class="resto-info" data-i18n="h6Info">Environ 100 à 130 € · Environ 12 min</p>
+          <p class="resto-links"><a href="tel:+33254465020">☎ 02&nbsp;54&nbsp;46&nbsp;50&nbsp;20</a> · <a href="https://logishotels.com/en/hotel/logis-hotel-du-chateau-3237" target="_blank" rel="noopener" data-i18n="siteLink">Site internet</a> · <a href="https://www.google.com/maps/search/?api=1&amp;query=Logis+H%C3%B4tel+du+Ch%C3%A2teau+Tour-en-Sologne" target="_blank" rel="noopener" data-i18n="mapsLink">Voir sur Google Maps</a></p>
+        </li>
+        <li>
+          <h4>Logis Hôtel Le Saint Florent</h4>
+          <p class="resto-town" data-i18n="h7Town">à Mont-près-Chambord</p>
+          <p data-i18n="h7Desc">Un hôtel familial avec des chambres rénovées et un généreux petit-déjeuner sous forme de buffet.</p>
+          <p class="resto-info" data-i18n="h7Info">Environ 90 à 130 € · Environ 12 min</p>
+          <p class="resto-links"><a href="tel:+33254708100">☎ 02&nbsp;54&nbsp;70&nbsp;81&nbsp;00</a> · <a href="https://logishotels.com/en/hotel/logis-hotel-le-saint-florent-532" target="_blank" rel="noopener" data-i18n="siteLink">Site internet</a> · <a href="https://www.google.com/maps/search/?api=1&amp;query=Logis+H%C3%B4tel+Le+Saint+Florent+Mont-pr%C3%A8s-Chambord" target="_blank" rel="noopener" data-i18n="mapsLink">Voir sur Google Maps</a></p>
+        </li>
+        <li>
+          <h4>Hôtel de la Bonnheure</h4>
+          <p class="resto-town" data-i18n="h8Town">à Bracieux</p>
+          <p data-i18n="h8Desc">Un petit hôtel simple et bien tenu, avec un jardin. Le propriétaire est très sympathique.</p>
+          <p class="resto-info" data-i18n="h8Info">À partir d’environ 80 € · Environ 12 min</p>
+          <p class="resto-links"><a href="tel:+33259165070">☎ 02&nbsp;59&nbsp;16&nbsp;50&nbsp;70</a> · <a href="https://www.google.com/maps/search/?api=1&amp;query=H%C3%B4tel+de+la+Bonnheure+Bracieux" target="_blank" rel="noopener" data-i18n="mapsLink">Voir sur Google Maps</a></p>
+        </li>
+      </ul>
+      <h3 class="stay-group" data-i18n="g4">✦ Chambres d’hôtes et gîtes</h3>
+      <ul class="restaurants">
+        <li>
+          <h4>Le Clos Joséphine</h4>
+          <p class="resto-town" data-i18n="h9Town">à Saint-Dyé-sur-Loire</p>
+          <p data-i18n="h9Desc">Une maison d’hôtes avec vue sur la Loire et un excellent petit-déjeuner fait de produits locaux.</p>
+          <p class="resto-info" data-i18n="h9Info">Environ 90 à 130 € · Environ 8 min</p>
+          <p class="resto-links"><a href="tel:+33254816717">☎ 02&nbsp;54&nbsp;81&nbsp;67&nbsp;17</a> · <a href="https://www.gites-de-france.com/fr/centre-val-de-loire/loir-et-cher/le-clos-josephine-41g10303" target="_blank" rel="noopener" data-i18n="siteLink">Site internet</a> · <a href="https://www.google.com/maps/search/?api=1&amp;query=Le+Clos+Jos%C3%A9phine+Saint-Dy%C3%A9-sur-Loire" target="_blank" rel="noopener" data-i18n="mapsLink">Voir sur Google Maps</a></p>
+        </li>
+        <li>
+          <h4>La Closerie de Chambord</h4>
+          <p class="resto-town" data-i18n="h10Town">à Saint-Dyé-sur-Loire</p>
+          <p data-i18n="h10Desc">Un grand gîte de groupe, avec piscine, jacuzzi et terrain de pétanque. Il est idéal pour se retrouver en famille ou entre amis, jusqu’à une quinzaine de personnes.</p>
+          <p class="resto-info" data-i18n="h10Info">Tarif pour la location de toute la maison · Environ 8 min</p>
+          <p class="resto-links"><a href="tel:+33624241254">☎ 06&nbsp;24&nbsp;24&nbsp;12&nbsp;54</a> · <a href="https://www.google.com/maps/search/?api=1&amp;query=La+Closerie+de+Chambord+Saint-Dy%C3%A9-sur-Loire" target="_blank" rel="noopener" data-i18n="mapsLink">Voir sur Google Maps</a></p>
+        </li>
+      </ul>
+    </details>
+    <!-- /dormir -->
+  </section>
+
+  <!-- 5 -->
+  <section class="invite reveal" aria-labelledby="invite-text">
+    <img src="img/bague.jpg" width="831" height="1800" alt="">
+    <div class="invite-copy">
+      <h2 class="invite-text" id="invite-text" data-i18n="script">Soyez des nôtres&nbsp;!</h2>
+      <p class="invite-follow" data-i18n="follow">Faire-part et détails à venir</p>
+    </div>
+  </section>
+
+  <footer class="closing reveal">
+    <p class="countdown" id="countdown">J − 325</p>
+    <p class="countdown-label" id="countdown-label" data-i18n="left">avant le grand jour</p>
+    <svg class="logo logo-bottom" viewBox="317 343 968 427" aria-hidden="true"><g transform="translate(0 1060) scale(0.1 -0.1)" fill="currentColor"><path d="M12322 6987 c-77 -132 -104 -197 -135 -327 -40 -167 -40 -179 -11 -186 20 -5 36 3 82 43 69 61 126 153 141 234 12 61 5 325 -9 334 -4 2 -34 -42 -68 -98z"/><path d="M9585 6544 c-355 -22 -718 -103 -930 -207 -16 -8 -77 -37 -135 -63 -120 -55 -221 -113 -265 -149 -29 -25 -29 -26 -11 -40 31 -23 49 -19 153 40 113 63 305 148 449 198 104 36 325 81 450 91 174 14 611 -29 796 -78 370 -99 434 -124 753 -309 133 -77 274 -221 394 -401 50 -77 107 -171 126 -210 70 -142 90 -325 60 -531 -37 -251 -64 -316 -202 -491 -227 -288 -618 -600 -972 -779 l-74 -37 -71 49 c-83 56 -207 171 -237 219 -13 22 -42 44 -84 65 -57 28 -72 31 -128 27 -79 -5 -121 -33 -156 -102 -17 -36 -21 -56 -16 -83 16 -86 119 -195 259 -273 45 -26 55 -35 43 -42 -20 -10 -236 -62 -347 -83 -101 -18 -347 -51 -445 -59 -537 -42 -975 -32 -1224 29 -239 58 -384 115 -556 216 -186 110 -457 349 -413 364 7 2 33 9 58 15 71 17 188 50 270 75 41 13 129 38 195 56 313 83 370 102 700 224 55 21 125 46 157 57 l56 20 109 -26 c217 -51 288 -60 493 -61 245 0 359 14 505 63 99 34 232 121 292 192 23 27 28 43 27 80 -3 82 -80 200 -141 217 -15 4 -95 8 -178 8 -167 0 -200 -6 -460 -81 -49 -14 -128 -37 -175 -49 -156 -43 -187 -52 -349 -106 -151 -50 -164 -52 -204 -42 -77 21 -159 55 -150 63 4 4 116 39 248 79 132 40 328 101 435 136 107 35 253 80 323 100 l128 37 72 -16 c40 -9 119 -27 177 -40 200 -46 348 -61 585 -60 121 0 234 3 250 6 17 3 66 11 110 17 264 40 368 76 444 156 82 87 90 140 38 250 -39 80 -56 92 -181 126 -75 20 -201 28 -243 15 -10 -3 -72 -10 -138 -16 -126 -12 -279 -38 -405 -70 -41 -10 -140 -28 -219 -40 -79 -11 -171 -27 -205 -34 -33 -8 -121 -28 -195 -44 -90 -20 -141 -27 -155 -22 -327 133 -727 265 -1048 345 -427 107 -414 104 -723 140 -372 43 -1033 26 -1325 -35 -506 -106 -880 -258 -1210 -493 -172 -122 -360 -296 -442 -406 -49 -67 -47 -58 16 86 20 44 43 109 52 143 34 132 34 361 1 398 -10 10 -14 22 -10 25 3 4 2 7 -4 7 -12 0 -81 -130 -127 -241 -35 -86 -76 -244 -76 -296 0 -47 -14 -15 -36 86 -46 206 -139 326 -297 386 -69 26 -121 31 -146 16 -19 -12 4 -79 54 -157 51 -79 199 -259 239 -289 40 -30 48 -57 81 -256 39 -233 120 -562 159 -645 30 -64 67 -125 123 -204 l18 -25 -27 21 c-97 75 -178 161 -301 319 -162 207 -337 386 -412 421 -86 41 -302 30 -260 -13 8 -7 18 -13 23 -13 24 0 202 -143 202 -162 0 -4 -14 -8 -31 -8 -49 0 -150 -29 -198 -57 -54 -31 -121 -91 -121 -108 0 -31 188 -54 289 -35 35 6 96 27 137 46 40 19 78 34 85 34 25 0 119 -82 225 -196 263 -284 337 -347 504 -430 135 -67 588 -188 635 -171 26 11 17 23 -27 36 -24 7 -70 26 -103 41 -33 15 -84 35 -112 43 -29 9 -58 20 -65 26 -7 6 -55 39 -106 73 -105 69 -182 148 -249 256 -96 154 -130 285 -120 467 7 128 32 207 93 292 66 93 254 277 350 341 272 184 805 365 1239 421 257 34 444 44 835 45 345 1 423 -2 525 -17 288 -44 712 -141 870 -199 44 -16 145 -54 225 -85 80 -30 158 -60 173 -65 35 -13 29 -19 -41 -39 -84 -24 -541 -165 -662 -204 -58 -18 -133 -41 -168 -50 l-62 -18 -48 45 c-145 136 -341 185 -517 129 -113 -35 -214 -89 -266 -141 -77 -77 -87 -161 -34 -273 31 -67 70 -90 190 -112 154 -29 329 -8 624 75 78 22 147 40 155 40 14 0 144 -81 145 -91 1 -3 -74 -31 -166 -62 -93 -31 -280 -95 -418 -141 -251 -86 -408 -130 -585 -166 l-94 -18 -46 38 c-25 21 -58 53 -75 70 -89 95 -270 166 -447 177 -113 7 -256 -16 -310 -50 -18 -12 -36 -21 -40 -22 -16 -1 -71 -49 -89 -78 -36 -60 -15 -155 53 -232 49 -55 89 -77 186 -99 39 -9 102 -23 140 -31 123 -28 246 -24 495 14 37 6 85 15 107 20 39 9 39 9 91 -53 382 -448 877 -702 1442 -741 223 -16 697 -5 912 20 22 3 87 9 145 15 121 12 116 11 320 51 245 48 434 104 629 188 72 31 232 64 258 54 22 -8 15 -49 -14 -83 -16 -18 -67 -58 -115 -91 -47 -32 -89 -63 -92 -68 -11 -18 16 -58 50 -75 48 -22 90 -20 152 9 51 24 59 25 185 18 142 -6 170 0 224 50 19 17 31 19 82 14 33 -3 81 -13 106 -23 50 -19 93 -15 242 22 l63 16 52 -46 c29 -25 56 -46 60 -46 4 0 19 -20 34 -45 45 -77 94 -86 94 -18 0 21 -14 84 -32 141 -37 120 -36 122 43 169 30 17 76 49 104 70 27 21 53 40 57 41 5 2 8 -39 8 -92 0 -96 0 -96 25 -96 25 0 25 1 25 81 0 136 17 213 72 323 27 55 53 105 57 111 32 39 145 291 176 390 58 186 85 229 135 215 31 -9 67 -4 88 13 17 14 -1 34 -40 42 l-30 7 46 47 c25 26 46 50 46 54 0 14 -24 6 -48 -15 l-24 -23 2 30 c3 49 0 79 -10 95 -7 12 -13 10 -33 -12 -28 -31 -42 -98 -28 -145 8 -29 5 -36 -39 -88 -29 -34 -57 -82 -70 -119 -58 -162 -55 -154 -57 -121 -4 47 -24 177 -30 192 -5 12 -33 19 -33 8 0 -3 5 -48 11 -100 7 -66 7 -112 0 -151 -16 -86 -69 -250 -90 -275 l-18 -22 -22 22 c-69 69 -187 70 -406 2 -179 -56 -224 -63 -306 -50 -41 7 -77 15 -82 19 -4 3 39 28 95 54 295 135 444 227 588 361 41 39 111 101 155 137 89 74 205 192 310 313 72 84 156 169 269 273 38 34 66 65 63 68 -10 10 -163 -77 -251 -143 -101 -77 -230 -202 -307 -298 -87 -109 -94 -106 -34 11 31 60 68 139 83 176 22 54 45 85 125 168 110 114 141 169 177 313 11 45 31 124 45 176 18 68 22 98 15 105 -8 8 -14 6 -20 -5 -5 -9 -42 -43 -82 -75 -115 -93 -148 -125 -189 -185 -57 -85 -95 -167 -108 -236 -11 -58 -25 -94 -87 -231 -13 -29 -24 -55 -24 -58 0 -24 -88 -171 -163 -274 -123 -168 -112 -154 -202 -246 -60 -60 -105 -95 -180 -136 -55 -31 -102 -55 -104 -52 -2 2 14 23 36 46 47 52 115 150 153 223 15 29 44 81 63 116 127 228 218 495 257 754 6 39 31 162 56 275 42 187 58 250 114 439 22 73 69 139 166 235 50 49 77 67 103 72 120 19 255 58 326 94 88 44 108 59 146 110 15 19 39 47 54 63 16 15 25 30 22 33 -9 9 -211 -15 -317 -37 -137 -30 -212 -67 -315 -158 -34 -30 -150 -176 -175 -221 -5 -8 -11 -13 -14 -10 -5 6 20 68 70 176 76 161 74 187 -9 114 -51 -46 -104 -120 -163 -233 l-41 -78 -18 48 c-26 69 -91 197 -137 270 -44 69 -75 94 -89 72 -15 -24 -22 -117 -17 -238 4 -109 6 -122 40 -192 19 -41 56 -101 82 -133 26 -33 44 -67 42 -75 -8 -27 -43 -213 -55 -291 -7 -41 -14 -91 -17 -110 l-6 -35 -14 53 c-50 193 -191 421 -373 602 -268 267 -610 432 -1056 510 -118 20 -445 34 -600 24z m940 -1369 c41 -6 85 -38 85 -61 0 -32 -146 -92 -320 -132 -95 -21 -351 -21 -495 2 -134 20 -286 56 -280 65 2 5 35 11 72 15 37 4 118 18 178 31 171 37 358 68 535 87 39 5 180 0 225 -7z m-3032 -384 c32 -19 56 -35 54 -37 -2 -2 -46 -15 -98 -29 -259 -70 -364 -82 -432 -49 -59 28 -47 66 35 117 47 29 98 36 243 33 138 -2 141 -3 198 -35z m1873 -136 c34 -14 35 -15 20 -42 -23 -44 -76 -90 -138 -118 -79 -36 -227 -47 -498 -37 -253 9 -257 2 54 107 266 90 480 125 562 90z m-3162 -471 c85 -18 193 -55 272 -93 57 -28 58 -29 31 -36 -38 -10 -355 11 -447 30 -14 3 -41 8 -60 11 -54 10 -110 35 -110 49 0 21 36 45 81 55 51 10 134 4 233 -16z m5497 -424 c25 -14 24 -37 -1 -45 -17 -5 -60 9 -60 20 0 5 31 35 36 35 3 0 14 -5 25 -10z m-240 -65 c-17 -20 -31 -40 -31 -45 0 -21 20 -18 59 10 49 36 66 39 51 9 -12 -21 -67 -59 -87 -59 -6 0 -19 7 -28 16 -19 20 -11 50 22 82 38 35 48 26 14 -13z"/><path d="M11585 3316 l-29 -24 17 -55 c17 -55 18 -55 70 -67 28 -7 69 -21 89 -31 50 -26 62 -24 54 5 -3 14 -2 28 4 31 21 13 8 26 -65 61 -57 29 -78 45 -90 71 -9 18 -17 33 -18 33 -1 0 -15 -11 -32 -24z"/><path d="M10885 3160 c-10 -15 17 -52 67 -93 48 -39 86 -57 124 -57 31 0 30 15 -7 83 -25 47 -37 58 -67 67 -48 13 -109 13 -117 0z"/></g></svg>
+  </footer>
+</main>
+
+<script>
+  (function () {
+    // « Save the date » reste tel quel dans les deux langues.
+    var text = {
+      fr: {
+        married: 'On se marie !',
+        cue: 'Défiler vers la suite',
+        saidYes: 'Après nos fiançailles sur les toits de Paris,',
+        dateEyebrow: 'La date',
+        dateHeading: 'le samedi 4 septembre 2027',
+        planned: 'nous fêtons notre mariage en 2027\u00a0:',
+        weekend: "Nous vous attendons dès le vendredi 3 au soir, et jusqu'au dimanche 5 midi.",
+        placeHeading: 'au Château de Chambord',
+        month: 'Septembre 2027',
+        weekdays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
+        placeEyebrow: 'Le lieu',
+        mapLoire: 'LA LOIRE',
+        mapLabel: "Plan de la région, avec la Loire : l'A10 relie Paris à Orléans, Blois, Tours et Poitiers en passant au nord de Chambord ; l'A85 relie Angers à Tours",
+        carTitle: 'EN VOITURE',
+        car1: 'Depuis Paris\u00a0: A10, sortie Mer',
+        car2: 'environ 2\u00a0h',
+        car3: 'Depuis Tours ou Angers\u00a0:',
+        car4: 'A85 puis A10, sortie Blois',
+        car5: 'environ 1\u00a0h depuis Tours, 2\u00a0h\u00a015 depuis Angers',
+        car6: 'Depuis Poitiers\u00a0: A10, sortie Blois',
+        car7: 'environ 2\u00a0h',
+        trainTitle: 'EN TRAIN',
+        train1: 'Paris-Austerlitz → Blois-Chambord',
+        train2: 'environ 1\u00a0h\u00a025 de train',
+        train3: 'puis 30\u00a0min en voiture',
+        script: 'Soyez des nôtres\u00a0!',
+        left: 'avant le grand jour',
+        follow: 'Faire-part et détails à venir',
+        mapsLink: 'Voir sur Google Maps',
+        siteLink: 'Site internet',
+        // dormir
+        stayTitle: "Où dormir ?",
+        stayIntro: "Le château est entouré de jolis villages où vous trouverez des hôtels de charme, des chambres d’hôtes et des gîtes. Tous sont à 20 minutes en voiture au maximum. Début septembre, c’est encore la haute saison : nous vous conseillons de réserver dès que possible !",
+        stayNote: "Les prix sont indiqués par nuit pour deux personnes, sans le petit-déjeuner, et sont donnés à titre indicatif.",
+        g1: "✦ Pour se faire plaisir",
+        g2: "✦ Hôtels de charme",
+        g3: "✦ Petits budgets",
+        g4: "✦ Chambres d’hôtes et gîtes",
+        h1Town: "à Fontaines-en-Sologne",
+        h1Desc: "Un hôtel 4 étoiles installé dans un château du XIXᵉ siècle, au bord d’un étang et en pleine forêt. Il y a une piscine, et le restaurant gastronomique Le Cyprès Chauve se trouve sur place.",
+        h1Info: "À partir d’environ 160 à 250 € · Environ 15 à 20 min",
+        h2Town: "à Bracieux",
+        h2Desc: "Une maison solognote du XIXᵉ siècle au cœur du village, avec une piscine chauffée. Les clients apprécient particulièrement son accueil chaleureux et son très bon petit-déjeuner.",
+        h2Info: "Environ 130 à 180 € · Environ 12 min",
+        h3Town: "à Muides-sur-Loire",
+        h3Desc: "Un hôtel 3 étoiles calme, avec piscine et espace détente. Il est l’un des hébergements les mieux notés du secteur.",
+        h3Info: "Environ 110 à 160 € · Environ 10 min",
+        h4Town: "à Maslives",
+        h4Desc: "Un hôtel 3 étoiles à seulement 3 km du château, avec piscine, bar et restaurant. C’est l’adresse la plus proche !",
+        h4Info: "Environ 100 à 150 € · Environ 5 min",
+        h5Town: "à Saint-Dyé-sur-Loire",
+        h5Desc: "Un manoir posé au bord de la Loire, avec une très belle vue sur le fleuve.",
+        h5Info: "Environ 90 à 150 € · Environ 8 min",
+        h6Town: "à Tour-en-Sologne",
+        h6Desc: "Une adresse simple et chaleureuse, avec des chambres de plain-pied qui donnent sur le jardin et un petit-déjeuner fait de produits locaux.",
+        h6Info: "Environ 100 à 130 € · Environ 12 min",
+        h7Town: "à Mont-près-Chambord",
+        h7Desc: "Un hôtel familial avec des chambres rénovées et un généreux petit-déjeuner sous forme de buffet.",
+        h7Info: "Environ 90 à 130 € · Environ 12 min",
+        h8Town: "à Bracieux",
+        h8Desc: "Un petit hôtel simple et bien tenu, avec un jardin. Le propriétaire est très sympathique.",
+        h8Info: "À partir d’environ 80 € · Environ 12 min",
+        h9Town: "à Saint-Dyé-sur-Loire",
+        h9Desc: "Une maison d’hôtes avec vue sur la Loire et un excellent petit-déjeuner fait de produits locaux.",
+        h9Info: "Environ 90 à 130 € · Environ 8 min",
+        h10Town: "à Saint-Dyé-sur-Loire",
+        h10Desc: "Un grand gîte de groupe, avec piscine, jacuzzi et terrain de pétanque. Il est idéal pour se retrouver en famille ou entre amis, jusqu’à une quinzaine de personnes.",
+        h10Info: "Tarif pour la location de toute la maison · Environ 8 min",
+        // /dormir
+        // diner-vendredi
+        dinnerTitle: 'Où dîner le vendredi soir ?',
+        dinnerIntro: 'Les restaurants situés juste devant le château ferment en fin d’après-midi. Voici donc nos adresses préférées dans les villages alentour, toutes à 15 minutes en voiture au maximum. Pensez à réserver : début septembre, c’est encore la haute saison !',
+        r1Town: 'à Mont-près-Chambord',
+        r1Desc: 'Une cuisine moderne et de saison, élaborée avec des produits de Sologne. Le restaurant a reçu un Bib Gourmand au guide Michelin et il est souvent complet.',
+        r1Info: 'Vendredi de 19 h 15 à 21 h 30 · Menus de 39 à 53 € · Environ 12 min',
+        r2Town: 'à Bracieux',
+        r2Desc: 'Une belle table de cuisine traditionnelle, connue pour son gibier et ses spécialités solognotes. Il y a une jolie terrasse et le restaurant a aussi un Bib Gourmand.',
+        r2Info: 'Vendredi de 19 h à 21 h · Menus d’environ 30 à 65 € · Environ 10 min',
+        r3Town: 'à Muides-sur-Loire',
+        r3Desc: 'Une auberge au bord de la Loire, avec une cuisine raffinée et des produits locaux.',
+        r3Info: 'Vendredi de 19 h à 21 h · Menus d’environ 35 à 60 € · Environ 10 min',
+        r4Town: 'à Fontaines-en-Sologne',
+        r4Desc: 'Une table élégante au cœur d’un domaine en pleine nature, idéale pour une soirée chic.',
+        r4Info: 'Vendredi de 19 h à 21 h 30 · Menu à 55 € · Environ 15 min',
+        r5Town: 'à Saint-Dyé-sur-Loire',
+        r5Desc: 'Un manoir avec une salle donnant sur la Loire, très agréable au coucher du soleil.',
+        r5Info: 'Vendredi jusqu’à 22 h · Environ 30 à 50 € · Environ 8 min',
+        r6Town: 'à Bracieux',
+        r6Desc: 'Une brasserie conviviale avec un généreux buffet maison. Parfait pour un dîner détendu entre amis.',
+        r6Info: 'Vendredi jusqu’à 23 h · Environ 20 à 30 € · Environ 10 min',
+        r7Town: 'à Bracieux',
+        r7Desc: 'Une pizzeria très appréciée par les habitants de la région, simple et efficace.',
+        r7Info: 'Vendredi de 19 h à 21 h 30 · Environ 15 à 25 € · Environ 10 min',
+        // /diner-vendredi
+        countPrefix: 'J − ',
+        alt1: 'Lysandre fait sa demande à genou sur un toit de Paris',
+        alt2: "Louisa se penche pour l'embrasser",
+        alt3: 'Louisa et Lysandre enlacés sur le toit'
+      },
+      en: {
+        married: 'We’re getting married!',
+        cue: 'Scroll down',
+        saidYes: 'After getting engaged on the rooftops of Paris,',
+        dateEyebrow: 'The date',
+        dateHeading: 'on Saturday, September 4, 2027',
+        planned: 'we are celebrating our wedding in 2027:',
+        weekend: 'We look forward to welcoming you from Friday the 3rd in the evening until Sunday the 5th at lunchtime.',
+        placeHeading: 'at the Château de Chambord',
+        month: 'September 2027',
+        weekdays: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+        placeEyebrow: 'The place',
+        mapLoire: 'THE LOIRE',
+        mapLabel: 'Map of the region, with the Loire: the A10 runs from Paris through Orléans, Blois, Tours and Poitiers, just north of Chambord; the A85 links Angers to Tours',
+        carTitle: 'BY CAR',
+        car1: 'From Paris: A10, exit Mer',
+        car2: 'about 2 hours',
+        car3: 'From Tours or Angers:',
+        car4: 'A85 then A10, exit Blois',
+        car5: 'about 1 hour from Tours, 2 h 15 from Angers',
+        car6: 'From Poitiers: A10, exit Blois',
+        car7: 'about 2 hours',
+        trainTitle: 'BY TRAIN',
+        train1: 'Paris Austerlitz → Blois-Chambord',
+        train2: 'about 1 h 25 by train',
+        train3: 'then 30 min by car',
+        script: 'Join us!',
+        left: 'until the big day',
+        follow: 'Formal invitation and details to follow',
+        mapsLink: 'View on Google Maps',
+        siteLink: 'Website',
+        // dormir
+        stayTitle: "Where to stay?",
+        stayIntro: "The château is surrounded by pretty villages with charming hotels, B&Bs and holiday homes, all within 20 minutes by car. Early September is still high season, so we recommend booking as soon as possible!",
+        stayNote: "Prices are per night for two people, without breakfast, and are given as a guide only.",
+        g1: "✦ Treat yourself",
+        g2: "✦ Charming hotels",
+        g3: "✦ Smaller budgets",
+        g4: "✦ B&Bs and holiday homes",
+        h1Town: "in Fontaines-en-Sologne",
+        h1Desc: "A 4-star hotel set in a 19th-century château by a pond, deep in the forest. There is a swimming pool, and the gourmet restaurant Le Cyprès Chauve is on site.",
+        h1Info: "From about €160–250 · About 15–20 min",
+        h2Town: "in Bracieux",
+        h2Desc: "A 19th-century Sologne house in the heart of the village, with a heated pool. Guests especially love its warm welcome and excellent breakfast.",
+        h2Info: "About €130–180 · About 12 min",
+        h3Town: "in Muides-sur-Loire",
+        h3Desc: "A quiet 3-star hotel with a pool and a relaxation area. It is one of the best-rated places to stay in the area.",
+        h3Info: "About €110–160 · About 10 min",
+        h4Town: "in Maslives",
+        h4Desc: "A 3-star hotel just 3 km from the château, with a pool, a bar and a restaurant. It is the closest option!",
+        h4Info: "About €100–150 · About 5 min",
+        h5Town: "in Saint-Dyé-sur-Loire",
+        h5Desc: "A manor house on the banks of the Loire, with a beautiful view of the river.",
+        h5Info: "About €90–150 · About 8 min",
+        h6Town: "in Tour-en-Sologne",
+        h6Desc: "A simple, welcoming place, with ground-floor rooms opening onto the garden and a breakfast made with local produce.",
+        h6Info: "About €100–130 · About 12 min",
+        h7Town: "in Mont-près-Chambord",
+        h7Desc: "A family-run hotel with renovated rooms and a generous breakfast buffet.",
+        h7Info: "About €90–130 · About 12 min",
+        h8Town: "in Bracieux",
+        h8Desc: "A small, simple and well-kept hotel with a garden. The owner is very friendly.",
+        h8Info: "From about €80 · About 12 min",
+        h9Town: "in Saint-Dyé-sur-Loire",
+        h9Desc: "A guest house overlooking the Loire, with an excellent breakfast made from local produce.",
+        h9Info: "About €90–130 · About 8 min",
+        h10Town: "in Saint-Dyé-sur-Loire",
+        h10Desc: "A large group holiday home with a pool, a hot tub and a pétanque court. Ideal for getting together with family or friends, for up to about fifteen people.",
+        h10Info: "Price for renting the whole house · About 8 min",
+        // /dormir
+        // diner-vendredi
+        dinnerTitle: 'Where to have dinner on Friday evening?',
+        dinnerIntro: 'The restaurants right in front of the château close in the late afternoon, so here are our favourite places in the surrounding villages, all within 15 minutes by car. Remember to book: early September is still high season!',
+        r1Town: 'in Mont-près-Chambord',
+        r1Desc: 'Modern, seasonal cooking made with produce from the Sologne. The restaurant holds a Michelin Bib Gourmand and is often fully booked.',
+        r1Info: 'Friday 7:15–9:30 pm · Set menus €39–53 · About 12 min',
+        r2Town: 'in Bracieux',
+        r2Desc: 'A fine traditional restaurant, known for its game and Sologne specialities. It has a lovely terrace and also holds a Bib Gourmand.',
+        r2Info: 'Friday 7–9 pm · Set menus about €30–65 · About 10 min',
+        r3Town: 'in Muides-sur-Loire',
+        r3Desc: 'An inn on the banks of the Loire, with refined cooking and local produce.',
+        r3Info: 'Friday 7–9 pm · Set menus about €35–60 · About 10 min',
+        r4Town: 'in Fontaines-en-Sologne',
+        r4Desc: 'An elegant restaurant on an estate surrounded by nature, ideal for a chic evening.',
+        r4Info: 'Friday 7–9:30 pm · Set menu €55 · About 15 min',
+        r5Town: 'in Saint-Dyé-sur-Loire',
+        r5Desc: 'A manor house with a dining room overlooking the Loire, lovely at sunset.',
+        r5Info: 'Friday until 10 pm · About €30–50 · About 8 min',
+        r6Town: 'in Bracieux',
+        r6Desc: 'A friendly brasserie with a generous homemade buffet. Perfect for a relaxed dinner with friends.',
+        r6Info: 'Friday until 11 pm · About €20–30 · About 10 min',
+        r7Town: 'in Bracieux',
+        r7Desc: 'A pizzeria much loved by locals, simple and reliable.',
+        r7Info: 'Friday 7–9:30 pm · About €15–25 · About 10 min',
+        // /diner-vendredi
+        countPrefix: 'D − ',
+        alt1: 'Lysandre proposing on one knee on a Paris rooftop',
+        alt2: 'Louisa leaning down to kiss him',
+        alt3: 'Louisa and Lysandre embracing on the rooftop'
+      },
+      ja: {
+        married: '結婚します！',
+        cue: '下へスクロール',
+        saidYes: 'パリの屋根の上で婚約した私たちは、',
+        dateEyebrow: '日程',
+        dateHeading: '2027年9月4日（土）',
+        planned: '2027年に結婚式を挙げます：',
+        weekend: '9月3日（金）の夜から9月5日（日）のお昼まで、皆さまをお待ちしております。',
+        placeHeading: 'シャンボール城にて',
+        month: '2027年9月',
+        weekdays: ['月', '火', '水', '木', '金', '土', '日'],
+        placeEyebrow: '会場',
+        mapLoire: 'ロワール川',
+        mapLabel: '地域の地図（ロワール川沿い）：A10号線はパリからオルレアン、ブロワ、トゥール、ポワティエを結び、シャンボールの北を通ります。A85号線はアンジェとトゥールを結びます。',
+        carTitle: '車で',
+        car1: 'パリから：A10号線、Mer出口',
+        car2: '約2時間',
+        car3: 'トゥール・アンジェから：',
+        car4: 'A85号線からA10号線へ、Blois出口',
+        car5: 'トゥールから約1時間、アンジェから約2時間15分',
+        car6: 'ポワティエから：A10号線、Blois出口',
+        car7: '約2時間',
+        trainTitle: '電車で',
+        train1: 'パリ・オステルリッツ駅 → ブロワ＝シャンボール駅',
+        train2: '電車で約1時間25分',
+        train3: '駅から車で約30分',
+        script: 'ぜひお越しください',
+        left: '結婚式当日まで',
+        follow: '招待状と詳細は後日お送りします',
+        mapsLink: 'Google マップで見る',
+        siteLink: 'ウェブサイト',
+        // dormir
+        stayTitle: "どこに泊まる？",
+        stayIntro: "お城の周りには素敵な村々があり、趣のあるホテルやB&B、貸別荘が揃っています。どこも車で20分以内です。9月初旬はまだハイシーズンですので、できるだけ早めのご予約をおすすめします！",
+        stayNote: "料金は2名1泊あたり（朝食別）の目安です。",
+        g1: "✦ 特別な滞在に",
+        g2: "✦ 趣のあるホテル",
+        g3: "✦ お手頃な宿",
+        g4: "✦ B&B・貸別荘",
+        h1Town: "Fontaines-en-Sologne",
+        h1Desc: "森の中、池のほとりに建つ19世紀の城館を利用した4つ星ホテル。プールがあり、ガストロノミーレストラン「Le Cyprès Chauve」も併設されています。",
+        h1Info: "約160〜250ユーロ〜 · 車で約15〜20分",
+        h2Town: "Bracieux",
+        h2Desc: "村の中心にある19世紀のソローニュ風の邸宅で、温水プールがあります。温かいおもてなしと美味しい朝食が特に好評です。",
+        h2Info: "約130〜180ユーロ · 車で約12分",
+        h3Town: "Muides-sur-Loire",
+        h3Desc: "プールとリラクゼーションスペースのある、静かな3つ星ホテル。この地域で最も評価の高い宿のひとつです。",
+        h3Info: "約110〜160ユーロ · 車で約10分",
+        h4Town: "Maslives",
+        h4Desc: "お城からわずか3kmの3つ星ホテルで、プール、バー、レストランがあります。最も近い宿です！",
+        h4Info: "約100〜150ユーロ · 車で約5分",
+        h5Town: "Saint-Dyé-sur-Loire",
+        h5Desc: "ロワール川のほとりに建つ館で、川の眺めがとても美しい宿です。",
+        h5Info: "約90〜150ユーロ · 車で約8分",
+        h6Town: "Tour-en-Sologne",
+        h6Desc: "庭に面した1階の客室と、地元の食材を使った朝食が魅力の、素朴で温かい宿です。",
+        h6Info: "約100〜130ユーロ · 車で約12分",
+        h7Town: "Mont-près-Chambord",
+        h7Desc: "改装された客室と、たっぷりの朝食ビュッフェが自慢の家族経営のホテルです。",
+        h7Info: "約90〜130ユーロ · 車で約12分",
+        h8Town: "Bracieux",
+        h8Desc: "庭のある、シンプルで手入れの行き届いた小さなホテル。オーナーがとても親切です。",
+        h8Info: "約80ユーロ〜 · 車で約12分",
+        h9Town: "Saint-Dyé-sur-Loire",
+        h9Desc: "ロワール川を望むゲストハウス。地元の食材を使った朝食が絶品です。",
+        h9Info: "約90〜130ユーロ · 車で約8分",
+        h10Town: "Saint-Dyé-sur-Loire",
+        h10Desc: "プール、ジャグジー、ペタンクコートのある大きなグループ向け貸別荘。家族や友人と最大15名ほどで過ごすのにぴったりです。",
+        h10Info: "一棟貸しの料金 · 車で約8分",
+        // /dormir
+        // diner-vendredi
+        dinnerTitle: '金曜日の夜はどこで食事をする？',
+        dinnerIntro: 'お城のすぐ前のレストランは夕方に閉まってしまうため、周辺の村にある私たちのお気に入りのお店をご紹介します。どこも車で15分以内です。9月初旬はまだハイシーズンですので、ご予約をお忘れなく！',
+        r1Town: 'Mont-près-Chambord',
+        r1Desc: 'ソローニュ地方の食材を使った、季節感あふれるモダンな料理。ミシュランのビブグルマンを獲得しており、満席になることも多いお店です。',
+        r1Info: '金曜 19:15〜21:30 · コース 39〜53ユーロ · 車で約12分',
+        r2Town: 'Bracieux',
+        r2Desc: 'ジビエとソローニュ地方の名物料理で知られる、伝統的な料理の名店。素敵なテラスがあり、こちらもビブグルマンを獲得しています。',
+        r2Info: '金曜 19:00〜21:00 · コース 約30〜65ユーロ · 車で約10分',
+        r3Town: 'Muides-sur-Loire',
+        r3Desc: 'ロワール川のほとりに佇むオーベルジュ。地元の食材を使った洗練された料理が楽しめます。',
+        r3Info: '金曜 19:00〜21:00 · コース 約35〜60ユーロ · 車で約10分',
+        r4Town: 'Fontaines-en-Sologne',
+        r4Desc: '自然に囲まれた邸宅の中にあるエレガントなレストラン。少し特別な夜にぴったりです。',
+        r4Info: '金曜 19:00〜21:30 · コース 55ユーロ · 車で約15分',
+        r5Town: 'Saint-Dyé-sur-Loire',
+        r5Desc: 'ロワール川を望むダイニングのある館。夕暮れどきがとても素敵です。',
+        r5Info: '金曜 22:00まで · 約30〜50ユーロ · 車で約8分',
+        r6Town: 'Bracieux',
+        r6Desc: 'たっぷりの自家製ビュッフェが楽しめる、気さくなブラッスリー。友人とのくつろいだ夕食にぴったりです。',
+        r6Info: '金曜 23:00まで · 約20〜30ユーロ · 車で約10分',
+        r7Town: 'Bracieux',
+        r7Desc: '地元の人々に愛されるピッツェリア。シンプルで確かな味です。',
+        r7Info: '金曜 19:00〜21:30 · 約15〜25ユーロ · 車で約10分',
+        // /diner-vendredi
+        countPrefix: 'あと ',
+        countSuffix: ' 日',
+        alt1: 'パリの屋上で片膝をついてプロポーズするLysandre',
+        alt2: 'Lysandreにキスをしようと身をかがめるLouisa',
+        alt3: '屋上で抱き合うLouisaとLysandre'
+      }
+    };
+
+    // Title letters rise one by one (screen readers use the aria-label).
+    var title = document.getElementById('title');
+    var n = 0;
+    title.innerHTML = title.textContent.split(' ').map(function (word) {
+      return '<span class="word" aria-hidden="true">' + word.split('').map(function (c) {
+        return '<span class="ch" style="--i:' + (n++) + '">' + c + '</span>';
+      }).join('') + '</span>';
+    }).join(' ');
+
+    // Countdown in days.
+    var wedding = new Date(2027, 8, 4);
+    var now = new Date();
+    var days = Math.round((wedding - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 86400000);
+    var current = text.fr;
+    var count = document.getElementById('countdown');
+    var countLabel = document.getElementById('countdown-label');
+    if (days <= 0) { count.hidden = true; countLabel.hidden = true; }
+
+    function setLang(next) {
+      var lang = text[next] ? next : 'fr';
+      var t = text[lang];
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(function (el) { el.textContent = t[el.dataset.i18n]; });
+      document.querySelectorAll('[data-i18n-alt]').forEach(function (el) { el.alt = t[el.dataset.i18nAlt]; });
+      document.querySelectorAll('[data-i18n-label]').forEach(function (el) { el.setAttribute('aria-label', t[el.dataset.i18nLabel]); });
+      document.querySelectorAll('#weekdays th').forEach(function (th, i) { th.textContent = t.weekdays[i]; });
+      current = t;
+      if (days > 0) count.textContent = t.countPrefix + days + (t.countSuffix || '');
+      document.querySelectorAll('.lang button').forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
+      });
+      try { localStorage.setItem('std-lang', lang); } catch (e) {}
+    }
+
+    document.querySelectorAll('.lang button').forEach(function (b) {
+      b.addEventListener('click', function () { setLang(b.dataset.lang); });
+    });
+
+    var saved = null;
+    try { saved = localStorage.getItem('std-lang'); } catch (e) {}
+    if (/^#(fr|en|ja)$/.test(location.hash)) saved = location.hash.slice(1);
+    setLang(saved || 'fr');
+
+    var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Calendar days appear in order.
+    document.querySelectorAll('.calendar td').forEach(function (td, i) { td.style.setProperty('--d', i); });
+
+    // Countdown counts up to the number of days.
+    var counted = false;
+    function countUp() {
+      if (counted || days <= 0) return;
+      counted = true;
+      if (still) return;
+      var start = null;
+      function step(ts) {
+        if (start === null) start = ts;
+        var p = Math.min((ts - start) / 1600, 1);
+        var eased = 1 - Math.pow(1 - p, 3);
+        count.textContent = current.countPrefix + Math.round(eased * days) + (current.countSuffix || '');
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    // Pieces of the date and place sections rise in turn.
+    document.querySelectorAll('.date, .place').forEach(function (section) {
+      section.querySelectorAll('.st').forEach(function (el, i) { el.style.setProperty('--s', i); });
+    });
+
+    // Map lines: measure each one so it can draw itself from start to end.
+    var drawn = document.querySelectorAll('.map .draw');
+    if (!still) {
+      drawn.forEach(function (path) {
+        var len = Math.ceil(path.getTotalLength());
+        path.style.strokeDasharray = len + ' ' + len;
+        path.style.strokeDashoffset = String(len);
+      });
+    }
+
+    // Reveal sections when they are scrolled to, in either direction, and reset them once they are
+    // completely off screen so the animation plays again next time. Checked on every scroll.
+    var watched = Array.prototype.slice.call(document.querySelectorAll('.reveal, .watch'));
+    function show(el) {
+      el.classList.add('is-in');
+      if (el.classList.contains('closing')) { counted = false; countUp(); }
+      if (el.classList.contains('map')) {
+        drawn.forEach(function (path) { path.style.strokeDashoffset = '0'; });
+      }
+    }
+    function reset(el) {
+      // jump back to the start state without animating (nobody can see it)
+      el.classList.add('no-anim');
+      el.classList.remove('is-in');
+      if (el.classList.contains('map')) {
+        drawn.forEach(function (path) { path.style.strokeDashoffset = path.style.strokeDasharray.split(' ')[0]; });
+      }
+      void el.offsetWidth;
+      el.classList.remove('no-anim');
+    }
+    function checkReveal() {
+      var vh = window.innerHeight;
+      watched.forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        var shown = el.classList.contains('is-in');
+        // fully on screen also counts: the short footer at the very bottom may never reach 82 %
+        if (!shown && (r.top < vh * 0.82 || r.bottom <= vh) && r.bottom > vh * 0.18) show(el);
+        else if (shown && !still && (r.bottom < 0 || r.top > vh)) reset(el);
+      });
+    }
+    window.addEventListener('scroll', checkReveal, { passive: true });
+    window.addEventListener('resize', checkReveal);
+    checkReveal();
+
+    // While scrolling: the title drifts up and fades, photos move gently inside their frames.
+    if (still) return;
+    var opening = document.querySelector('.opening');
+    var heroParts = opening.querySelectorAll('.logo-top, .names, .title, .married');
+    var cue = opening.querySelector('.cue');
+    var floats = Array.prototype.map.call(document.querySelectorAll('.strip img, .invite img'), function (img, i) {
+      var isInvite = img.closest('.invite') !== null;
+      return { img: img, box: img.parentElement, amount: isInvite ? 70 : [26, 40, 26][i] };
+    });
+    var ticking = false;
+
+    function update() {
+      ticking = false;
+      var vh = window.innerHeight;
+      var y = window.scrollY;
+
+      var p = Math.min(y / (vh * 0.7), 1);
+      heroParts.forEach(function (el, i) {
+        el.style.transform = 'translateY(' + (-y * (0.18 + i * 0.08)) + 'px)';
+        el.style.opacity = String(1 - p);
+      });
+      cue.style.opacity = String(1 - Math.min(y / 80, 1));
+
+      floats.forEach(function (f) {
+        var r = f.box.getBoundingClientRect();
+        if (r.bottom < -100 || r.top > vh + 100) return;
+        var progress = (r.top + r.height / 2 - vh / 2) / vh;   // -1 … 1 across the screen
+        f.img.style.transform = 'translateY(' + (progress * f.amount).toFixed(1) + 'px) scale(1.18)';
+      });
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  })();
+</script>
